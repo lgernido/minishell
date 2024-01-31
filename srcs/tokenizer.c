@@ -6,46 +6,26 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/01/30 14:37:31 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/01/31 10:35:42 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "../libft/libft.h"
-//#include "token.h"
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "minishell.h"
 
-int	ft_isdigit(int c)
+typedef struct s_tokenizer
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);
-}
-int	ft_isalpha(int c)
-{
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-		return (1);
-	return (0);
-}
-int	ft_strlen(char *str)
-{
-	int	i;
+	char			**source;
+	char			*current_position;
+	struct s_token	cur_token;
+}					t_tokenizer;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_isalnum(int c)
+typedef struct s_token
 {
-	return (ft_isdigit(c) || ft_isalpha(c));
-}
+	char			*name;
+	char			*value;
+}					t_token;
 
-int	ft_ispunct(int c)
+static int	ft_ispunct(int c)
 {
 	if (!ft_isalnum(c))
 		return (1);
@@ -64,14 +44,62 @@ static void	ft_protection(char **tab)
 	free(tab);
 }
 
+static int	ft_get_word_count(char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (ft_ispunct(str[i]) && str[i] != ' ')
+			count++;
+		else if (ft_isalnum(str[i]))
+		{
+			while (ft_isalnum(str[i]) && str[i] != ' ')
+				i++;
+			count++;
+		}
+		else
+			i++;
+	}
+	return (count);
+}
+
+static char	*ft_extract_word(char *str, int *index)
+{
+	int		k;
+	char	*word;
+
+	k = 0;
+	while (ft_isalnum(str[*index]))
+	{
+		k++;
+		(*index)++;
+	}
+	word = malloc(sizeof(char) * (k + 1));
+	if (!word)
+		return (NULL);
+	*index -= k;
+	k = 0;
+	while (ft_isalnum(str[*index]) && str[*index] != ' ')
+	{
+		word[k++] = str[(*index)++];
+	}
+	word[k] = '\0';
+	return (word);
+}
+
 char	**ft_split_punct(char *str)
 {
 	char	**tab;
+	int		word_count;
 	int		i;
 	int		j;
-	int		k;
 
-	tab = malloc(sizeof(char *) * (ft_strlen(str) + 1));
+	word_count = ft_get_word_count(str);
+	tab = malloc(sizeof(char *) * (word_count + 1));
 	if (!tab)
 		return (NULL);
 	i = 0;
@@ -80,37 +108,11 @@ char	**ft_split_punct(char *str)
 	{
 		if (ft_ispunct(str[i]) && str[i] != ' ')
 		{
-			tab[j] = malloc(sizeof(char) * 2);
+			tab[j] = ft_extract_word(str, &i);
 			if (!tab[j])
-			{
-				ft_protection(tab);
-				return (NULL);
-			}
-			tab[j][0] = str[i];
-			tab[j][1] = '\0';
+				return (ft_protection(tab), NULL);
 			j++;
 			i++;
-		}
-		else if (ft_isalnum(str[i]))
-		{
-			k = 0;
-			while (ft_isalnum(str[i + k]))
-				k++;
-			tab[j] = malloc(sizeof(char) * (k + 1));
-			if (!tab[j])
-			{
-				ft_protection(tab);
-				return (NULL);
-			}
-			k = 0;
-			while (ft_isalnum(str[i]) && str[i] != ' ')
-			{
-				tab[j][k] = str[i];
-				k++;
-				i++;
-			}
-			tab[j][k] = '\0';
-			j++;
 		}
 		else
 			i++;
@@ -119,28 +121,33 @@ char	**ft_split_punct(char *str)
 	return (tab);
 }
 
-int	main(int argc, char **argv)
+t_token	*ft_tokenize_line(char *str)
 {
-	char	**tab;
-	int		i;
+	t_token		*token;
+	t_tokenizer	tokenizer;
+	char		**tab;
+	int			i;
 
-	if (argc == 2)
+	i = 0;
+	tab = ft_split_punct(str);
+	if (!tab)
+		return (NULL);
+	token = malloc(sizeof(t_token) * (ft_tablen(tab) + 1));
+	if (!token)
+		return (ft_protection(tab), NULL);
+	ft_init_tokenizer(tokenizer, tab);
+	while (tab[i])
 	{
-		tab = ft_split_punct(argv[1]);
-		if (!tab)
-			return (1);
-		i = 0;
-		while (tab[i])
-		{
-			printf("%s\n", tab[i]);
-			i++;
-		}
+		ft_get_next_token(&tokenizer);
+		i++;
 	}
-	return (0);
+	token[i].name = NULL;
+	token[i].value = NULL;
+	ft_protection(tab);
+	return (token);
 }
 
-
-void	ft_init_tokenizer(struct tokenizer *tokenizer, char *source)
+void	ft_init_tokenizer(struct tokenizer *tokenizer, char **source)
 {
 	tokenizer->source = source;
 	tokenizer->current_position = source;
@@ -187,20 +194,4 @@ void	ft_get_next_token(struct tokenizer *tokenizer)
 	}
 	else
 		ft_memset(&tokenizer->cur_token, 0, sizeof(struct token));
-}
-
-int	main(void)
-{
-	char				source[] = "42 + (17 - 5)";
-	struct tokenizer	tokenizer;
-
-	// Example usage
-	ft_init_tokenizer(&tokenizer, source);
-	while (ft_strlen(tokenizer.cur_token.name) > 0)
-	{
-		ft_get_next_token(&tokenizer);
-		printf("token: %s, Value: %s\n", tokenizer.cur_token.name,
-			tokenizer.cur_token.value);
-	}
-	return (0);
 }
