@@ -6,192 +6,142 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/01/31 10:35:42 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/01 14:36:54 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/libft.h"
+#include "../includes/minishell.h"
 
-typedef struct s_tokenizer
+typedef enum e_token_type
 {
-	char			**source;
-	char			*current_position;
-	struct s_token	cur_token;
-}					t_tokenizer;
+	and,
+	or
+	, simple_redir_left, simple_redir_right, double_redir_left,
+		double_redir_right, pipeline, option, single_quote, double_quote,
+		literal, variable, space, semicolon, backslash,
+}					t_token_type;
 
 typedef struct s_token
 {
-	char			*name;
-	char			*value;
+	void			*value;
+	t_token_type	type;
+	struct s_token	*next;
 }					t_token;
 
-static int	ft_ispunct(int c)
-{
-	if (!ft_isalnum(c))
-		return (1);
-	return (0);
-}
-static void	ft_protection(char **tab)
-{
-	int	i;
+static t_token		token_list[] = {
+	{"&", and},
+	{"|", pipeline},
+	{"<<", double_redir_left},
+	{">>", double_redir_right},
+	{"<", simple_redir_left},
+	{">", simple_redir_right},
+	{";", semicolon},
+	{"\"", double_quote},
+	{"'", single_quote},
+	{"\\", backslash},
+	{"\f", space},
+	{"\n", space},
+	{"\r", space},
+	{"\t", space},
+	{"\v", space},
+	{" ", space},
+	{"$", variable},
+	{"-", option},
+};
 
-	i = 0;
-	while (tab[i])
+void	ft_token_back(t_token **lst, t_token *new)
+{
+	t_token	*tmp;
+
+	if (!new)
+		return ;
+	if (!*lst)
 	{
-		free(tab[i]);
-		i++;
+		*lst = new;
+		return ;
 	}
-	free(tab);
-}
-
-static int	ft_get_word_count(char *str)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	while (str[i])
-	{
-		if (ft_ispunct(str[i]) && str[i] != ' ')
-			count++;
-		else if (ft_isalnum(str[i]))
-		{
-			while (ft_isalnum(str[i]) && str[i] != ' ')
-				i++;
-			count++;
-		}
-		else
-			i++;
-	}
-	return (count);
+	tmp = *lst;
+	while (tmp && tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	return ;
 }
 
-static char	*ft_extract_word(char *str, int *index)
+t_token	*ft_create_token(void *token_value, t_token_type token_type)
 {
-	int		k;
-	char	*word;
+	t_token	*token;
+	int		size;
 
-	k = 0;
-	while (ft_isalnum(str[*index]))
-	{
-		k++;
-		(*index)++;
-	}
-	word = malloc(sizeof(char) * (k + 1));
-	if (!word)
+	size = sizeof(t_token);
+	token = malloc(size);
+	if (!token || !token_value)
 		return (NULL);
-	*index -= k;
-	k = 0;
-	while (ft_isalnum(str[*index]) && str[*index] != ' ')
-	{
-		word[k++] = str[(*index)++];
-	}
-	word[k] = '\0';
-	return (word);
-}
-
-char	**ft_split_punct(char *str)
-{
-	char	**tab;
-	int		word_count;
-	int		i;
-	int		j;
-
-	word_count = ft_get_word_count(str);
-	tab = malloc(sizeof(char *) * (word_count + 1));
-	if (!tab)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (ft_ispunct(str[i]) && str[i] != ' ')
-		{
-			tab[j] = ft_extract_word(str, &i);
-			if (!tab[j])
-				return (ft_protection(tab), NULL);
-			j++;
-			i++;
-		}
-		else
-			i++;
-	}
-	tab[j] = NULL;
-	return (tab);
-}
-
-t_token	*ft_tokenize_line(char *str)
-{
-	t_token		*token;
-	t_tokenizer	tokenizer;
-	char		**tab;
-	int			i;
-
-	i = 0;
-	tab = ft_split_punct(str);
-	if (!tab)
-		return (NULL);
-	token = malloc(sizeof(t_token) * (ft_tablen(tab) + 1));
-	if (!token)
-		return (ft_protection(tab), NULL);
-	ft_init_tokenizer(tokenizer, tab);
-	while (tab[i])
-	{
-		ft_get_next_token(&tokenizer);
-		i++;
-	}
-	token[i].name = NULL;
-	token[i].value = NULL;
-	ft_protection(tab);
+	token->value = token_value;
+	token->type = token_type;
+	token->next = NULL;
 	return (token);
 }
-
-void	ft_init_tokenizer(struct tokenizer *tokenizer, char **source)
+static t_token_type	define_type(char charset)
 {
-	tokenizer->source = source;
-	tokenizer->current_position = source;
-	ft_memset(&tokenizer->cur_token, 0, sizeof(struct token));
+	int				i;
+	char			*str;
+	t_token_type	type;
+
+	i = 0;
+	type = literal;
+	while (token_list[i].value)
+	{
+		str = token_list[i].value;
+		if (str[0] == charset)
+		{
+			type = token_list[i].type;
+			return (type);
+		}
+		i++;
+	}
+	return (type);
+}
+t_token	*ft_tokenizer(char *str)
+{
+	int				i;
+	t_token			*token_list;
+	t_token			*new_token;
+	t_token_type	type;
+
+	i = 0;
+	new_token = NULL;
+	while (str[i])
+	{
+		type = define_type(str[i]);
+		new_token = ft_create_token(&str[i], type);
+		ft_token_back(&token_list, new_token);
+		i++;
+	}
+	return (token_list);
 }
 
-// Function to get the next token
-void	ft_get_next_token(struct tokenizer *tokenizer)
+int	main(int ac, char **av)
 {
-	char	number[20];
-	char	operator;
-	int		i;
+	t_token	*token_list;
 
-	// Skip leading whitespace
-	while (ft_isspace(*tokenizer->current_position))
-		tokenizer->current_position++;
-	if (ft_isdigit(*tokenizer->current_position))
+	if (ac == 2)
 	{
-		// Read a number
-		i = 0;
-		while (ft_isdigit(*tokenizer->current_position) && i < 19)
-			number[i++] = *tokenizer->current_position++;
-		number[i] = '\0';
-		ft_strcpy(tokenizer->cur_token.name, "NUMBER");
-		ft_strcpy(tokenizer->cur_token.value, number);
+		token_list = ft_tokenizer(av[1]);
+		while (token_list)
+		{
+			printf("token : %c\n", *(char *)token_list->value);
+			printf("type : %d\n\n", token_list->type);
+			token_list = token_list->next;
+		}
 	}
-	else if (*tokenizer->current_position == '('
-		|| *tokenizer->current_position == ')')
-	{
-		// Read parentheses
-		if (*tokenizer->current_position == '(')
-			ft_strcpy(tokenizer->cur_token.name, "LEFTPAREN");
-		else
-			ft_strcpy(tokenizer->cur_token.name, "RIGHTPAREN");
-		tokenizer->cur_token.value[0] = *tokenizer->current_position++;
-		tokenizer->cur_token.value[1] = '\0';
-	}
-	else if (*tokenizer->current_position != '\0')
-	{
-		// Read an operator
-		ft_strcpy(tokenizer->cur_token.name, "BINOP");
-		tokenizer->cur_token.value[0] = *tokenizer->current_position++;
-		tokenizer->cur_token.value[1] = '\0';
-	}
-	else
-		ft_memset(&tokenizer->cur_token, 0, sizeof(struct token));
+	return (0);
 }
+/*Suite : rassembler les tokens du meme types consecutifs
+l = literal
+s = literal
+- = option
+l = literal devient
+ls = literal
+- = option
+l = literal*/
