@@ -39,3 +39,10 @@ void	node_add_back(t_command_node **list, t_command_node *node)
 	node->prev = *list;
 	(*list)->next = NULL;
 }
+
+void	init_core(t_core *core)
+{
+	core->error_code = 0;
+	core->command_list = NULL;
+	core->envp = NULL;
+}

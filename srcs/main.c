@@ -11,31 +11,40 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/readline.h>
 
-void	wait_input(t_command_node **list)
+atomic_int	g_signal = 0;
+
+static void	wait_input(t_core *core)
 {
-	char *str;
+	char	*str;
 
 	while (1)
 	{
-		str = readline("minishell>");
+		if (g_signal)
+			react_sig(core);
+		if (!core->error_code)
+			write(1, "👌", 4);
+		else
+			write(2, "😵", 4);
+		str = readline(" minishell>");
 		if (!str)
-			ft_clean_exit(list, 0);
+		{
+			printf("exit\n");
+			ft_clean_exit(core, 0);
+		}
 		add_history(str);
-		// Input parsing fonction here, w/ list and str as argument. STR need to be free in the parsing !!
+			// Input parsing fonction here, w/ list and str as argument. STR need to be free in the parsing !!
+		free(str);
 	}
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
-	t_command_node	*list;
-	t_command_node	*node;
+	t_core	core;
 
-	node = NULL;
-	list = NULL;
-	node = init_node(node);
-	if (!node)
-		exit(MALLOC);
-	node_add_back(&list, node);
-	wait_input(&list);
+	((void)ac, (void)av, (void)envp);
+	init_sig();
+	init_core(&core);
+	wait_input(&core);
 }

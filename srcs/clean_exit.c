@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <readline/readline.h>
 
 void	ft_clean_node(t_command_node *node)
 {
@@ -27,7 +26,7 @@ void	ft_clean_node(t_command_node *node)
 		ft_free_tab(node->cmd);
 }
 
-void	ft_clean_exit(t_command_node **list, int code)
+void	ft_command_clear(t_command_node **list)
 {
 	t_command_node	*tmp;
 
@@ -38,6 +37,14 @@ void	ft_clean_exit(t_command_node **list, int code)
 		free(*list);
 		*list = tmp;
 	}
+}
+
+void	ft_clean_exit(t_core *core, int code)
+{
+	if (core->envp)
+		ft_free_tab(core->envp);
+	if (core->command_list)
+		ft_command_clear(&core->command_list);
 	rl_clear_history();
-	exit (code);
+	exit(code);
 }
