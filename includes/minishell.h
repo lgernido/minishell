@@ -21,6 +21,7 @@
 # include <time.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include "printerr.h"
 # include "libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
@@ -68,7 +69,8 @@ typedef struct s_command_node
 typedef struct s_core
 {
 	t_command_node	*command_list;
-	char			**envp;
+	char			**env;
+	int				env_size;
 	int				error_code;
 }								t_core;
 
@@ -88,6 +90,9 @@ t_command_node	*init_node(t_command_node *node);
 void			node_add_back(t_command_node **list, t_command_node *node);
 
 // ========================================================================= //
+
+// parse_envp.c 
+void			parse_envp(char **envp, t_core *core);
 
 // clean fonctions in clean_exit.c
 
@@ -113,12 +118,15 @@ void			react_sig(t_core *core);
 // ========================================================================= //
 
 // utils for bult_in in built_in_utils.c
-
 int				get_number_of_args(char **av);
+// check if the var has been unset
+int				is_set(char *str);
 
 // ========================================================================= //
 
 // built-ins
-int				echo(char **av);
-
+int				echo(char **av, t_core *core); // echo.c
+int				ft_exit(char **av, t_core *core); // exit.c
+int				ft_env(char **av, t_core *core); // env.c
+int				ft_unset(char **av, t_core *core); // unset.c
 #endif

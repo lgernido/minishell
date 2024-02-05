@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_utils.c                                   :+:      :+:    :+:   */
+/*   printerr.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:51:21 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/03 17:51:21 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/05 12:09:32 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/05 12:09:32 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PRINTERR_H
+# define PRINTERR_H
 
-int	get_number_of_args(char **av)
-{
-	int	i;
+# include "libft.h"
 
-	i = 0;
-	while (av[i])
-		i++;
-	return (i);
-}
-
-int	is_set(char *str)
-{
-	while (*str && *str != '=')
-		str++;
-	if (!*str)
-		return (0);
-	str++;
-	if (*str == -1)
-		return (0);
-	return (1);
-}
+int	ft_printc(int c);
+int	ft_printstr(char *str);
+int	ft_printnb(int n);
+int	ft_printp(void);
+int	ft_printptr(unsigned long nb, const char format);
+int	ft_format(va_list ap, const char format);
+int	ft_printf_err(const char *format, ...);
+int	ft_printhex(unsigned int nb, const char format);
+int	ft_printui(unsigned int n);
+#endif

@@ -17,26 +17,16 @@ static t_bool	is_flag(char *str)
 	if (*str == '-')
 		str++;
 	else
-		return (TRUE);
-	while (*str)
-	{
-		if (*str != 'n')
-			return (TRUE);
+		return (FALSE);
+	while (*str == 'n')
 		str++;
-	}
-	return (FALSE);
+	if (*str)
+		return (FALSE);
+	return (TRUE);
 }
 
-int	echo(char **av)
+static void	print_args(char **av)
 {
-	t_bool	ending_new_line;
-
-	ending_new_line = TRUE;
-	av++;
-	if (*av)
-		ending_new_line = is_flag(*av);
-	if (!ending_new_line)
-		av++;
 	while (*av)
 	{
 		printf("%s", *av);
@@ -44,7 +34,19 @@ int	echo(char **av)
 		if (*av)
 			printf(" ");
 	}
-	if (ending_new_line)
+}
+
+int	echo(char **av, t_core *core)
+{
+	t_bool	flag;
+
+	((void)core);
+	flag = FALSE;
+	av++;
+	if (*av)
+		flag = is_flag(*av);
+	print_args(av + flag);
+	if (!flag)
 		printf("\n");
 	return (0);
 }

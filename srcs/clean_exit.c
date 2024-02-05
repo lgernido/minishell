@@ -41,8 +41,8 @@ void	ft_command_clear(t_command_node **list)
 
 void	ft_clean_exit(t_core *core, int code)
 {
-	if (core->envp)
-		ft_free_tab(core->envp);
+	if (core->env)
+		ft_free_tab(core->env);
 	if (core->command_list)
 		ft_command_clear(&core->command_list);
 	rl_clear_history();

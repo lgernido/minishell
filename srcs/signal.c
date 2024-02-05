@@ -28,7 +28,7 @@ void	init_sig(void)
 {
 	struct sigaction	act;
 
-	signal(SIGQUIT, SIG_IGN);
+	// signal(SIGQUIT, SIG_IGN);
 	ft_bzero(&act, sizeof(act));
 	act.sa_handler = sig_handler;
 	sigaction(SIGINT, &act, NULL);

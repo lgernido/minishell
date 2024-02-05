@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_utils.c                                   :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:51:21 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/03 17:51:21 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/05 14:25:50 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/05 14:25:51 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "printerr.h"
 
-int	get_number_of_args(char **av)
+int	ft_env(char **av, t_core *core)
 {
+	int	ac;
 	int	i;
 
 	i = 0;
-	while (av[i])
+	ac = get_number_of_args(av);
+	if (ac > 1)
+		ft_printf_err("env: ‘%s’: No such file or directory", av[1]);
+	while (core->env[i])
+	{
+		if (is_set(core->env[i]))
+			printf("%s\n", core->env[i]);
 		i++;
-	return (i);
-}
-
-int	is_set(char *str)
-{
-	while (*str && *str != '=')
-		str++;
-	if (!*str)
-		return (0);
-	str++;
-	if (*str == -1)
-		return (0);
-	return (1);
+	}
+	return (0);
 }
