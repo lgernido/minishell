@@ -14,6 +14,7 @@
 
 # define MINISHELL_H
 
+# include <stdatomic.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -64,9 +65,21 @@ typedef struct s_command_node
 	struct s_command_node		*prev; // parsing -- NULL if last node
 }								t_command_node;
 
+typedef struct s_core
+{
+	t_command_node	*command_list;
+	char			**envp;
+	int				error_code;
+}								t_core;
+
+extern atomic_int	g_signal;
+
 // ========================================================================= \\
 
 // init_struct_and_parse_av.c \\
+
+// init core struct
+void			init_core(t_core *core);
 
 // init a new node
 t_command_node	*init_node(t_command_node *node);
@@ -78,12 +91,34 @@ void			node_add_back(t_command_node **list, t_command_node *node);
 
 // clean fonctions in clean_exit.c
 
+// clean the core struct
+void			ft_clean_exit(t_core *core, int code);
+
 // clean the whole LL by calling ft_clean_node then exit
-void			ft_clean_exit(t_command_node **list, int code);
+void			ft_command_clear(t_command_node **list);
 
 // clean the given node
 void			ft_clean_node(t_command_node *node);
 
 // ========================================================================= //
+
+// Signal handler in signal.c \\
+
+// init signal handling
+void			init_sig(void);
+
+// is call if global is updated
+void			react_sig(t_core *core);
+
+// ========================================================================= //
+
+// utils for bult_in in built_in_utils.c
+
+int				get_number_of_args(char **av);
+
+// ========================================================================= //
+
+// built-ins
+int				echo(char **av);
 
 #endif
