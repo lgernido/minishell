@@ -6,119 +6,35 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/05 15:04:48 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:51:09 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-#include "../libft/includes/libft.h"
+#include "minishell.h"
 
-typedef enum e_token_type
+static t_token	*ft_define_tokens(void)
 {
-	AND,
-	OR,
-	SIMPLE_REDIR_LEFT,
-	SIMPLE_REDIR_RIGHT,
-	DOUBLE_REDIR_LEFT,
-	DOUBLE_REDIR_RIGHT,
-	PIPELINE,
-	OPTION,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-	LITERAL,
-	VARIABLE,
-	ESPACE,
-	SEMICOLON,
-	BACKSLASH,
-	OPEN_PAR,
-	CLOSE_PAR,
-}					t_token_type;
-typedef struct s_token
-{
-	void			*value;
-	t_token_type	type;
-	struct s_token	*next;
-}					t_token;
-
-static t_token		g_token_list[] = {
-	{"&", AND},
-	{"<", SIMPLE_REDIR_LEFT},
-	{">", SIMPLE_REDIR_RIGHT},
-	{"<<", DOUBLE_REDIR_LEFT},
-	{">>", DOUBLE_REDIR_RIGHT},
-	{"|", PIPELINE},
-	{"-", OPTION},
-	{"\'", SINGLE_QUOTE},
-	{"\"", DOUBLE_QUOTE},
-	{"$", VARIABLE},
-	{"\f", ESPACE},
-	{"\n", ESPACE},
-	{"\r", ESPACE},
-	{"\t", ESPACE},
-	{"\v", ESPACE},
-	{" ", ESPACE},
-	{";", SEMICOLON},
-	{"\\", BACKSLASH},
-};
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size > 0)
-	{
-		while (i < size - 1 && src[i])
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = 0;
-	}
-	return (ft_strlen(src));
-}
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	char	*str;
-
-	if (!s)
-		return (NULL);
-	len = ft_strlen(s);
-	str = malloc(len + 1 * sizeof(char));
-	if (str != NULL)
-		ft_strlcpy(str, s, len + 1);
-	return (str);
-}
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	if (!s1 || !s2)
-		return (NULL);
-	i = 0;
-	j = 0;
-	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!res)
-		return (NULL);
-	while (s1[j] != 0)
-		res[i++] = s1[j++];
-	j = 0;
-	while (s2[j] != 0)
-		res[i++] = s2[j++];
-	res[i] = '\0';
-	return (res);
+	t_token token_list[] = {
+		{"&", AND, NULL},
+		{"<", SIMPLE_REDIR_LEFT, NULL},
+		{">", SIMPLE_REDIR_RIGHT, NULL},
+		{"<<", DOUBLE_REDIR_LEFT, NULL},
+		{">>", DOUBLE_REDIR_RIGHT, NULL},
+		{"|", PIPELINE, NULL},
+		{"-", OPTION, NULL},
+		{"\'", SINGLE_QUOTE, NULL},
+		{"\"", DOUBLE_QUOTE, NULL},
+		{"$", VARIABLE, NULL},
+		{"\f", ESPACE, NULL},
+		{"\n", ESPACE, NULL},
+		{"\r", ESPACE, NULL},
+		{"\t", ESPACE, NULL},
+		{"\v", ESPACE, NULL},
+		{" ", ESPACE, NULL},
+		{";", SEMICOLON, NULL},
+		{"\\", BACKSLASH, NULL},
+	};
+	return (token_list);
 }
 
 void	ft_list_remove_current_node(t_token *to_del)
@@ -166,7 +82,7 @@ t_token	*ft_create_token(void *token_value, t_token_type token_type)
 	return (token);
 }
 
-static t_token_type	ft_define_type(char charset)
+static t_token_type	ft_define_type(char charset, t_token *token_list)
 {
 	int				i;
 	char			*str;
@@ -174,12 +90,12 @@ static t_token_type	ft_define_type(char charset)
 
 	i = 0;
 	type = LITERAL;
-	while (g_token_list[i].value)
+	while (token_list[i].value)
 	{
-		str = g_token_list[i].value;
+		str = token_list[i].value;
 		if (str[0] == charset)
 		{
-			type = g_token_list[i].type;
+			type = token_list[i].type;
 			return (type);
 		}
 		i++;
@@ -233,44 +149,28 @@ t_token	**ft_find_full_token(t_token **start)
 t_token	*ft_tokenizer(char *str)
 {
 	int				i;
-	t_token			*token_list;
-	t_token			**new_list;
+	t_token			*head;
 	t_token			*new_token;
 	t_token_type	type;
+	t_token			*current;
 
+	head = NULL;
 	i = 0;
-	new_token = NULL;
-	token_list = NULL;
 	while (str[i] != '\0')
 	{
-		type = ft_define_type(str[i]);
+		type = ft_define_type(str[i], head);
 		new_token = ft_create_token(&str[i], type);
-		ft_token_back(&token_list, new_token);
+		ft_token_back(&head, new_token);
 		i++;
 	}
-	new_list = ft_find_full_token(&token_list);
-	return (*new_list);
-}
-
-int	main(int argc, char **argv)
-{
-	t_token	*tokens;
-	t_token	*temp;
-
-	(void)argc;
-	tokens = ft_tokenizer(argv[1]);
-	while (tokens != NULL)
+	ft_find_full_token(&head);
+	printf("Liste des tokens :\n");
+	current = head;
+	while (current)
 	{
-		printf("Value: %s |||| Type: %d\n", (char *)tokens->value,
-			tokens->type);
-		tokens = tokens->next;
+		printf("Token : %s\n", (char *)current->value);
+		printf("Type : %d\n", current->type);
+		current = current->next;
 	}
-	// while (tokens != NULL)
-	// {.
-	// 	temp = tokens;
-	// 	tokens = tokens->next;
-	// 	free(temp->value);
-	// 	free(temp);
-	// }
-	return (0);
+	return (head);
 }

@@ -4,7 +4,7 @@
 SRC_FOLDER	= srcs/
 SRC_FOLDER_BONUS = srcs/bonus/
 
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c
+SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c
 SRC_FILES_BONUS = 
 BUILD = build/
 

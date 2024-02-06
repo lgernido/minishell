@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:31:19 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/01/31 09:50:19 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:26:10 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ static void	wait_input(t_core *core)
 			ft_clean_exit(core, 0);
 		}
 		add_history(str);
-			// Input parsing fonction here, w/ list and str as argument. STR need to be free in the parsing !!
+		ft_tokenizer(str);
+		/*Input parsing fonction here,
+			w/ list and str as argument. STR need to be free in the parsing !!*/
 		free(str);
 	}
 }
