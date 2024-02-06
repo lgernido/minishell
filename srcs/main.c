@@ -52,5 +52,6 @@ int	main(int ac, char **av, char **envp)
 	init_sig();
 	init_core(&core);
 	parse_envp(envp, &core);
+	ft_pwd(av, &core);
 	wait_input(&core);
 }

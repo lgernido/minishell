@@ -31,6 +31,9 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
+// For ft_pwd
+# define PWD_BUFFER 128
+# define BUFFER_LIMIT 4096
 // Error Code
 
 typedef enum e_error
@@ -122,11 +125,20 @@ int				get_number_of_args(char **av);
 // check if the var has been unset
 int				is_set(char *str);
 
+// Used by export
+t_bool			is_the_var(char *var, char *env);
+void			print_export(char **env);
+
+// Used to retrieve a var from env. var should include '$'
+// --> char *str = ft_getenv(core, "$PATH"). return str should be fried
+char			*ft_getenv(t_core *core, char *var);
 // ========================================================================= //
 
 // built-ins
 int				echo(char **av, t_core *core); // echo.c
 int				ft_exit(char **av, t_core *core); // exit.c
+int				ft_pwd(char **av, t_core *core);
 int				ft_env(char **av, t_core *core); // env.c
 int				ft_unset(char **av, t_core *core); // unset.c
+int				ft_export(char **av, t_core *core); //export.c
 #endif
