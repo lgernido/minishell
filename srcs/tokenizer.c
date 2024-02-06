@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/06 11:51:09 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:47:44 by luciegernid      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,35 +36,27 @@ static t_token	*ft_define_tokens(void)
 	};
 	return (token_list);
 }
-
-void	ft_list_remove_current_node(t_token *to_del)
+static t_token_type	ft_find_type(t_token *token)
 {
-	t_token	*tmp;
-
-	if (!to_del)
-		return ;
-	tmp = to_del->next;
-	// free(to_del->value);
-	free(to_del);
-	to_del = NULL;
+	return (token->type);
+}
+static void	*ft_find_value(t_token *token)
+{
+	return (token->value);
 }
 
-void	ft_token_back(t_token **lst, t_token *new)
+void	ft_clear_token(void *content)
 {
-	t_token	*tmp;
+	t_token	*token;
 
-	if (!new)
+	if (!content)
 		return ;
-	if (!*lst || !lst)
-	{
-		*lst = new;
-		return ;
-	}
-	tmp = *lst;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	return ;
+	token = (t_token *)content;
+	if (token && token->value)
+		free(token->value);
+	free(token);
+	(void)content;
+	(void)token;
 }
 
 t_token	*ft_create_token(void *token_value, t_token_type token_type)
@@ -77,12 +69,11 @@ t_token	*ft_create_token(void *token_value, t_token_type token_type)
 	if (!token || !token_value)
 		return (NULL);
 	token->value = token_value;
-	token->type = token_type;
-	token->next = NULL;
+	token->type = token_type;;
 	return (token);
 }
 
-static t_token_type	ft_define_type(char charset, t_token *token_list)
+static t_token_type	ft_define_type(char charset)
 {
 	int				i;
 	char			*str;
@@ -125,52 +116,71 @@ static t_token	*ft_merge_token(t_token *token_1, t_token *token_2,
 	return (token);
 }
 
-t_token	**ft_find_full_token(t_token **start)
+void	ft_find_full_token(t_list **start, t_token_type type)
 {
-	t_token	*current;
+	t_token	*temp;
+	t_list	*rm;
 
-	if (!start || !*start)
-		return (NULL);
-	current = *start;
-	while (current && current->next)
+	while (start && *start && (*start)->next)
 	{
-		if (current->type == current->next->type)
-		{
-			ft_merge_token(current, current->next, current->type);
-			ft_list_remove_current_node(current->next);
-			current->next = current->next->next;
-		}
-		else
-			current = current->next;
+		if (ft_find_type((*start)->content) != type)
+			return ;
+		if (ft_find_type((*start)->next->content) != type)
+			return ;
+		temp = (*start)->next->content;
+		temp = ft_merge_token((*start)->content, temp, type);
+		rm = *start;
+		*start = rm->next;
+		ft_clear_token((*start)->content);
+		(*start)->content = temp;
+		free(rm);
 	}
-	return (start);
 }
 
-t_token	*ft_tokenizer(char *str)
+void	ft_tokenizer(char *str)
 {
-	int				i;
-	t_token			*head;
-	t_token			*new_token;
-	t_token_type	type;
-	t_token			*current;
+	t_list *list;
+	char *value;
+	t_token *token;
+	t_token_type type;
 
-	head = NULL;
-	i = 0;
-	while (str[i] != '\0')
+	value = ft_strdup(str);
+	if (!value)
+		return ;
+	type = ft_define_type(value[0]);
+	token = ft_create_token(value, type);
+	if (!(list = ft_lstnew(token)))
 	{
-		type = ft_define_type(str[i], head);
-		new_token = ft_create_token(&str[i], type);
-		ft_token_back(&head, new_token);
-		i++;
+		free(value);
+		return ;
 	}
-	ft_find_full_token(&head);
-	printf("Liste des tokens :\n");
-	current = head;
-	while (current)
-	{
-		printf("Token : %s\n", (char *)current->value);
-		printf("Type : %d\n", current->type);
-		current = current->next;
-	}
-	return (head);
+	ft_lstadd_back(&list, list);
 }
+// t_token	*ft_tokenizer(char *str)
+// {
+// 	int				i;
+// 	t_token			*head;
+// 	t_token			*new_token;
+// 	t_token_type	type;
+// 	t_token			*current;
+
+// 	head = NULL;
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		type = ft_define_type(str[i], head);
+// 		new_token = ft_create_token(&str[i], type);
+// 		ft_token_back(&head, new_token);
+// 		i++;
+// 	}
+// 	ft_find_full_token(&head);
+// 	printf("Liste des tokens :\n");
+// 	current = head;
+// 	while (current)
+// 	{
+// 		printf("Token : %s\n", (char *)current->value);
+// 		printf("Type : %d\n", current->type);
+// 		current = current->next;
+// 	}
+// 	return (head);
+// }

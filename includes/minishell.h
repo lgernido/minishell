@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/06 11:26:13 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:46:36 by luciegernid      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ typedef struct s_token
 {
 	void			*value;
 	t_token_type	type;
-	struct s_token	*next;
 }					t_token;
 
 extern atomic_int	g_signal;
@@ -106,12 +105,11 @@ extern atomic_int	g_signal;
 
 // init_struct_and_parse_av.c //
 
-t_token				*ft_tokenizer(char *str);
-t_token				**ft_find_full_token(t_token **start);
+void				ft_tokenizer(char *str);
+void				ft_find_full_token(t_list **start, t_token_type type);
 t_token				*ft_create_token(void *token_value,
 						t_token_type token_type);
-void				ft_token_back(t_token **lst, t_token *new);
-void				ft_list_remove_current_node(t_token *to_del);
+void				ft_clear_token(void *content);
 
 // init core struct
 void				init_core(t_core *core);
