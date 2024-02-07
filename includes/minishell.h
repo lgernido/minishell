@@ -124,6 +124,8 @@ void			react_sig(t_core *core);
 int				get_number_of_args(char **av);
 // check if the var has been unset
 int				is_set(char *str);
+// used to update var
+char			**get_valid_addr(t_core *core, char *av);
 
 // Used by export
 t_bool			is_the_var(char *var, char *env);

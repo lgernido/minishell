@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include <readline/readline.h>
+#include <unistd.h>
 
 atomic_int	g_signal = 0;
 
@@ -52,6 +53,5 @@ int	main(int ac, char **av, char **envp)
 	init_sig();
 	init_core(&core);
 	parse_envp(envp, &core);
-	ft_pwd(av, &core);
 	wait_input(&core);
 }
