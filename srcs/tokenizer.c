@@ -3,46 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/06 16:47:44 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/07 10:51:01 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token	*ft_define_tokens(void)
-{
-	t_token token_list[] = {
-		{"&", AND, NULL},
-		{"<", SIMPLE_REDIR_LEFT, NULL},
-		{">", SIMPLE_REDIR_RIGHT, NULL},
-		{"<<", DOUBLE_REDIR_LEFT, NULL},
-		{">>", DOUBLE_REDIR_RIGHT, NULL},
-		{"|", PIPELINE, NULL},
-		{"-", OPTION, NULL},
-		{"\'", SINGLE_QUOTE, NULL},
-		{"\"", DOUBLE_QUOTE, NULL},
-		{"$", VARIABLE, NULL},
-		{"\f", ESPACE, NULL},
-		{"\n", ESPACE, NULL},
-		{"\r", ESPACE, NULL},
-		{"\t", ESPACE, NULL},
-		{"\v", ESPACE, NULL},
-		{" ", ESPACE, NULL},
-		{";", SEMICOLON, NULL},
-		{"\\", BACKSLASH, NULL},
-	};
-	return (token_list);
-}
-static t_token_type	ft_find_type(t_token *token)
+static t_token		token_list[] = {
+	{"&", AND},
+	{"|", PIPELINE},
+	{"<", SIMPLE_REDIR_LEFT},
+	{">", SIMPLE_REDIR_RIGHT},
+	{";", SEMICOLON},
+	{"-", OPTION},
+	{"\'", SINGLE_QUOTE},
+	{"\"", DOUBLE_QUOTE},
+	{"$", VARIABLE},
+	{"\f", ESPACE},
+	{"\n", ESPACE},
+	{"\r", ESPACE},
+	{"\t", ESPACE},
+	{"\v", ESPACE},
+	{" ", ESPACE},
+	{"\\", BACKSLASH},
+};
+
+t_token_type	ft_find_type(t_token *token)
 {
 	return (token->type);
-}
-static void	*ft_find_value(t_token *token)
-{
-	return (token->value);
 }
 
 void	ft_clear_token(void *content)
@@ -69,7 +60,8 @@ t_token	*ft_create_token(void *token_value, t_token_type token_type)
 	if (!token || !token_value)
 		return (NULL);
 	token->value = token_value;
-	token->type = token_type;;
+	token->type = token_type;
+	;
 	return (token);
 }
 
@@ -156,31 +148,3 @@ void	ft_tokenizer(char *str)
 	}
 	ft_lstadd_back(&list, list);
 }
-// t_token	*ft_tokenizer(char *str)
-// {
-// 	int				i;
-// 	t_token			*head;
-// 	t_token			*new_token;
-// 	t_token_type	type;
-// 	t_token			*current;
-
-// 	head = NULL;
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		type = ft_define_type(str[i], head);
-// 		new_token = ft_create_token(&str[i], type);
-// 		ft_token_back(&head, new_token);
-// 		i++;
-// 	}
-// 	ft_find_full_token(&head);
-// 	printf("Liste des tokens :\n");
-// 	current = head;
-// 	while (current)
-// 	{
-// 		printf("Token : %s\n", (char *)current->value);
-// 		printf("Type : %d\n", current->type);
-// 		current = current->next;
-// 	}
-// 	return (head);
-// }

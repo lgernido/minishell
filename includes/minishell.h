@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/06 16:46:36 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/07 08:52:31 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef enum e_token_type
 {
 	AND,
 	OR,
+	SEMICOLON,
 	SIMPLE_REDIR_LEFT,
 	SIMPLE_REDIR_RIGHT,
 	DOUBLE_REDIR_LEFT,
@@ -58,13 +59,10 @@ typedef enum e_token_type
 	OPTION,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
+	BACKSLASH,
 	LITERAL,
 	VARIABLE,
 	ESPACE,
-	SEMICOLON,
-	BACKSLASH,
-	OPEN_PAR,
-	CLOSE_PAR,
 }					t_token_type;
 
 typedef enum e_bool
@@ -104,7 +102,6 @@ extern atomic_int	g_signal;
 // ========================================================================= //
 
 // init_struct_and_parse_av.c //
-
 void				ft_tokenizer(char *str);
 void				ft_find_full_token(t_list **start, t_token_type type);
 t_token				*ft_create_token(void *token_value,
