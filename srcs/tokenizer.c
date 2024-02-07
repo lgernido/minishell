@@ -6,13 +6,13 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/07 10:51:01 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:23:36 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token		token_list[] = {
+static t_token	token_list[] = {
 	{"&", AND},
 	{"|", PIPELINE},
 	{"<", SIMPLE_REDIR_LEFT},
@@ -64,8 +64,7 @@ t_token	*ft_create_token(void *token_value, t_token_type token_type)
 	;
 	return (token);
 }
-
-static t_token_type	ft_define_type(char charset)
+t_token_type	ft_define_type(char charset)
 {
 	int				i;
 	char			*str;
@@ -86,8 +85,7 @@ static t_token_type	ft_define_type(char charset)
 	return (type);
 }
 
-static t_token	*ft_merge_token(t_token *token_1, t_token *token_2,
-		t_token_type type)
+t_token	*ft_merge_token(t_token *token_1, t_token *token_2, t_token_type type)
 {
 	char	*token1_value;
 	char	*token2_value;
@@ -125,16 +123,17 @@ void	ft_find_full_token(t_list **start, t_token_type type)
 		*start = rm->next;
 		ft_clear_token((*start)->content);
 		(*start)->content = temp;
+		ft_clear_token(rm->content);
 		free(rm);
 	}
 }
 
 void	ft_tokenizer(char *str)
 {
-	t_list *list;
-	char *value;
-	t_token *token;
-	t_token_type type;
+	t_list			*list;
+	char			*value;
+	t_token			*token;
+	t_token_type	type;
 
 	value = ft_strdup(str);
 	if (!value)

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 08:01:58 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/07 10:53:44 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:54:26 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_fix_syntax(t_token token)
 
 void	ft_browse_list(t_list **start)
 {
-	t_token *token;
+	t_token	*token;
 
 	while (start && *start)
 	{

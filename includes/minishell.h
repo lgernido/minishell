@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/07 08:52:31 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:59:55 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,36 @@ extern atomic_int	g_signal;
 
 // ========================================================================= //
 
-// init_struct_and_parse_av.c //
-void				ft_tokenizer(char *str);
-void				ft_find_full_token(t_list **start, t_token_type type);
+// tokenizer.c //
+
+// basic token management //
 t_token				*ft_create_token(void *token_value,
 						t_token_type token_type);
 void				ft_clear_token(void *content);
+t_token_type	ft_find_type(t_token *token);
+t_token_type	ft_define_type(char charset);
+
+// tokenize commands // 
+void				ft_tokenizer(char *str);
+void				ft_find_full_token(t_list **start, t_token_type type);
+t_token	*ft_merge_token(t_token *token_1, t_token *token_2,
+		t_token_type type);
+
+// fix_syntax.c //
+
+// fix operator tokens //
+void	ft_fix_syntax(t_token token);
+void	ft_fix_other_operators(t_token *token);
+void	ft_fix_redirection(t_token *token);
+void	ft_browse_list(t_list **start);
+
+// utils //
+t_bool	ft_is_operator(t_token_type type);
+void	ft_error_found(char *msg1, char *arg, char *msg2);
+
+// ========================================================================= //
+
+// init_struct_and_parse_av.c //
 
 // init core struct
 void				init_core(t_core *core);
