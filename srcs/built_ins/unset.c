@@ -15,22 +15,15 @@
 
 static int	unset_var(char *var, char **env)
 {
-	char	*new_var;
-	size_t	len;
+	const size_t	len = ft_strlen(var);
 
-	len = ft_strlen(var);
 	while (*env)
 	{
 		if (!ft_strncmp(var, *env, len))
 		{
-			new_var = ft_calloc(len + 3, sizeof (char));
-			if (!new_var)
-				return (1);
-			ft_strlcpy(new_var, *env, len + 1);
-			new_var[len] = '=';
-			new_var[len + 1] = -1;
-			free(*env);
-			*env = new_var;
+			free (*env);
+			*env = NULL;
+			break ;
 		}
 		env++;
 	}

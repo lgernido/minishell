@@ -26,16 +26,11 @@ int	get_number_of_args(char **av)
 	return (i);
 }
 
-int	is_set(char *str)
+t_bool	is_set(char *str)
 {
-	while (*str && *str != '=')
-		str++;
-	if (!*str)
-		return (0);
-	str++;
-	if (*str == -1)
-		return (0);
-	return (1);
+	if (str)
+		return (TRUE);
+	return (FALSE);
 }
 
 t_bool	is_the_var(char *var, char *env)
@@ -57,21 +52,17 @@ void	print_export(char **env)
 
 char	*ft_getenv(t_core *core, char *var)
 {
-	int	i;
-	int	len;
+	int				i;
+	const size_t	len = ft_strlen(var) - 1;
 
 	i = 0;
 	var++;
-	len = ft_strlen(var);
 	if (!ft_strncmp(var, "?", 2))
 		return (ft_itoa(core->error_code));
 	while (core->env[i])
 	{
 		if (!ft_strncmp(core->env[i], var, len))
-		{
-			if (*(core->env[i] + len + 1) != -1)
-				return (ft_strdup(core->env[i] + len));
-		}
+			return (ft_strdup(core->env[i] + 1 + len));
 		i++;
 	}
 	return (NULL);

@@ -24,7 +24,7 @@ int	ft_env(char **av, t_core *core)
 		ft_printf_err("env: ‘%s’: No such file or directory", av[1]);
 	while (core->env[i])
 	{
-		if (is_set(core->env[i]))
+		if (is_set(core->env[i]) == TRUE)
 			printf("%s\n", core->env[i]);
 		i++;
 	}

@@ -73,7 +73,7 @@ char	**get_valid_addr(t_core *core, char *av)
 	to_comp = ft_split(av, '=');
 	if (!to_comp)
 		ft_clean_exit(core, MALLOC);
-	while (core->env[i] && i < core->env_size - 1)
+	while (core->env[i] != NULL && i < core->env_size - 1)
 	{
 		if (is_the_var(*to_comp, core->env[i]))
 			break ;
