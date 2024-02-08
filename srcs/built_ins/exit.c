@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
-#include "printerr.h"
+#include "built_ins.h"
 
 static void	check_sign(char *str, int *sign, int *i)
 {

@@ -120,20 +120,16 @@ void			react_sig(t_core *core);
 
 // ========================================================================= //
 
-// utils for bult_in in built_in_utils.c
-int				get_number_of_args(char **av);
-// check if the var has been unset
-t_bool			is_set(char *str);
-// used to update var
-char			**get_valid_addr(t_core *core, char *av);
-
-// Used by export
-t_bool			is_the_var(char *var, char *env);
-void			print_export(char **env);
-
 // Used to retrieve a var from env. var should include '$'
 // --> char *str = ft_getenv(core, "$PATH"). return str should be fried
+// find it in built_ins_utils.c
 char			*ft_getenv(t_core *core, char *var);
+
+// ========================================================================= //
+
+// update shell level at start in update_shell_level.c
+void			update_shell_lvl(t_core *core);
+
 // ========================================================================= //
 
 // built-ins
@@ -145,15 +141,4 @@ int				ft_env(char **av, t_core *core); // env.c
 int				ft_unset(char **av, t_core *core); // unset.c
 int				ft_export(char **av, t_core *core); //export.c
 
-// ========================================================================= //
-// cd_utils.c && cd_update_env_var.c
-void			too_many_args(void *arg);
-char			*assign_pwd(t_core *core);
-void			update_env_var(t_core	*core, char *old_pwd);
-void			home_not_set(void *arg);
-void			error_while_shifting_directory(void *path);
-int				go_specified_dir(void	*path);
-int				throw_error_message(void *arg, void (*message)(void *));
-char			*get_pwd_in_buffer(void);
-char			*get_pwd(char *buffer, int len);
 #endif

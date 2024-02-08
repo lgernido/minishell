@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built_ins.h"
 
 static t_bool	is_flag(char *str)
 {

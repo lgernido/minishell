@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include "minishell.h"
+#include "built_ins.h"
 
 static int	unset_var(char *var, char **env)
 {

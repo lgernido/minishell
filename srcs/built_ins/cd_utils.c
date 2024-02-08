@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built_ins.h"
 
 int	throw_error_message(void *arg, void (*message)(void *))
 {

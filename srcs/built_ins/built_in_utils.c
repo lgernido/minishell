@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "built_ins.h"
 #include "minishell.h"
 
 int	get_number_of_args(char **av)

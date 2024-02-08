@@ -8,7 +8,8 @@ BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
 									pwd.c cd.c cd_utils.c cd_update_env_var.c)\
 
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c $(BUILT_IN_FILES)\
+SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c\
+						update_shell_lvl.c $(BUILT_IN_FILES)\
 
 SRC_FILES_BONUS = 
 BUILD = build/

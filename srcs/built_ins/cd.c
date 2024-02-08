@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built_ins.h"
 
 static char	*ft_home_sweet_home(t_core *core)
 {

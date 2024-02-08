@@ -52,5 +52,7 @@ int	main(int ac, char **av, char **envp)
 	init_sig();
 	init_core(&core);
 	parse_envp(envp, &core);
+	update_shell_lvl(&core);
+	ft_env(NULL, &core);
 	wait_input(&core);
 }

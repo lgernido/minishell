@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "built_ins.h"
 #include "printerr.h"
 
 int	ft_env(char **av, t_core *core)

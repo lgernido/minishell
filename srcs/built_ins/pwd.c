@@ -15,6 +15,7 @@
 #include "printerr.h"
 #include <asm-generic/errno-base.h>
 #include <errno.h>
+#include "built_ins.h"
 #include <stdio.h>
 #include <unistd.h>
 
