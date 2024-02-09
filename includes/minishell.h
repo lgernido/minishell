@@ -79,6 +79,8 @@ typedef struct s_core
 
 extern atomic_int	g_signal;
 
+typedef int			(*t_built_in_array)(char **, t_core *) ;
+
 // ========================================================================= //
 
 // init_struct_and_parse_av.c //
@@ -133,12 +135,27 @@ void			update_shell_lvl(t_core *core);
 // ========================================================================= //
 
 // built-ins
-int				echo(char **av, t_core *core); // echo.c
+int				ft_echo(char **av, t_core *core); // echo.c
 int				ft_cd(char **av, t_core *core); // cd.c
 int				ft_exit(char **av, t_core *core); // exit.c
 int				ft_pwd(char **av, t_core *core);
 int				ft_env(char **av, t_core *core); // env.c
 int				ft_unset(char **av, t_core *core); // unset.c
 int				ft_export(char **av, t_core *core); //export.c
+
+// Only for testing pre-parsing, should be deleted
+
+typedef struct s_test
+{
+	t_core				*core;
+	char				**splitted_cmds;
+	char				**splitted_cli;
+	t_built_in_array	built_in_arr[7];
+}							t_test;
+
+void			run_built_ins(t_core *core, char *command_line);
+void			exit_test(t_test *test);
+void			init_built_in_array(t_test *test);
+void			split_cmd_and_cli(t_test *test, char *command_line);
 
 #endif

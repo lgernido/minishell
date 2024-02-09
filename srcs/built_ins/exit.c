@@ -53,9 +53,9 @@ int	ft_exit(char **av, t_core *core)
 	int	ac;
 
 	ac = get_number_of_args(av);
-	if (ac == 0)
-		ft_clean_exit(core, core->error_code);
 	if (ac == 1)
+		ft_clean_exit(core, core->error_code);
+	if (ac == 2)
 		ft_clean_exit(core, ex_atoi(av[1]));
 	ft_printf_err("exit\nminishell: exit: too many arguments\n");
 	return (1);

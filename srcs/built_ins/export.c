@@ -14,94 +14,46 @@
 #include "minishell.h"
 #include "built_ins.h"
 
-static int	is_invalid(char c)
+static void	print_export(char **env)
 {
-	if (!ft_isalnum(c) && c != '_')
-		return (1);
-	return (0);
+	while (*env)
+	{
+		if (is_set(*env))
+			printf("declare -x \"%s\"\n", *env);
+		env++;
+	}
+}
+
+static int	check_forbidden_var(char *str)
+{
+	int			ret_value;
+
+	ret_value = check_len(str);
+	if (ret_value == 0)
+	{
+		ret_value = is_the_var_write_protected(str);
+	}
+	return (ret_value);
 }
 
 static int	parse_var(char *str)
 {
-	char	*tmp;
+	int		ret_value;
 
-	tmp = str;
-	while (*str != '=')
+	ret_value = check_forbidden_var(str);
+	if (ret_value == 0)
 	{
-		if (is_invalid(*str))
-		{
-			ft_printf_err("minishell: export: `%s':\
-not a valid identifier\n", tmp);
-			return (1);
-		}
-		str++;
-		if (!*str)
-			return (1);
+		ret_value = parse_before_equal_sign(str);
 	}
-	if (!*(str + 1))
-		return (1);
-	return (0);
+	return (ret_value);
 }
 
-char	**ft_realloc_env(char **env, int *size)
-{
-	char	**new_envp;
-	int		i;
-
-	i = 0;
-	new_envp = ft_calloc(*size * 2, sizeof(char *));
-	if (!new_envp)
-	{
-		ft_free_tab(env);
-		return (NULL);
-	}
-	while (env[i])
-	{
-		new_envp[i] = env[i];
-		i++;
-	}
-	free(env);
-	*size *= 2;
-	return (new_envp);
-}
-
-char	**get_valid_addr(t_core *core, char *av)
-{
-	int		i;
-	char	**to_comp;
-
-	i = 0;
-	to_comp = ft_split(av, '=');
-	if (!to_comp)
-		ft_clean_exit(core, MALLOC);
-	while (core->env[i] != NULL && i < core->env_size - 1)
-	{
-		if (is_the_var(*to_comp, core->env[i]))
-			break ;
-		i++;
-	}
-	ft_free_tab(to_comp);
-	if (i < core->env_size - 1)
-		return (&core->env[i]);
-	else
-	{
-		core->env = ft_realloc_env(core->env, &core->env_size);
-		if (!core->env)
-			ft_clean_exit(core, MALLOC);
-		return (get_valid_addr(core, av));
-	}
-}
-
-int	ft_export(char **av, t_core *core)
+int	loop_trough_var(char **av, t_core *core)
 {
 	char	**addr;
+	int		ret_value;
 
-	av++;
-	if (!*av)
-	{
-		print_export(core->env);
-		return (0);
-	}
+	ret_value = 0;
 	while (*av)
 	{
 		if (!parse_var(*av))
@@ -111,7 +63,29 @@ int	ft_export(char **av, t_core *core)
 				free(*addr);
 			*addr = ft_strdup(*av);
 		}
+		else
+		{
+			ret_value = 1;
+		}
 		av++;
 	}
-	return (0);
+	return (ret_value);
+}
+
+int	ft_export(char **av, t_core *core)
+{
+	int		ret_value;
+
+	av++;
+	ret_value = 0;
+	if (!*av)
+	{
+		print_export(core->env);
+		ret_value = 0;
+	}
+	else
+	{
+		ret_value = loop_trough_var(av, core);
+	}
+	return (ret_value);
 }
