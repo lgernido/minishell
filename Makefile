@@ -22,7 +22,7 @@ OBJ_FILES_BONUS = $(addprefix $(SRC_FOLDER_BONUS), $(SRC_FILES_BONUS:%.c=%.o))
 #### ARGUMENTS
 
 NAME		= minishell
-CC			= cc
+CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra -g3
 LINKER = -lreadline
 
@@ -46,7 +46,7 @@ RESET	=	\033[0m
 
 $(NAME): $(OBJ_FILES)
 	@make -C $(LIBFT_PATH) --no-print-directory -s
-	@$(CC) $(CFLAGS) ${LINKER} $(OBJ_FILES) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) $(LINKER) -o $(NAME)
 	@echo "$(MAGENTA)Les fichiers modifiés sont: $?$(RESET)"
 	@echo "$(GREEN)Compilation réussie !$(RESET)"
 
