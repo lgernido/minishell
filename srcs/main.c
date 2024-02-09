@@ -12,8 +12,18 @@
 
 #include "minishell.h"
 #include <readline/readline.h>
+#include <unistd.h>
 
 atomic_int	g_signal = 0;
+
+static void	check_for_empty(t_core *core, char *str)
+{
+	if (!str)
+	{
+		printf("exit\n");
+		ft_clean_exit(core, 0);
+	}
+}
 
 static void	wait_input(t_core *core)
 {
@@ -28,13 +38,8 @@ static void	wait_input(t_core *core)
 		else
 			write(2, "😵", 4);
 		str = readline(" minishell>");
-		if (!str)
-		{
-			printf("exit\n");
-			ft_clean_exit(core, 0);
-		}
+		check_for_empty(core, str);
 		add_history(str);
-			// Input parsing fonction here, w/ list and str as argument. STR need to be free in the parsing !!
 		free(str);
 	}
 }
@@ -43,8 +48,11 @@ int	main(int ac, char **av, char **envp)
 {
 	t_core	core;
 
-	((void)ac, (void)av, (void)envp);
+	((void)ac, (void)av);
 	init_sig();
 	init_core(&core);
+	parse_envp(envp, &core);
+	update_shell_lvl(&core);
+	ft_env(NULL, &core);
 	wait_input(&core);
 }

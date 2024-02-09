@@ -14,7 +14,8 @@ itoa_base_bonus.c itoa_ptr_bonus.c lchexa_handling_bonus.c\
 malloc_secure_bonus.c ptr_handling_bonus.c str_handling_bonus.c\
 uchexa_handling_bonus.c unsgnd_int_handling_bonus.c\
 get_next_line_bonus.c get_next_line_utils_bonus.c\
-ft_freetab.c ft_atod.c
+ft_freetab.c ft_atod.c ft_printui.c ft_printptr.c\
+ft_easyprint.c  ft_printf.c  ft_printhex.c\
 
 OBJECTS = ${FILES:.c=.o}
 
