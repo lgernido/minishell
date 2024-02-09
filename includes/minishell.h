@@ -79,9 +79,9 @@ typedef struct s_core
 
 extern atomic_int	g_signal;
 
-// ========================================================================= \\
+// ========================================================================= //
 
-// init_struct_and_parse_av.c \\
+// init_struct_and_parse_av.c //
 
 // init core struct
 void			init_core(t_core *core);
@@ -110,7 +110,7 @@ void			ft_clean_node(t_command_node *node);
 
 // ========================================================================= //
 
-// Signal handler in signal.c \\
+// Signal handler in signal.c //
 
 // init signal handling
 void			init_sig(void);
