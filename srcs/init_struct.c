@@ -44,5 +44,5 @@ void	init_core(t_core *core)
 {
 	core->error_code = 0;
 	core->command_list = NULL;
-	core->envp = NULL;
+	core->env = NULL;
 }

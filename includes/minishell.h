@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/07 14:59:55 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/11 17:04:52 by luciegernid      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 
 # define MINISHELL_H
 
+# include <stdatomic.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <time.h>
+# include <errno.h>
+# include <sys/wait.h>
+# include "printerr.h"
 # include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -30,6 +38,9 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
+// For ft_pwd
+# define PWD_BUFFER 128
+# define BUFFER_LIMIT 4096
 // Error Code
 
 typedef enum e_error
@@ -46,24 +57,16 @@ typedef enum e_error
 	EXECVE_ERROR = 127
 }					t_error;
 
-typedef enum e_token_type
-{
-	AND,
-	OR,
-	SEMICOLON,
-	SIMPLE_REDIR_LEFT,
-	SIMPLE_REDIR_RIGHT,
-	DOUBLE_REDIR_LEFT,
-	DOUBLE_REDIR_RIGHT,
-	PIPELINE,
-	OPTION,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-	BACKSLASH,
-	LITERAL,
-	VARIABLE,
-	ESPACE,
-}					t_token_type;
+// Token Type 
+# define T_WORD 1
+# define T_REDIRECT 2
+# define T_PIPE 3
+# define T_SEP 4
+# define T_NEWLINE 5
+# define T_AND 6
+# define T_OR 7
+# define T_PAR_OPEN 8
+# define T_PAR_CLOSE 9
 
 typedef enum e_bool
 {
@@ -87,14 +90,19 @@ typedef struct s_command_node
 typedef struct s_core
 {
 	t_command_node	*command_list;
-	char			**envp;
+	struct s_token	*token_list;
+	char *user_input;
+	char			**env;
+	int				env_size;
 	int				error_code;
 }					t_core;
 
 typedef struct s_token
 {
-	void			*value;
-	t_token_type	type;
+	char			*value;
+	int	type;
+	struct s_token	*next;
+	struct s_token	*prev;
 }					t_token;
 
 extern atomic_int	g_signal;
@@ -103,30 +111,8 @@ extern atomic_int	g_signal;
 
 // tokenizer.c //
 
-// basic token management //
-t_token				*ft_create_token(void *token_value,
-						t_token_type token_type);
-void				ft_clear_token(void *content);
-t_token_type	ft_find_type(t_token *token);
-t_token_type	ft_define_type(char charset);
-
-// tokenize commands // 
-void				ft_tokenizer(char *str);
-void				ft_find_full_token(t_list **start, t_token_type type);
-t_token	*ft_merge_token(t_token *token_1, t_token *token_2,
-		t_token_type type);
-
-// fix_syntax.c //
-
-// fix operator tokens //
-void	ft_fix_syntax(t_token token);
-void	ft_fix_other_operators(t_token *token);
-void	ft_fix_redirection(t_token *token);
-void	ft_browse_list(t_list **start);
-
-// utils //
-t_bool	ft_is_operator(t_token_type type);
-void	ft_error_found(char *msg1, char *arg, char *msg2);
+// Tokenize the input line
+char	*ft_tokenizer(t_core *core);
 
 // ========================================================================= //
 
@@ -143,6 +129,9 @@ void				node_add_back(t_command_node **list, t_command_node *node);
 
 // ========================================================================= //
 
+// parse_envp.c 
+void			parse_envp(char **envp, t_core *core);
+
 // clean fonctions in clean_exit.c
 
 // clean the core struct
@@ -156,7 +145,7 @@ void				ft_clean_node(t_command_node *node);
 
 // ========================================================================= //
 
-// Signal handler in signal.c \\
+// Signal handler in signal.c //
 
 // init signal handling
 void				init_sig(void);
@@ -166,13 +155,25 @@ void				react_sig(t_core *core);
 
 // ========================================================================= //
 
-// utils for bult_in in built_in_utils.c
+// Used to retrieve a var from env. var should include '$'
+// --> char *str = ft_getenv(core, "$PATH"). return str should be fried
+// find it in built_ins_utils.c
+char			*ft_getenv(t_core *core, char *var);
 
-int					get_number_of_args(char **av);
+// ========================================================================= //
+
+// update shell level at start in update_shell_level.c
+void			update_shell_lvl(t_core *core);
 
 // ========================================================================= //
 
 // built-ins
-int					echo(char **av);
+int				echo(char **av, t_core *core); // echo.c
+int				ft_cd(char **av, t_core *core); // cd.c
+int				ft_exit(char **av, t_core *core); // exit.c
+int				ft_pwd(char **av, t_core *core);
+int				ft_env(char **av, t_core *core); // env.c
+int				ft_unset(char **av, t_core *core); // unset.c
+int				ft_export(char **av, t_core *core); //export.c
 
 #endif
