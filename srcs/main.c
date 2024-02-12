@@ -33,13 +33,14 @@ static void	wait_input(t_core *core)
 	{
 		if (g_signal)
 			react_sig(core);
-		if (!core->error_code)
+		if (core->error_code == 0)
 			write(1, "👌", 4);
 		else
 			write(2, "😵", 4);
 		str = readline(" minishell>");
 		check_for_empty(core, str);
 		add_history(str);
+		run_built_ins(core, str);
 		free(str);
 	}
 }
@@ -53,6 +54,5 @@ int	main(int ac, char **av, char **envp)
 	init_core(&core);
 	parse_envp(envp, &core);
 	update_shell_lvl(&core);
-	ft_env(NULL, &core);
 	wait_input(&core);
 }

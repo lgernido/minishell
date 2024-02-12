@@ -26,6 +26,21 @@ static char	*ft_home_sweet_home(t_core *core)
 	return (home);
 }
 
+int	go_specified_dir(void *path)
+{
+	const int	return_value = chdir(path);
+
+	if (return_value == -1)
+	{
+		throw_error_message(path, error_while_shifting_directory);
+	}
+	else
+	{
+		return (0);
+	}
+	return (return_value);
+}
+
 static int	search_home_in_env(t_core *core)
 {
 	const char	*home = ft_home_sweet_home(core);
@@ -66,25 +81,13 @@ int	act_according_to_arg_number(t_core *core, int ac, char **av)
 	return (return_value);
 }
 
-char	*assign_pwd(t_core *core)
-{
-	char	*pwd;
-
-	pwd = get_pwd_in_buffer();
-	if (pwd == NULL)
-	{
-		ft_clean_exit(core, MALLOC);
-	}
-	return (pwd);
-}
-
 int	ft_cd(char **av, t_core *core)
 {
 	int			ac;
 	int			return_value;
 	char		*old_pwd;
 
-	old_pwd = assign_pwd(core);
+	old_pwd = get_pwd_in_buffer(core);
 	ac = get_number_of_args(av);
 	return_value = act_according_to_arg_number(core, ac, av);
 	if (return_value == 0)

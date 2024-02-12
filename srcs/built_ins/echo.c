@@ -37,7 +37,7 @@ static void	print_args(char **av)
 	}
 }
 
-int	echo(char **av, t_core *core)
+int	ft_echo(char **av, t_core *core)
 {
 	t_bool	flag;
 

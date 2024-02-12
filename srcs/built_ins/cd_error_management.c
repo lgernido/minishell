@@ -35,21 +35,6 @@ void	home_not_set(void *arg)
 
 void	error_while_shifting_directory(void *arg)
 {
-	ft_printf_err("minishell: cd: %s:%s", strerror(errno), arg);
+	ft_printf_err("minishell: cd: %s:%s\n", strerror(errno), arg);
 	return ;
-}
-
-int	go_specified_dir(void *path)
-{
-	const int	return_value = chdir(path);
-
-	if (return_value == -1)
-	{
-		throw_error_message(path, error_while_shifting_directory);
-	}
-	else
-	{
-		return (0);
-	}
-	return (return_value);
 }

@@ -1,23 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_updtae_env_var.c                                :+:      :+:    :+:   */
+/*   export_check_forbidden_var.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 15:59:12 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/08 15:59:13 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/09 17:26:05 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/09 17:26:35 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "built_ins.h"
 
-void	update_env_var(t_core	*core, char *old_pwd)
+int	check_len(char *str)
 {
-	char	*new_pwd;
+	const size_t	len = ft_strlen(str);
+	int				ret_value;
 
-	swap_var(core, old_pwd, "OLDPWD");
-	new_pwd = get_pwd_in_buffer(core);
-	swap_var(core, new_pwd, "PWD");
+	ret_value = 0;
+	if (len < 2)
+	{
+		ret_value = 1;
+	}
+	return (ret_value);
+}
+
+int	is_the_var_write_protected(char	*str)
+{
+	const int	comparison_return = ft_strncmp(str, "_=", 2);
+	int			ret_value;
+
+	ret_value = 0;
+	if (comparison_return == 0)
+	{
+		ret_value = 1;
+	}
+	return (ret_value);
 }

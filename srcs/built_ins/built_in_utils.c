@@ -34,23 +34,6 @@ t_bool	is_set(char *str)
 	return (FALSE);
 }
 
-t_bool	is_the_var(char *var, char *env)
-{
-	if (ft_strncmp(var, env, ft_strlen(var)))
-		return (FALSE);
-	return (TRUE);
-}
-
-void	print_export(char **env)
-{
-	while (*env)
-	{
-		if (is_set(*env))
-			printf("declare -x \"%s\"\n", *env);
-		env++;
-	}
-}
-
 char	*ft_getenv(t_core *core, char *var)
 {
 	int				i;

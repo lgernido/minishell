@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "built_ins.h"
 #include "minishell.h"
 
 void	ft_clean_node(t_command_node *node)
@@ -39,10 +40,23 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
+void	ft_free_env(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < core->env_size)
+	{
+		free_if_needed(&(core->env[i]));
+		i++;
+	}
+	free(core->env);
+}
+
 void	ft_clean_exit(t_core *core, int code)
 {
 	if (core->env)
-		ft_free_tab(core->env);
+		ft_free_env(core);
 	if (core->command_list)
 		ft_command_clear(&core->command_list);
 	rl_clear_history();
