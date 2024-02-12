@@ -20,6 +20,9 @@
 # define OR 1
 # define ANY 2
 
+# define ON_SUCCESS 0
+# define ON_FAILURE 1
+
 // ========================================================================= //
 
 // AST usage fonctions
@@ -37,12 +40,15 @@ t_bool				is_the_searched_token(const t_token_stream_node *token,
 void				jump_above_parenthesis(t_token_stream_node **token);
 void				ft_token_stream_add_back(t_token_stream_node **token_stream,
 						t_token_stream_node *new_node);
-void				ft_lst_cpy(t_core	*core,
-						t_token_stream_node *token_stream,
-						t_token_stream_node *limit);
+void				ft_lst_cpy(t_core	*core, t_token_stream_node *src,
+						t_token_stream_node *dest, t_token_stream_node *limit);
 void				ft_free_node(t_token_stream_node *node);
 void				ft_pop_node(t_token_stream_node *node_to_pop);
 t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 						int mode);
+void				climb_tree_to_origin(t_ast_node **node);
+void				ft_token_stream_clear(t_token_stream_node **token_stream);
+void				climb_stream_to_origin(t_token_stream_node **token_stream);
+void				setup_ast(t_token_stream_node *token_stream, t_core *core);
 
 #endif // !AST_H

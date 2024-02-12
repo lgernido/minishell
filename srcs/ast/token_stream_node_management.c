@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "AST.h"
 
@@ -57,4 +58,12 @@ void	ft_pop_node(t_token_stream_node *node_to_pop)
 	node_to_pop->prev->next = node_to_pop->next;
 	node_to_pop->next->prev = node_to_pop->prev;
 	ft_free_node(node_to_pop);
+}
+
+void	climb_stream_to_origin(t_token_stream_node **token_stream)
+{
+	while ((*token_stream)->prev != NULL)
+	{
+		*token_stream = (*token_stream)->prev;
+	}
 }

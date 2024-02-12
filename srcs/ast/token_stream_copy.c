@@ -13,18 +13,16 @@
 #include "minishell.h"
 #include "AST.h"
 
-void	ft_lst_cpy(t_core	*core, t_token_stream_node *token_stream,
-	t_token_stream_node *limit)
+void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
+	t_token_stream_node *dest, t_token_stream_node *limit)
 {
-	t_token_stream_node	*local_node_token_stream;
 	t_token_stream_node	*node;
 
-	local_node_token_stream = core->ast->token_stream;
-	while (token_stream != limit)
+	while (src != limit)
 	{
-		node = ft_token_stream_new(token_stream->type, token_stream->value);
+		node = ft_token_stream_new(src->type, src->value);
 		if (node == NULL)
 			ft_clean_exit(core, MALLOC);
-		ft_token_stream_add_back(&local_node_token_stream, node);
+		ft_token_stream_add_back(&dest, node);
 	}
 }

@@ -27,3 +27,12 @@ t_ast_node	*ast_new_node(void)
 	}
 	return (node);
 }
+
+void	climb_tree_to_origin(t_ast_node **node)
+{
+	while ((*node)->parent != NULL)
+	{
+		*node = (*node)->parent;
+	}
+	return ;
+}

@@ -20,7 +20,8 @@ void	setup_ast(t_token_stream_node *token_stream, t_core *core)
 	if (core->ast == NULL)
 		return ;
 	next_logical_operator = find_logical_operator(token_stream, ANY);
-	ft_lst_cpy(core, token_stream, next_logical_operator);
+	ft_lst_cpy(core, token_stream, core->ast->token_stream,
+		next_logical_operator);
 }
 
 void	ast_init(t_token_stream_node *token_stream, t_core *core)

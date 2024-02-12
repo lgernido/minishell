@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "AST.h"
 #include "minishell.h"
 
 void	ft_clean_node(t_command_node *node)
@@ -54,6 +55,7 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 {
 	t_token_stream_node	*tmp;
 
+	climb_stream_to_origin(token_stream);
 	while (*token_stream != NULL)
 	{
 		tmp = (*token_stream)->next;
