@@ -39,12 +39,37 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
+void	ft_token_stream_clear(t_token_stream_node **token_stream)
+{
+	t_token_stream_node	*tmp;
+
+	while (*token_stream != NULL)
+	{
+		tmp = (*token_stream)->next;
+		free((*token_stream)->value);
+		free(*token_stream);
+		*token_stream = tmp;
+	}
+}
+
+void	ft_ast_clear(t_ast_node **node)
+{
+	if (*node == NULL)
+		return ;
+	ft_ast_clear(&(*node)->on_success);
+	ft_ast_clear(&(*node)->on_failure);
+	if ((*node)->command_list != NULL)
+		ft_command_clear(&(*node)->command_list);
+	if ((*node)->token_stream)
+		ft_token_stream_clear(&(*node)->token_stream);
+}
+
 void	ft_clean_exit(t_core *core, int code)
 {
 	if (core->envp)
 		ft_free_tab(core->envp);
-	if (core->command_list)
-		ft_command_clear(&core->command_list);
+	if (core->ast)
+		ft_ast_clear(&core->ast);
 	rl_clear_history();
 	exit(code);
 }

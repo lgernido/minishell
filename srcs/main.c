@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "AST.h"
 #include <readline/readline.h>
 
 atomic_int	g_signal = 0;

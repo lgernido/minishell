@@ -84,11 +84,44 @@ typedef struct s_command_node
 	struct s_command_node *prev; // parsing -- NULL if last node
 }					t_command_node;
 
+typedef enum e_ast_token
+{
+	PIPE,
+	LOGICAL_AND,
+	LOGICAL_OR,
+	WORD,
+	TO_EXPAND_STR,
+	NO_EXPAND_STR,
+	OPEN_PARENTHESIS,
+	CLOSE_PARENTHESIS,
+	INFILE_OPERATOR,
+	HERE_DOC_OPERATOR,
+	OUTPUT_OPERATOR,
+	APPEND_OPERATOR,
+}							t_ast_token;
+
+typedef struct s_token_stream_node
+{
+	t_ast_token					type;
+	void						*value;
+	struct s_token_stream_node	*prev;
+	struct s_token_stream_node	*next;
+}								t_token_stream_node;
+
+typedef struct s_ast_node
+{
+	t_command_node		*command_list;
+	t_token_stream_node	*token_stream;
+	struct s_ast_node	*parent;
+	struct s_ast_node	*on_success;
+	struct s_ast_node	*on_failure;
+}								t_ast_node;
+
 typedef struct s_core
 {
-	t_command_node	*command_list;
-	char			**envp;
-	int				error_code;
+	t_ast_node	*ast;
+	char		**envp;
+	int			error_code;
 }					t_core;
 
 typedef struct s_token
