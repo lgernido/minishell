@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/11 17:01:32 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/12 13:46:15 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ sign = handling context
 int		ft_split_utils(int i, char *str, char *sep, int sign)
 {
 	if (sign == 1 && ft_find_char_str(str[i], sep) && !ft_find_char_str(str[i + 1], sep)
-		&& !ft_bracket(str, i) && !ft_escape(str, i - 1))
+		&& !ft_quotes(str, i) && !ft_escape(str, i - 1))
 		return (1);
 	else if (!sign && ft_find_char_str(str[i], sep) && i > 0
-		&& ft_find_char_str(str[i - 1], sep) && !ft_bracket(str, i)
+		&& ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
 		&& !ft_escape(str, i - 1))
 		return (1);
 	else if (sign == 2 && ft_find_char_str(str[i], sep)
-		&& i > 0 && ft_find_char_str(str[i - 1], sep) && !ft_bracket(str, i)
+		&& i > 0 && ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
 		&& !ft_escape(str, i - 1))
 		return (1);
-	else if (sign == 3 && ft_find_char_str(str[i], sep) && !ft_bracket(str, i)
+	else if (sign == 3 && ft_find_char_str(str[i], sep) && !ft_quotes(str, i)
 		&& !ft_escape(str, i - 1))
 		return (1);
 	return (0);
@@ -45,7 +45,7 @@ int		ft_split_utils(int i, char *str, char *sep, int sign)
 int		ft_split_tokens2(t_core *minishell, char *str, int *i,
 			t_token **start)
 {
-	if (ft_find_char_str(str[*i], " \t") && !ft_bracket(str, *i)
+	if (ft_find_char_str(str[*i], " \t") && !ft_quotes(str, *i)
 		&& !ft_escape(str, *i - 1))
 	{
 		ft_add_token_list(start, ft_create_token(minishell, *i));
@@ -53,7 +53,7 @@ int		ft_split_tokens2(t_core *minishell, char *str, int *i,
 		return (0);
 	}
 	if ((ft_find_char_str(str[*i], "|;<>&()") && *i > 0 && !ft_find_char_str(str[*i - 1],
-		"|;<>&()")) && !ft_bracket(str, *i) && !ft_escape(str, *i - 1))
+		"|;<>&()")) && !ft_quotes(str, *i) && !ft_escape(str, *i - 1))
 		ft_add_token_list(start, ft_create_token(minishell, *i));
 	return (1);
 }
@@ -61,6 +61,7 @@ int		ft_split_tokens2(t_core *minishell, char *str, int *i,
 void	ft_split_tokens(t_core *minishell, char *str)
 {
 	int		i;
+	int nb_token;
 	t_token **start;
 
 	i = 0;
@@ -105,6 +106,26 @@ int		ft_check_error(t_token *token)
 		return (0);
 	return (1);
 }
+int		ft_define_type(t_token *tmp)
+{
+	if (ft_samestr(tmp->value, "|"))
+		tmp->type = T_PIPE;
+	else if (ft_samestr(tmp->value, ";"))
+		tmp->type = T_SEP;
+	else if (ft_samestr(tmp->value, "&&"))
+		tmp->type = T_AND;
+	else if (ft_samestr(tmp->value, "||"))
+		tmp->type = T_OR;
+	else if (ft_samestr(tmp->value, "("))
+		tmp->type = T_PAR_OPEN;
+	else if (ft_samestr(tmp->value, ")"))
+		tmp->type = T_PAR_CLOSE;
+	else if (ft_samestr(tmp->value, "newline") && !tmp->next)
+		tmp->type = T_NEWLINE;
+	else
+		return (0);
+	return (1);
+}
 
 char	*ft_tokenizer(t_core *minishell)
 {
@@ -125,4 +146,21 @@ char	*ft_tokenizer(t_core *minishell)
 		tmp = tmp->next;
 	}
 	return (NULL);
+}
+void ft_fixe_types(t_core *minishell)
+{
+	t_token *tmp;
+	tmp = minishell->token_list;
+	while (tmp)
+	{
+		if (ft_samestr(tmp->value, ">"))
+			tmp->type = T_OUTPUT_FILE;
+		else if (ft_samestr(tmp->value, ">>"))
+			tmp->type = T_APPEND;
+		else if(ft_samestr(tmp->value, "<"))
+			tmp->type = T_INPUT_FILE;
+		else if (ft_samestr(tmp->value = "<<"))
+			tmp->type = T_HEREDOC;
+		tmp = tmp->next;
+	}
 }

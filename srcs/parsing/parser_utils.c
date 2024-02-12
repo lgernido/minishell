@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/11 16:36:51 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/12 10:25:15 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,26 @@ See if a position in s is between brackets
 s = array in which to check for brackets
 pos = position to check
 */
-int	ft_bracket(char *s, int pos)
+int	ft_quotes(char *s, int pos)
 {
-	int	double_bracket;
-	int	single_bracket;
+	int	double_quotes;
+	int	single_quotes;
 	int	i;
 
-	double_bracket = 0;
-	single_bracket = 0;
+	double_quotes = 0;
+	single_quotes = 0;
 	i = 0;
 	while (i <= pos)
 	{
-		if (s[i] == 34 && (i == 0 || !is_escaped(s, i - 1)) && single_bracket
+		if (s[i] == 34 && (i == 0 || !is_escaped(s, i - 1)) && single_quotes
 			% 2 == 0)
-			double_bracket++;
-		if (s[i] == 39 && (i == 0 || single_bracket % 2 != 0 || !is_escaped(s, i
-					- 1)) && double_bracket % 2 == 0)
-			single_bracket++;
+			double_quotes++;
+		if (s[i] == 39 && (i == 0 || single_quotes % 2 != 0 || !is_escaped(s, i
+					- 1)) && double_quotes % 2 == 0)
+			single_quotes++;
 		i++;
 	}
-	if (double_bracket % 2 != 0 || single_bracket % 2 != 0)
+	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
 		return (1);
 	return (0);
 }

@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/11 16:44:21 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/12 11:02:26 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int		ft_define_type(t_token *tmp)
-{
-	if (ft_samestr(tmp->value, "|"))
-		tmp->type = T_PIPE;
-	else if (ft_samestr(tmp->value, ";"))
-		tmp->type = T_SEP;
-	else if (ft_samestr(tmp->value, "&&"))
-		tmp->type = T_AND;
-	else if (ft_samestr(tmp->value, "||"))
-		tmp->type = T_OR;
-	else if (ft_samestr(tmp->value, "("))
-		tmp->type = T_PAR_OPEN;
-	else if (ft_samestr(tmp->value, ")"))
-		tmp->type = T_PAR_CLOSE;
-	else if (ft_samestr(tmp->value, "newline") && !tmp->next)
-		tmp->type = T_NEWLINE;
-	else
-		return (0);
-	return (1);
-}
 
 void	ft_start_parse(t_core *minishell, char *str)
 {
@@ -52,6 +31,10 @@ void	ft_start_parse(t_core *minishell, char *str)
 	}
 	tmp = minishell->token_list;
 	while (tmp)
-	//next ->parse tokens in comands
+	//next ->parse tokens in commands
 }
 
+void ft_parser(t_core *minishell)
+{
+	
+}

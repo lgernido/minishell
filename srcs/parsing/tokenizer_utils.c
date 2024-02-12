@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/11 17:04:10 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/12 11:59:30 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void		ft_clear_token_list(t_token **begin, void (*del)(void *))
 	tmp = *begin;
 	while (tmp)
 	{
-		ft_strdel(&tmp->value);
+		free(&tmp->value);
 		tmp2 = tmp->next;
 		free(tmp);
 		tmp = tmp2;
@@ -71,13 +71,10 @@ t_token		*ft_create_token(t_core *minishell, int i)
 {
 	t_token	*new;
 
-	if (!minishell->count)
-		return (NULL);
 	if (!(new = ft_calloc(1, sizeof(t_token))))
-		exit_cmd(minishell);
-	new->value = ft_substr(minishell->user_input, i - minishell->count,
+		ft_clean_exit(minishell);
+	new->value = ft_su`																														`bstr(minishell->user_input, i - minishell->count,
 		minishell->count);
-	minishell->count = 0;
 	return (new);
 }
 

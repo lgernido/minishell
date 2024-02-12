@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luciegernidos <luciegernidos@student.42    +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/11 17:04:52 by luciegernid      ###   ########.fr       */
+/*   Updated: 2024/02/12 13:40:41 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,8 @@
 
 # define MINISHELL_H
 
-# include <stdatomic.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <time.h>
-# include <errno.h>
-# include <sys/wait.h>
-# include "printerr.h"
 # include "libft.h"
+# include "printerr.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -57,7 +50,7 @@ typedef enum e_error
 	EXECVE_ERROR = 127
 }					t_error;
 
-// Token Type 
+// Token Type
 # define T_WORD 1
 # define T_REDIRECT 2
 # define T_PIPE 3
@@ -67,6 +60,10 @@ typedef enum e_error
 # define T_OR 7
 # define T_PAR_OPEN 8
 # define T_PAR_CLOSE 9
+# define T_INPUT_FILE 10
+# define T_OUTPUT_FILE 11
+# define T_HEREDOC 12
+# define T_APPEND 13
 
 typedef enum e_bool
 {
@@ -91,7 +88,7 @@ typedef struct s_core
 {
 	t_command_node	*command_list;
 	struct s_token	*token_list;
-	char *user_input;
+	char			*user_input;
 	char			**env;
 	int				env_size;
 	int				error_code;
@@ -100,7 +97,7 @@ typedef struct s_core
 typedef struct s_token
 {
 	char			*value;
-	int	type;
+	int				type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -112,7 +109,7 @@ extern atomic_int	g_signal;
 // tokenizer.c //
 
 // Tokenize the input line
-char	*ft_tokenizer(t_core *core);
+char				*ft_tokenizer(t_core *core);
 
 // ========================================================================= //
 
@@ -129,8 +126,8 @@ void				node_add_back(t_command_node **list, t_command_node *node);
 
 // ========================================================================= //
 
-// parse_envp.c 
-void			parse_envp(char **envp, t_core *core);
+// parse_envp.c
+void				parse_envp(char **envp, t_core *core);
 
 // clean fonctions in clean_exit.c
 
@@ -158,22 +155,22 @@ void				react_sig(t_core *core);
 // Used to retrieve a var from env. var should include '$'
 // --> char *str = ft_getenv(core, "$PATH"). return str should be fried
 // find it in built_ins_utils.c
-char			*ft_getenv(t_core *core, char *var);
+char				*ft_getenv(t_core *core, char *var);
 
 // ========================================================================= //
 
 // update shell level at start in update_shell_level.c
-void			update_shell_lvl(t_core *core);
+void				update_shell_lvl(t_core *core);
 
 // ========================================================================= //
 
 // built-ins
-int				echo(char **av, t_core *core); // echo.c
-int				ft_cd(char **av, t_core *core); // cd.c
-int				ft_exit(char **av, t_core *core); // exit.c
-int				ft_pwd(char **av, t_core *core);
-int				ft_env(char **av, t_core *core); // env.c
-int				ft_unset(char **av, t_core *core); // unset.c
-int				ft_export(char **av, t_core *core); //export.c
+int	echo(char **av, t_core *core);    // echo.c
+int	ft_cd(char **av, t_core *core);   // cd.c
+int	ft_exit(char **av, t_core *core); // exit.c
+int					ft_pwd(char **av, t_core *core);
+int	ft_env(char **av, t_core *core);    // env.c
+int	ft_unset(char **av, t_core *core);  // unset.c
+int	ft_export(char **av, t_core *core); // export.c
 
 #endif
