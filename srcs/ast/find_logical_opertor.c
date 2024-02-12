@@ -29,12 +29,31 @@ t_bool	is_searched_operator(t_token_stream_node *node, const int mode)
 	return (return_value);
 }
 
+void	discard_parenthesis(t_token_stream_node **token_stream)
+{
+	t_token_stream_node	*iterator;
+
+	*token_stream = (*token_stream)->next;
+	ft_free_node((*token_stream)->prev);
+	iterator = *token_stream;
+	while (is_the_searched_token(iterator, CLOSE_PARENTHESIS) != TRUE)
+	{
+		iterator = iterator->next;
+	}
+	ft_pop_node(iterator);
+	return ;
+}
+
 t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 		int mode)
 {
 	t_token_stream_node	*next_logical_operator;
 
 	next_logical_operator = NULL;
+	if (is_the_searched_token(token_stream, OPEN_PARENTHESIS) == TRUE)
+	{
+		discard_parenthesis(&token_stream);
+	}
 	while (token_stream != NULL)
 	{
 		if (is_the_searched_token(token_stream, OPEN_PARENTHESIS) == TRUE)

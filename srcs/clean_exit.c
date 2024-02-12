@@ -39,6 +39,17 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
+void	ft_free_node(t_token_stream_node *node)
+{
+	if (node == NULL)
+		return ;
+	if (node->value)
+	{
+		free(node->value);
+	}
+	free(node);
+}
+
 void	ft_token_stream_clear(t_token_stream_node **token_stream)
 {
 	t_token_stream_node	*tmp;
@@ -46,8 +57,7 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 	while (*token_stream != NULL)
 	{
 		tmp = (*token_stream)->next;
-		free((*token_stream)->value);
-		free(*token_stream);
+		ft_free_node(*token_stream);
 		*token_stream = tmp;
 	}
 }
