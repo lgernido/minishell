@@ -187,6 +187,12 @@ void				ft_command_clear(t_command_node **list);
 // clean the given node
 void				ft_clean_node(t_command_node *node);
 
+// Clean the given token stream
+void				ft_token_stream_clear(t_token_stream_node **token_stream);
+
+// Clean the given node, for the token stream
+void				ft_free_node(t_token_stream_node *node);
+
 // ========================================================================= //
 
 // Signal handler in signal.c \\

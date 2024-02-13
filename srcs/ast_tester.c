@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// To use me , call split_str to clam the readline input)
+
 void	ft_create_token_stream(t_token_stream_node **stream, char *str)
 {
 	t_token_stream_node	*new_node;
