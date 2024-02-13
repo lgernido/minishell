@@ -14,17 +14,6 @@
 #include "AST.h"
 #include <stdio.h>
 
-void	setup_new_ast_branch(t_core *core, t_ast_node *node_to_init, int mode)
-{
-	node_to_init = ast_new_node();
-	if (node_to_init == NULL)
-	{
-		ft_clean_exit(core, MALLOC);
-	}
-	node_to_init->parent = core->ast;
-	(void)mode;
-}
-
 void	setup_on_success_branch(t_token_stream_node *stream_after_last_used_node, t_core *core)
 {
 	t_token_stream_node *on_success;

@@ -18,15 +18,29 @@ t_ast_node	*ast_new_node(void)
 	t_ast_node	*node;
 
 	node = ft_calloc(1, sizeof (t_ast_node));
-	// if (node != NULL)
-	// {
-	// 	node->command_list = NULL;
-	// 	node->token_stream = NULL;
-	// 	node->on_failure = NULL;
-	// 	node->on_success = NULL;
-	// 	node->parent = NULL;
-	// }
 	return (node);
+}
+
+void	ast_add_back(t_ast_node **ast, int mode)
+{
+	t_ast_node	*new_node;
+
+	new_node = ast_new_node();
+	if (new_node == NULL)
+	{
+		errno = ENOMEM;
+		return ;
+	}
+	new_node->parent = *ast;
+	if (match_mode_condition(mode, SUCESS_NODE))
+	{
+		(*ast)->on_success = new_node;
+	}
+	else
+	{
+		(*ast)->on_failure = new_node;
+	}
+	return ;
 }
 
 void	climb_tree_to_origin(t_ast_node **node)

@@ -20,8 +20,8 @@
 # define OR 1
 # define ANY 2
 
-# define ON_SUCCESS 0
-# define ON_FAILURE 1
+# define SUCESS_NODE 0
+# define FAILURE_NODE 1
 
 // ========================================================================= //
 
@@ -53,5 +53,6 @@ void				setup_ast(t_token_stream_node *token_stream, t_core *core);
 void				setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 						t_core *core);
 void				discard_parenthesis(t_token_stream_node **token_stream);
+void				ast_add_back(t_ast_node **ast, int mode);
 
 #endif // !AST_H
