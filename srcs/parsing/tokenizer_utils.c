@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/12 11:59:30 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:01:00 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ t_token		*ft_create_token(t_core *minishell, int i)
 
 	if (!(new = ft_calloc(1, sizeof(t_token))))
 		ft_clean_exit(minishell);
-	new->value = ft_su`																														`bstr(minishell->user_input, i - minishell->count,
-		minishell->count);
+	new->value = /*faire marcher ft_substr(minishell->user_input, i - minishell->count,minishell->count);*/
 	return (new);
 }
 

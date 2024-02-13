@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:37:58 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/01/30 16:37:59 by purmerinos       ###   ########.fr       */
+/*   Updated: 2024/02/13 10:55:56 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	ft_clean_exit(t_core *core, int code)
 		ft_free_tab(core->env);
 	if (core->command_list)
 		ft_command_clear(&core->command_list);
+	if (core->token_list)
+		ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
 	exit(code);
 }

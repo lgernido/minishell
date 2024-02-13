@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/13 10:39:43 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:56:04 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ typedef struct s_core
 {
 	t_command_node	*command_list;
 	struct s_token	*token_list;
-	char			*user_input;
 	char			**env;
 	int				env_size;
 	int				error_code;
