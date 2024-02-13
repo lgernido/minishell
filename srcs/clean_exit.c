@@ -62,6 +62,7 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 		ft_free_node(*token_stream);
 		*token_stream = tmp;
 	}
+	*token_stream = NULL;
 }
 
 void	ft_ast_clear(t_ast_node **node)

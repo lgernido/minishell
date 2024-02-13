@@ -20,7 +20,7 @@ void	setup_new_branch(t_core *core,
 	ast_add_back(&core->ast, mode);
 	if (errno == ENOMEM)
 	{
-		ft_clean_exit(core, MALLOC);
+		clear_stream_and_exit(core, stream_for_next_node, MALLOC);
 	}
 	if (match_mode_condition(mode, SUCESS_NODE) == TRUE)
 	{
@@ -75,7 +75,6 @@ void	get_token_streams_for_new_branches(
 		core, OR, on_failure);
 }
 
-void	print_token_stream(t_token_stream_node *stream);
 void	setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 		t_core *core)
 {

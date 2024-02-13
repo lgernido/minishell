@@ -54,5 +54,7 @@ void				setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 						t_core *core);
 void				discard_parenthesis(t_token_stream_node **token_stream);
 void				ast_add_back(t_ast_node **ast, int mode);
+void				clear_stream_and_exit(t_core *core,
+						t_token_stream_node *stream, int code);
 
 #endif // !AST_H

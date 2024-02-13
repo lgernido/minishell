@@ -7,7 +7,7 @@ SRC_FOLDER_BONUS = srcs/bonus/
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
-						token_stream_node_management.c)
+						token_stream_node_management.c clear_stream_and_exit.c)
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c ast_tester.c\
 						$(AST_FILES)
 SRC_FILES_BONUS = 

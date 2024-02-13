@@ -22,7 +22,10 @@ void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
 	{
 		node = ft_token_stream_new(src->type, src->value);
 		if (node == NULL)
-			ft_clean_exit(core, MALLOC);
+		{
+			ft_token_stream_clear(dest);
+			clear_stream_and_exit(core, src, MALLOC);
+		}
 		ft_token_stream_add_back(dest, node);
 		src = src->next;
 	}
