@@ -17,15 +17,15 @@ t_ast_node	*ast_new_node(void)
 {
 	t_ast_node	*node;
 
-	node = malloc(sizeof (t_ast_node));
-	if (node != NULL)
-	{
-		node->command_list = NULL;
-		node->token_stream = NULL;
-		node->on_failure = NULL;
-		node->on_success = NULL;
-		node->parent = NULL;
-	}
+	node = ft_calloc(1, sizeof (t_ast_node));
+	// if (node != NULL)
+	// {
+	// 	node->command_list = NULL;
+	// 	node->token_stream = NULL;
+	// 	node->on_failure = NULL;
+	// 	node->on_success = NULL;
+	// 	node->parent = NULL;
+	// }
 	return (node);
 }
 
