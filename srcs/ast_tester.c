@@ -45,10 +45,15 @@ void	ft_create_token_stream(t_token_stream_node **stream, char *str)
 
 void	print_token_stream(t_token_stream_node *stream)
 {
+	if (stream == NULL)
+		return ;
 	while (stream != NULL)
 	{
-		printf("%s ", (char *)stream->value);
-		fflush(stdout);
+		if (stream->value != NULL)
+		{
+			printf("%s ", (char *)stream->value);
+			fflush(stdout);
+		}
 		stream = stream->next;
 	}
 }
@@ -56,6 +61,7 @@ void	print_token_stream(t_token_stream_node *stream)
 void	print_tree(t_ast_node *ast)
 {
 	t_ast_node *tmp;
+
 	if (ast == NULL)
 		return ;
 	climb_stream_to_origin(&ast->token_stream);
@@ -91,7 +97,7 @@ void	tokenize_str(t_core *core, char **str)
 	fflush(stdout);
 	climb_tree_to_origin(&core->ast);
 	print_tree(core->ast);
-	ft_token_stream_clear(&stream);
+	// ft_token_stream_clear(&stream);
 }
 
 void	split_str(t_core *core, char *str)

@@ -35,6 +35,7 @@ void	discard_parenthesis(t_token_stream_node **token_stream)
 
 	*token_stream = (*token_stream)->next;
 	ft_free_node((*token_stream)->prev);
+	(*token_stream)->prev = NULL;
 	iterator = *token_stream;
 	while (is_the_searched_token(iterator, CLOSE_PARENTHESIS) != TRUE)
 	{

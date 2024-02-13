@@ -37,7 +37,14 @@ void	setup_ast(t_token_stream_node *token_stream, t_core *core)
 	next_logical_operator = find_logical_operator(token_stream, ANY);
 	copy_token_stream_relevant_for_current_node(core,
 		token_stream, next_logical_operator);
-	setup_recursive_calls(next_logical_operator, core);
+	if (next_logical_operator != NULL)
+	{
+		setup_recursive_calls(next_logical_operator, core);
+	}
+	else
+	{
+		ft_token_stream_clear(&token_stream);
+	}
 }
 
 void	ast_init(t_token_stream_node *token_stream, t_core *core)

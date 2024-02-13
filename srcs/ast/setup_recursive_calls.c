@@ -14,43 +14,42 @@
 #include "AST.h"
 #include <stdio.h>
 
-void	setup_on_success_branch(t_token_stream_node *stream_after_last_used_node, t_core *core)
+void	setup_new_branch(t_core *core,
+		t_token_stream_node *stream_for_next_node, int mode)
 {
-	t_token_stream_node *on_success;
-	t_token_stream_node	*stream_copy;
-	t_ast_node *new_node;
+	ast_add_back(&core->ast, mode);
+	if (errno == ENOMEM)
+	{
+		ft_clean_exit(core, MALLOC);
+	}
+	if (match_mode_condition(mode, SUCESS_NODE) == TRUE)
+	{
+		core->ast = core->ast->on_success;
+		setup_ast(stream_for_next_node, core);
+		core->ast = core->ast->parent;
+	}
+	else
+	{
+		core->ast = core->ast->on_failure;
+		setup_ast(stream_for_next_node, core);
+		core->ast = core->ast->parent;
+	}
+}
 
-	stream_copy = NULL;
-	on_success = find_logical_operator(stream_after_last_used_node, AND);
+void	setup_new_branches(t_core *core, t_token_stream_node *on_success,
+		t_token_stream_node *on_failure)
+{
 	if (on_success != NULL)
 	{
-		ft_lst_cpy(core, on_success->next, &stream_copy, NULL);
-		new_node = ast_new_node();
-		if (new_node == NULL)
-			ft_clean_exit(core, MALLOC);
-		core->ast->on_success = new_node;
-		core->ast->on_success->parent = core->ast;
-		core->ast = core->ast->on_success;
-		setup_ast(stream_copy, core);
-		core->ast = core->ast->parent;
+		setup_new_branch(core, on_success, SUCESS_NODE);
 	}
-	climb_stream_to_origin(&stream_after_last_used_node);
-}
-
-void	setup_on_failure_branch(t_token_stream_node *stream_after_last_used_node, t_core *core)
-{
-		new_node = ast_new_node();
-		if (new_node == NULL)
-			ft_clean_exit(core, MALLOC);
-		core->ast->on_failure = new_node;
-		core->ast->on_failure->parent = core->ast;
-		core->ast = core->ast->on_failure;
-		setup_ast(stream_copy, core);
-		core->ast = core->ast->parent;
+	if (on_failure != NULL)
+	{
+		setup_new_branch(core, on_failure, FAILURE_NODE);
 	}
 }
 
-void	get_token_stream_for_the_new_branch(
+void	get_token_stream_for_the_specified_branch(
 		t_token_stream_node *stream_after_last_used_node,
 		t_core *core, int mode, t_token_stream_node **dest)
 {
@@ -70,25 +69,23 @@ void	get_token_streams_for_new_branches(
 {
 	*on_success = NULL;
 	*on_failure = NULL;
-	get_token_stream_for_the_new_branch(stream_after_last_used_node,
+	get_token_stream_for_the_specified_branch(stream_after_last_used_node,
 		core, AND, on_success);
-	get_token_stream_for_the_new_branch(stream_after_last_used_node,
+	get_token_stream_for_the_specified_branch(stream_after_last_used_node,
 		core, OR, on_failure);
 }
 
+void	print_token_stream(t_token_stream_node *stream);
 void	setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 		t_core *core)
 {
 	t_token_stream_node	*on_success;
 	t_token_stream_node	*on_failure;
 
-	if (stream_after_last_used_node == NULL)
-		return ;
 	get_token_streams_for_new_branches(stream_after_last_used_node, core,
 		&on_success, &on_failure);
 	ft_token_stream_clear(&stream_after_last_used_node);
-	setup_on_success_branch(stream_after_last_used_node, core);
-	setup_on_failure_branch(stream_after_last_used_node, core);
+	setup_new_branches(core, on_success, on_failure);
 }
 
 /* find_begining of the new branches -- done
