@@ -14,7 +14,7 @@
 #include "AST.h"
 
 void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
-	t_token_stream_node *dest, t_token_stream_node *limit)
+	t_token_stream_node **dest, t_token_stream_node *limit)
 {
 	t_token_stream_node	*node;
 
@@ -23,6 +23,7 @@ void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
 		node = ft_token_stream_new(src->type, src->value);
 		if (node == NULL)
 			ft_clean_exit(core, MALLOC);
-		ft_token_stream_add_back(&dest, node);
+		ft_token_stream_add_back(dest, node);
+		src = src->next;
 	}
 }

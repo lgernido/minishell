@@ -4,7 +4,12 @@
 SRC_FOLDER	= srcs/
 SRC_FOLDER_BONUS = srcs/bonus/
 
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c
+AST_DIR = ast/
+AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
+						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
+						token_stream_node_management.c)
+SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c ast_tester.c\
+						$(AST_FILES)
 SRC_FILES_BONUS = 
 BUILD = build/
 
@@ -46,6 +51,7 @@ $(NAME): $(OBJ_FILES)
 
 build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}
+	@mkdir -p ${BUILD}/${AST_DIR}
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 

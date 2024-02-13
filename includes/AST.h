@@ -41,14 +41,17 @@ void				jump_above_parenthesis(t_token_stream_node **token);
 void				ft_token_stream_add_back(t_token_stream_node **token_stream,
 						t_token_stream_node *new_node);
 void				ft_lst_cpy(t_core	*core, t_token_stream_node *src,
-						t_token_stream_node *dest, t_token_stream_node *limit);
+						t_token_stream_node **dest, t_token_stream_node *limit);
 void				ft_free_node(t_token_stream_node *node);
-void				ft_pop_node(t_token_stream_node *node_to_pop);
+void				ft_pop_node(t_token_stream_node **node_to_pop);
 t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 						int mode);
 void				climb_tree_to_origin(t_ast_node **node);
 void				ft_token_stream_clear(t_token_stream_node **token_stream);
 void				climb_stream_to_origin(t_token_stream_node **token_stream);
 void				setup_ast(t_token_stream_node *token_stream, t_core *core);
+void				setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
+						t_core *core);
+void				discard_parenthesis(t_token_stream_node **token_stream);
 
 #endif // !AST_H

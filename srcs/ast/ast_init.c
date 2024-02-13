@@ -18,12 +18,21 @@ void	setup_ast(t_token_stream_node *token_stream, t_core *core)
 	t_token_stream_node	*next_logical_operator;
 
 	if (core->ast == NULL)
+	{
+		ft_token_stream_clear(&token_stream);
 		return ;
+	}
+	if (is_the_searched_token(token_stream, OPEN_PARENTHESIS) == TRUE)
+	{
+		discard_parenthesis(&token_stream);
+	}
 	next_logical_operator = find_logical_operator(token_stream, ANY);
-	ft_lst_cpy(core, token_stream, core->ast->token_stream,
+	ft_lst_cpy(core, token_stream, &core->ast->token_stream,
 		next_logical_operator);
+	setup_recursive_calls(next_logical_operator, core);
 }
 
+void	print_token_stream(t_token_stream_node *stream);
 void	ast_init(t_token_stream_node *token_stream, t_core *core)
 {
 	core->ast = ast_new_node();

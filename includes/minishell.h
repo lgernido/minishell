@@ -207,5 +207,7 @@ int					get_number_of_args(char **av);
 
 // built-ins
 int					echo(char **av);
+void				ast_init(t_token_stream_node *token_stream, t_core *core);
+void				split_str(t_core *core, char *str);
 
 #endif

@@ -21,6 +21,7 @@ t_ast_node	*ast_new_node(void)
 	if (node != NULL)
 	{
 		node->command_list = NULL;
+		node->token_stream = NULL;
 		node->on_failure = NULL;
 		node->on_success = NULL;
 		node->parent = NULL;
