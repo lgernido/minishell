@@ -38,6 +38,10 @@ void	discard_parenthesis(t_token_stream_node **token_stream)
 	iterator = *token_stream;
 	while (is_the_searched_token(iterator, CLOSE_PARENTHESIS) != TRUE)
 	{
+		if (is_the_searched_token(*token_stream, OPEN_PARENTHESIS) == TRUE)
+		{
+			jump_above_parenthesis(token_stream);
+		}
 		iterator = iterator->next;
 	}
 	ft_pop_node(&iterator);
@@ -56,7 +60,7 @@ t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 		{
 			jump_above_parenthesis(&token_stream);
 		}
-		if (is_searched_operator(token_stream, mode) == TRUE)
+		else if (is_searched_operator(token_stream, mode) == TRUE)
 		{
 			next_logical_operator = token_stream;
 			break ;

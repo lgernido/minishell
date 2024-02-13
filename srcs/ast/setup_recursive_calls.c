@@ -14,8 +14,6 @@
 #include "AST.h"
 #include <stdio.h>
 
-void	print_token_stream(t_token_stream_node *stream);
-
 void	setup_new_ast_branch(t_core *core, t_ast_node *node_to_init, int mode)
 {
 	node_to_init = ast_new_node();
@@ -37,7 +35,6 @@ void	setup_on_success_branch(t_token_stream_node *stream_after_last_used_node, t
 	on_success = find_logical_operator(stream_after_last_used_node, AND);
 	if (on_success != NULL)
 	{
-		print_token_stream(on_success);
 		ft_lst_cpy(core, on_success->next, &stream_copy, NULL);
 		new_node = ast_new_node();
 		if (new_node == NULL)
