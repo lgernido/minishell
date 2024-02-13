@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/13 09:54:18 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:39:43 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,25 @@ typedef enum e_error
 	EXECVE_ERROR = 127
 }					t_error;
 
-// Token Type
-# define T_WORD 1
-# define T_REDIRECT 2
-# define T_PIPE 3
-# define T_SEP 4
-# define T_NEWLINE 5
-# define T_AND 6
-# define T_OR 7
-# define T_PAR_OPEN 8
-# define T_PAR_CLOSE 9
-# define T_INPUT_FILE 10
-# define T_OUTPUT_FILE 11
-# define T_HEREDOC 12
-# define T_APPEND 13
+typedef enum e_token_types
+{
+
+	T_WORD,
+	T_REDIRECT,
+	T_PIPE,
+	T_SEP,
+	T_NEWLINE,
+	T_AND,
+	T_OR,
+	T_PAR_OPEN,
+	T_PAR_CLOSE,
+	T_INPUT_FILE,
+	T_OUTPUT_FILE,
+	T_HEREDOC,
+	T_APPEND,
+	T_TO_EXPAND,
+	T_NO_EXPAND,
+}
 
 typedef enum e_bool
 {
