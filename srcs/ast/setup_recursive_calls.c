@@ -39,15 +39,6 @@ void	setup_on_success_branch(t_token_stream_node *stream_after_last_used_node, t
 
 void	setup_on_failure_branch(t_token_stream_node *stream_after_last_used_node, t_core *core)
 {
-	t_token_stream_node *on_failure;
-	t_token_stream_node	*stream_copy;
-	t_ast_node *new_node;
-
-	stream_copy = NULL;
-	on_failure = find_logical_operator(stream_after_last_used_node, OR);
-	if (on_failure != NULL)
-	{
-		ft_lst_cpy(core, on_failure->next, &stream_copy, NULL);
 		new_node = ast_new_node();
 		if (new_node == NULL)
 			ft_clean_exit(core, MALLOC);
@@ -59,11 +50,43 @@ void	setup_on_failure_branch(t_token_stream_node *stream_after_last_used_node, t
 	}
 }
 
+void	get_token_stream_for_the_new_branch(
+		t_token_stream_node *stream_after_last_used_node,
+		t_core *core, int mode, t_token_stream_node **dest)
+{
+	t_token_stream_node	*next_searched_operator;
+
+	next_searched_operator = find_logical_operator
+		(stream_after_last_used_node, mode);
+	if (next_searched_operator != NULL)
+	{
+		ft_lst_cpy(core, next_searched_operator->next, dest, NULL);
+	}
+}
+
+void	get_token_streams_for_new_branches(
+		t_token_stream_node *stream_after_last_used_node, t_core *core,
+		t_token_stream_node **on_success, t_token_stream_node **on_failure)
+{
+	*on_success = NULL;
+	*on_failure = NULL;
+	get_token_stream_for_the_new_branch(stream_after_last_used_node,
+		core, AND, on_success);
+	get_token_stream_for_the_new_branch(stream_after_last_used_node,
+		core, OR, on_failure);
+}
+
 void	setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 		t_core *core)
 {
+	t_token_stream_node	*on_success;
+	t_token_stream_node	*on_failure;
+
 	if (stream_after_last_used_node == NULL)
 		return ;
+	get_token_streams_for_new_branches(stream_after_last_used_node, core,
+		&on_success, &on_failure);
+	ft_token_stream_clear(&stream_after_last_used_node);
 	setup_on_success_branch(stream_after_last_used_node, core);
 	setup_on_failure_branch(stream_after_last_used_node, core);
 }
