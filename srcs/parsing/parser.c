@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/12 11:02:26 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:03:05 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,4 @@ void	ft_start_parse(t_core *minishell, char *str)
 	tmp = minishell->token_list;
 	while (tmp)
 	//next ->parse tokens in commands
-}
-
-void ft_parser(t_core *minishell)
-{
-	
 }
