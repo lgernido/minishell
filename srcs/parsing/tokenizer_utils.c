@@ -6,13 +6,13 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/13 11:01:00 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:08:25 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ft_add_token_list(t_token **begin, t_token *new)
+void	ft_add_token_list(t_token **begin, t_token *new)
 {
 	t_token	*tmp;
 
@@ -34,7 +34,7 @@ void		ft_add_token_list(t_token **begin, t_token *new)
 		*begin = new;
 }
 
-int			ft_token_list_size(t_token **begin)
+int	ft_token_list_size(t_token **begin)
 {
 	t_token	*tmp;
 	int		i;
@@ -49,10 +49,10 @@ int			ft_token_list_size(t_token **begin)
 	return (i);
 }
 
-void		ft_clear_token_list(t_token **begin, void (*del)(void *))
+void	ft_clear_token_list(t_token **begin, void (*del)(void *))
 {
 	t_token	*tmp;
-	t_token *tmp2;
+	t_token	*tmp2;
 
 	if (!begin || !del)
 		return ;
@@ -67,19 +67,19 @@ void		ft_clear_token_list(t_token **begin, void (*del)(void *))
 	*begin = NULL;
 }
 
-t_token		*ft_create_token(t_core *minishell, int i)
+t_token	*ft_create_token(t_core *minishell, int i, char *str)
 {
 	t_token	*new;
 
 	if (!(new = ft_calloc(1, sizeof(t_token))))
 		ft_clean_exit(minishell);
-	new->value = /*faire marcher ft_substr(minishell->user_input, i - minishell->count,minishell->count);*/
+	new->value = /*faire marcher ft_substr(str, i, ???);*/
 	return (new);
 }
 
-t_token		*ft_create_arg_token(char *word, int type)
+t_token	*ft_create_arg_token(char *word, int type)
 {
-	t_token	*new;
+	t_token *new;
 
 	if (!(new = ft_calloc(1, sizeof(t_token))))
 		ft_clean_exit(core, 1);

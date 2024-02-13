@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/13 10:56:04 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:54:14 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,35 @@ typedef struct s_token
 extern atomic_int	g_signal;
 
 // ========================================================================= //
+/*PARSING*/
 
-// tokenizer.c //
+// parser.c //
+void				ft_start_parse(t_core *minishell, char *str);
 
-// Tokenize the input line
-char				*ft_tokenizer(t_core *core);
+// parser_utils.c//
+int					ft_quotes(char *s, int pos);
+int					ft_escape(char *s, int pos);
+int					ft_find_char_str(char c, char *str);
+int					ft_samestr(char *s1, char *s2);
+
+// tokenizer.c//
+int					ft_check_error(t_token *token);
+int					ft_define_type(t_token *tmp);
+char				*ft_tokenizer(t_core *minishell);
+void				ft_fix_redirect_types(t_token token_to_fix);
+
+// split_tokens.c //
+int					ft_split_utils(int i, char *str, char *sep, int sign);
+int					ft_split_tokens2(t_core *minishell, char *str, int *i,
+						t_token **start);
+void				ft_split_tokens(t_core *minishell, char *str);
+
+// tokenizer_utils.c //
+t_token				*ft_create_arg_token(char *word, int type);
+t_token				*ft_create_token(t_core *minishell, int i, char *str);
+void				ft_clear_token_list(t_token **begin, void (*del)(void *));
+int					ft_token_list_size(t_token **begin);
+void				ft_add_token_list(t_token **begin, t_token *new);
 
 // ========================================================================= //
 
