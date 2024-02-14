@@ -25,13 +25,13 @@ void	setup_new_branch(t_core *core,
 	if (match_mode_condition(mode, SUCESS_NODE) == TRUE)
 	{
 		core->ast = core->ast->on_success;
-		setup_ast(stream_for_next_node, core);
+		setup_current_node(stream_for_next_node, core);
 		core->ast = core->ast->parent;
 	}
 	else
 	{
 		core->ast = core->ast->on_failure;
-		setup_ast(stream_for_next_node, core);
+		setup_current_node(stream_for_next_node, core);
 		core->ast = core->ast->parent;
 	}
 }

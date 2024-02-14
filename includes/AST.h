@@ -101,7 +101,8 @@ void				clear_stream_and_exit(t_core *core,
 
 // entry point for recursive call. Will copy the relevant part
 // of the token stream in the node.
-void				setup_ast(t_token_stream_node *token_stream, t_core *core);
+void				setup_current_node(t_token_stream_node *token_stream,
+						t_core *core);
 
 // Will dispatch the token stream between next nodes if needed
 void				setup_recursive_calls(

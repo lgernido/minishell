@@ -51,6 +51,14 @@ void	ft_free_node(t_token_stream_node *node)
 	free(node);
 }
 
+void	ft_clear_token_stream_if_needed(t_token_stream_node **token_stream)
+{
+	if (*token_stream != NULL)
+	{
+		ft_token_stream_clear(token_stream);
+	}
+}
+
 void	ft_token_stream_clear(t_token_stream_node **token_stream)
 {
 	t_token_stream_node	*tmp;

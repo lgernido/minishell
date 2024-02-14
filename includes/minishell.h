@@ -187,6 +187,10 @@ void				ft_command_clear(t_command_node **list);
 // clean the given node
 void				ft_clean_node(t_command_node *node);
 
+// Call ft_token_stream_clear if the token isn't NULL
+void				ft_clear_token_stream_if_needed(
+						t_token_stream_node **token_stream);
+
 // Clean the given token stream
 void				ft_token_stream_clear(t_token_stream_node **token_stream);
 
@@ -213,7 +217,12 @@ int					get_number_of_args(char **av);
 
 // built-ins
 int					echo(char **av);
+
+// Entry point for ast setup
 void				ast_init(t_token_stream_node *token_stream, t_core *core);
+
+// Call this functions just after retrieving user input
+// to test ast without parsing
 void				split_str(t_core *core, char *str);
 
 #endif
