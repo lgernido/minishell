@@ -15,7 +15,7 @@
 void	ft_start_parse(t_core *minishell, char *str)
 {
 	char	*token;
-	t_token *tmp;
+	t_token	*tmp;
 
 	if (!ft_is_ascii(str))
 	{

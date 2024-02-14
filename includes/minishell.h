@@ -131,14 +131,10 @@ extern atomic_int	g_signal;
 void				ft_start_parse(t_core *minishell, char *str);
 
 // basic token management //
-t_token				*ft_create_token(void *token_value,
-						t_token_type token_type);
 void				ft_clear_token(void *content);
 t_token_type		ft_find_type(t_token *token);
-t_token_type		ft_define_type(char charset);
 
 // tokenize commands // 
-void				ft_tokenizer(char *str);
 void				ft_find_full_token(t_list **start, t_token_type type);
 t_token				*ft_merge_token(t_token *token_1, t_token *token_2,
 						t_token_type type);

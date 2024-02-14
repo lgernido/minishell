@@ -3,20 +3,24 @@
 
 SRC_FOLDER	= srcs/
 SRC_FOLDER_BONUS = srcs/bonus/
-BUILT_IN_DIR = built_ins/
 
+BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
 									pwd.c cd.c cd_utils.c cd_update_env_var.c)\
-
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c\
-						update_shell_lvl.c $(BUILT_IN_FILES)\
 
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
 						token_stream_node_management.c clear_stream_and_exit.c)
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c ast_tester.c\
-						$(AST_FILES)
+
+PARSING_DIR = parsing/
+PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
+								tokenizer.c tokenizer_utils.c)
+
+SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
+						$(AST_FILES) $(BUILT_IN_FILES) $(PARSING_FILES)\
+
+
 
 SRC_FILES_BONUS = 
 BUILD = build/
@@ -61,6 +65,7 @@ build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}
 	@mkdir -p ${BUILD}/${AST_DIR}
 	@mkdir -p ${BUILD}/${BUILT_IN_DIR}
+	@mkdir -p $(BUILD)/$(PARSING_DIR)
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 
