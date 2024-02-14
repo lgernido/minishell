@@ -18,6 +18,10 @@ t_bool	is_searched_operator(t_token_stream_node *node, const int mode)
 	t_bool				return_value;
 
 	return_value = FALSE;
+	if (node == NULL)
+	{
+		return (return_value);
+	}
 	if (match_mode_condition(mode, AND) == TRUE)
 	{
 		return_value = is_the_searched_token(node, LOGICAL_AND);
@@ -41,7 +45,7 @@ void	discard_parenthesis(t_token_stream_node **token_stream)
 	{
 		if (is_the_searched_token(*token_stream, OPEN_PARENTHESIS) == TRUE)
 		{
-			jump_above_parenthesis(token_stream);
+			jump_above_parenthesis_if_needed(token_stream);
 		}
 		iterator = iterator->next;
 	}
@@ -57,16 +61,16 @@ t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 	next_logical_operator = NULL;
 	while (token_stream != NULL)
 	{
-		if (is_the_searched_token(token_stream, OPEN_PARENTHESIS) == TRUE)
-		{
-			jump_above_parenthesis(&token_stream);
-		}
-		else if (is_searched_operator(token_stream, mode) == TRUE)
+		jump_above_parenthesis_if_needed(&token_stream);
+		if (is_searched_operator(token_stream, mode) == TRUE)
 		{
 			next_logical_operator = token_stream;
 			break ;
 		}
-		token_stream = token_stream->next;
+		if (token_stream != NULL)
+		{
+			token_stream = token_stream->next;
+		}
 	}
 	return (next_logical_operator);
 }

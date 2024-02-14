@@ -22,7 +22,7 @@ OBJ_FILES_BONUS = $(addprefix $(SRC_FOLDER_BONUS), $(SRC_FILES_BONUS:%.c=%.o))
 
 NAME		= minishell
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -g3
 LINKER = -lreadline
 
 LIBFT_PATH	= libft/

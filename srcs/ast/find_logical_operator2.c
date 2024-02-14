@@ -47,11 +47,21 @@ t_bool	is_the_searched_token(const t_token_stream_node *token,
 	return (return_value);
 }
 
-void	jump_above_parenthesis(t_token_stream_node **token)
+t_token_stream_node	*jump_above_parenthesis(t_token_stream_node *token)
 {
-	*token = (*token)->next;
-	while (is_the_searched_token(*token, CLOSE_PARENTHESIS) == FALSE)
+	token = token->next;
+	while (is_the_searched_token(token, CLOSE_PARENTHESIS) == FALSE)
 	{
-		*token = (*token)->next;
+		jump_above_parenthesis_if_needed(&token);
+		token = token->next;
+	}
+	return (token->next);
+}
+
+void	jump_above_parenthesis_if_needed(t_token_stream_node **token_stream)
+{
+	if (is_the_searched_token(*token_stream, OPEN_PARENTHESIS) == TRUE)
+	{
+		*token_stream = jump_above_parenthesis(*token_stream);
 	}
 }

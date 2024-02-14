@@ -84,7 +84,8 @@ t_bool				match_mode_condition(const int mode,
 t_bool				is_the_searched_token(const t_token_stream_node *token,
 						const t_ast_token searched_type);
 // Used to jump around parenthesis so the operator inside isn't take in account
-void				jump_above_parenthesis(t_token_stream_node **token);
+void				jump_above_parenthesis_if_needed(
+						t_token_stream_node **token_stream);
 
 // ========================================================================= //
 
