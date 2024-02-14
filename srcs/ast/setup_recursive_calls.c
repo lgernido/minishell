@@ -14,7 +14,7 @@
 #include "AST.h"
 #include <stdio.h>
 
-void	setup_new_branch(t_core *core,
+static void	setup_new_branch(t_core *core,
 		t_token_stream_node *stream_for_next_node, int mode)
 {
 	ast_add_back(&core->ast, mode);
@@ -36,7 +36,8 @@ void	setup_new_branch(t_core *core,
 	}
 }
 
-void	setup_new_branches(t_core *core, t_token_stream_node *on_success,
+static void	call_recursivity_if_needed(t_core *core,
+		t_token_stream_node *on_success,
 		t_token_stream_node *on_failure)
 {
 	if (on_success != NULL)
@@ -49,7 +50,7 @@ void	setup_new_branches(t_core *core, t_token_stream_node *on_success,
 	}
 }
 
-void	get_token_stream_for_the_specified_branch(
+static void	get_token_stream_for_the_specified_branch(
 		t_token_stream_node *stream_after_last_used_node,
 		t_core *core, int mode, t_token_stream_node **dest)
 {
@@ -63,7 +64,7 @@ void	get_token_stream_for_the_specified_branch(
 	}
 }
 
-void	get_token_streams_for_new_branches(
+static void	search_token_streams_for_new_branches(
 		t_token_stream_node *stream_after_last_used_node, t_core *core,
 		t_token_stream_node **on_success, t_token_stream_node **on_failure)
 {
@@ -81,10 +82,10 @@ void	setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 	t_token_stream_node	*on_success;
 	t_token_stream_node	*on_failure;
 
-	get_token_streams_for_new_branches(stream_after_last_used_node, core,
+	search_token_streams_for_new_branches(stream_after_last_used_node, core,
 		&on_success, &on_failure);
 	ft_token_stream_clear(&stream_after_last_used_node);
-	setup_new_branches(core, on_success, on_failure);
+	call_recursivity_if_needed(core, on_success, on_failure);
 }
 
 /* find_begining of the new branches -- done
