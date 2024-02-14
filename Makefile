@@ -29,11 +29,7 @@ OBJ_FILES_BONUS = $(addprefix $(SRC_FOLDER_BONUS), $(SRC_FILES_BONUS:%.c=%.o))
 #### ARGUMENTS
 
 NAME		= minishell
-<<<<<<< HEAD
 CC			= cc
-=======
-CC			= gcc
->>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
 CFLAGS		= -Wall -Werror -Wextra -g3
 LINKER = -lreadline
 

@@ -24,11 +24,11 @@ t_bool	is_searched_operator(t_token_stream_node *node, const int mode)
 	}
 	if (match_mode_condition(mode, AND) == TRUE)
 	{
-		return_value = is_the_searched_token(node, LOGICAL_AND);
+		return_value = is_the_searched_token(node, T_AND);
 	}
 	if (return_value == FALSE && match_mode_condition(mode, OR))
 	{
-		return_value = is_the_searched_token(node, LOGICAL_OR);
+		return_value = is_the_searched_token(node, T_OR);
 	}
 	return (return_value);
 }
@@ -41,9 +41,9 @@ void	discard_parenthesis(t_token_stream_node **token_stream)
 	ft_free_node((*token_stream)->prev);
 	(*token_stream)->prev = NULL;
 	iterator = *token_stream;
-	while (is_the_searched_token(iterator, CLOSE_PARENTHESIS) != TRUE)
+	while (is_the_searched_token(iterator, T_PAR_CLOSE) != TRUE)
 	{
-		if (is_the_searched_token(*token_stream, OPEN_PARENTHESIS) == TRUE)
+		if (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
 		{
 			jump_above_parenthesis_if_needed(token_stream);
 		}

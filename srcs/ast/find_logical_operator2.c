@@ -13,8 +13,8 @@
 #include "AST.h"
 #include "minishell.h"
 
-t_bool	match_type_condition(const t_ast_token type,
-		const t_ast_token searched_type)
+t_bool	match_type_condition(const t_token_type type,
+		const t_token_type searched_type)
 {
 	t_bool	ret_value;
 
@@ -39,7 +39,7 @@ t_bool	match_mode_condition(const int mode, const int searched_mode)
 }
 
 t_bool	is_the_searched_token(const t_token_stream_node *token,
-		const t_ast_token searched_type)
+		const t_token_type searched_type)
 {
 	t_bool	return_value;
 
@@ -50,7 +50,7 @@ t_bool	is_the_searched_token(const t_token_stream_node *token,
 t_token_stream_node	*jump_above_parenthesis(t_token_stream_node *token)
 {
 	token = token->next;
-	while (is_the_searched_token(token, CLOSE_PARENTHESIS) == FALSE)
+	while (is_the_searched_token(token, T_PAR_CLOSE) == FALSE)
 	{
 		jump_above_parenthesis_if_needed(&token);
 		token = token->next;
@@ -60,7 +60,7 @@ t_token_stream_node	*jump_above_parenthesis(t_token_stream_node *token)
 
 void	jump_above_parenthesis_if_needed(t_token_stream_node **token_stream)
 {
-	if (is_the_searched_token(*token_stream, OPEN_PARENTHESIS) == TRUE)
+	if (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
 	{
 		*token_stream = jump_above_parenthesis(*token_stream);
 	}

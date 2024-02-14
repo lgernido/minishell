@@ -23,25 +23,25 @@ void	ft_create_token_stream(t_token_stream_node **stream, char *str)
 	t_token_stream_node	*new_node;
 
 	if (!ft_strncmp(str, "<", 2))
-		new_node = ft_token_stream_new(INFILE_OPERATOR, str);
+		new_node = ft_token_stream_new(T_INPUT_FILE, str);
 	else if (!ft_strncmp(str, "<<", 3))
-		new_node = ft_token_stream_new(HERE_DOC_OPERATOR, str);
+		new_node = ft_token_stream_new(T_HEREDOC, str);
 	else if (!ft_strncmp(str, ">", 2))
-		new_node = ft_token_stream_new(OUTPUT_OPERATOR, str);
+		new_node = ft_token_stream_new(T_OUTPUT_FILE, str);
 	else if (!ft_strncmp(str, ">>", 3))
-		new_node = ft_token_stream_new(APPEND_OPERATOR, str);
+		new_node = ft_token_stream_new(T_APPEND, str);
 	else if (!ft_strncmp(str, "|", 2))
-		new_node = ft_token_stream_new(PIPE, str);
+		new_node = ft_token_stream_new(T_PIPE, str);
 	else if (!ft_strncmp(str, "||", 3))
-		new_node = ft_token_stream_new(LOGICAL_OR, str);
+		new_node = ft_token_stream_new(T_OR, str);
 	else if (!ft_strncmp(str, "&&", 3))
-		new_node = ft_token_stream_new(LOGICAL_AND, str);
+		new_node = ft_token_stream_new(T_AND, str);
 	else if (!ft_strncmp(str, "(", 2))
-		new_node = ft_token_stream_new(OPEN_PARENTHESIS, str);
+		new_node = ft_token_stream_new(T_PAR_OPEN, str);
 	else if (!ft_strncmp(str, ")", 2))
-		new_node = ft_token_stream_new(CLOSE_PARENTHESIS, str);
+		new_node = ft_token_stream_new(T_PAR_CLOSE, str);
 	else
-		new_node = ft_token_stream_new(WORD, str);
+		new_node = ft_token_stream_new(T_WORD, str);
 	ft_token_stream_add_back(stream, new_node);
 }
 

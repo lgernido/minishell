@@ -14,7 +14,7 @@
 #include "minishell.h"
 #include "AST.h"
 
-t_token_stream_node	*ft_token_stream_new(t_ast_token type, void *value)
+t_token_stream_node	*ft_token_stream_new(t_token_type type, void *value)
 {
 	t_token_stream_node	*node;
 

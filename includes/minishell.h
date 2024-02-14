@@ -88,25 +88,9 @@ typedef struct s_command_node
 	struct s_command_node *prev; // parsing -- NULL if last node
 }					t_command_node;
 
-typedef enum e_ast_token
-{
-	PIPE,
-	LOGICAL_AND,
-	LOGICAL_OR,
-	WORD,
-	TO_EXPAND_STR,
-	NO_EXPAND_STR,
-	OPEN_PARENTHESIS,
-	CLOSE_PARENTHESIS,
-	INFILE_OPERATOR,
-	HERE_DOC_OPERATOR,
-	OUTPUT_OPERATOR,
-	APPEND_OPERATOR,
-}							t_ast_token;
-
 typedef struct s_token_stream_node
 {
-	t_ast_token					type;
+	t_token_type				type;
 	void						*value;
 	struct s_token_stream_node	*prev;
 	struct s_token_stream_node	*next;
@@ -123,11 +107,11 @@ typedef struct s_ast_node
 
 typedef struct s_core
 {
-	t_ast_node	*ast;
+	t_ast_node		*ast;
 	struct s_token	*token_list;
 	char			**env;
 	int				env_size;
-	int			error_code;
+	int				error_code;
 }					t_core;
 
 typedef struct s_token
@@ -148,7 +132,7 @@ void				ft_start_parse(t_core *minishell, char *str);
 
 // basic token management //
 t_token				*ft_create_token(void *token_value,
-							t_token_type token_type);
+						t_token_type token_type);
 void				ft_clear_token(void *content);
 t_token_type		ft_find_type(t_token *token);
 t_token_type		ft_define_type(char charset);

@@ -41,7 +41,7 @@ static void	wait_input(t_core *core)
 		str = readline(" minishell>");
 		check_for_empty(core, str);
 		add_history(str);
-		// split_str(core, str);
+		split_str(core, str);
 		// ft_tokenizer(str);
 		/*Input parsing fonction here,
 			w/ list and str as argument. STR need to be free in the parsing !!*/

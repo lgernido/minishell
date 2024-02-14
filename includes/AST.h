@@ -51,7 +51,7 @@ void				ft_lst_cpy(t_core	*core, t_token_stream_node *src,
 // token_strea_node_management.c
 
 // Return NULL on error
-t_token_stream_node	*ft_token_stream_new(t_ast_token type, void *value);
+t_token_stream_node	*ft_token_stream_new(t_token_type type, void *value);
 
 // return NULL on error
 void				ft_token_stream_add_back(t_token_stream_node **token_stream,
@@ -82,7 +82,7 @@ t_bool				match_mode_condition(const int mode,
 
 // return true if type match
 t_bool				is_the_searched_token(const t_token_stream_node *token,
-						const t_ast_token searched_type);
+						const t_token_type searched_type);
 // Used to jump around parenthesis so the operator inside isn't take in account
 void				jump_above_parenthesis_if_needed(
 						t_token_stream_node **token_stream);
