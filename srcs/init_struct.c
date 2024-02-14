@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_struct_and_parse_envp.c                       :+:      :+:    :+:   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:16:23 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/01/30 16:16:23 by purmerinos       ###   ########.fr       */
+/*   Updated: 2024/02/13 10:55:49 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void	node_add_back(t_command_node **list, t_command_node *node)
 void	init_core(t_core *core)
 {
 	core->error_code = 0;
+<<<<<<< HEAD
 	core->ast = NULL;
 	core->envp = NULL;
+=======
+	core->command_list = NULL;
+	core->env = NULL;
+	core->token_list = NULL;
+>>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
 }

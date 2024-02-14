@@ -1,50 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 17:48:15 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/03 17:48:16 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/05 15:03:33 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/05 15:45:46 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include "built_ins.h"
 
-static t_bool	is_flag(char *str)
+static int	unset_var(char *var, char **env)
 {
-	if (*str == '-')
-		str++;
-	else
-		return (TRUE);
-	while (*str)
+	const size_t	len = ft_strlen(var);
+
+	while (*env)
 	{
-		if (*str != 'n')
-			return (TRUE);
-		str++;
+		if (!ft_strncmp(var, *env, len))
+		{
+			free (*env);
+			*env = NULL;
+			break ;
+		}
+		env++;
 	}
-	return (FALSE);
+	return (0);
 }
 
-int	echo(char **av)
+int	ft_unset(char **av, t_core *core)
 {
-	t_bool	ending_new_line;
-
-	ending_new_line = TRUE;
+	if (!av)
+		return (0);
 	av++;
-	if (*av)
-		ending_new_line = is_flag(*av);
-	if (!ending_new_line)
-		av++;
 	while (*av)
 	{
-		printf("%s", *av);
+		if (unset_var(*av, core->env))
+			ft_clean_exit(core, MALLOC);
 		av++;
-		if (*av)
-			printf(" ");
 	}
-	if (ending_new_line)
-		printf("\n");
 	return (0);
 }

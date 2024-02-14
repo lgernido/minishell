@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/07 14:59:55 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/13 14:54:14 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "printerr.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -30,6 +31,9 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
+// For ft_pwd
+# define PWD_BUFFER 128
+# define BUFFER_LIMIT 4096
 // Error Code
 
 typedef enum e_error
@@ -46,24 +50,24 @@ typedef enum e_error
 	EXECVE_ERROR = 127
 }					t_error;
 
-typedef enum e_token_type
+typedef enum e_token_types
 {
-	AND,
-	OR,
-	SEMICOLON,
-	SIMPLE_REDIR_LEFT,
-	SIMPLE_REDIR_RIGHT,
-	DOUBLE_REDIR_LEFT,
-	DOUBLE_REDIR_RIGHT,
-	PIPELINE,
-	OPTION,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-	BACKSLASH,
-	LITERAL,
-	VARIABLE,
-	ESPACE,
-}					t_token_type;
+	T_WORD,
+	T_REDIRECT,
+	T_PIPE,
+	T_SEP,
+	T_NEWLINE,
+	T_AND,
+	T_OR,
+	T_PAR_OPEN,
+	T_PAR_CLOSE,
+	T_INPUT_FILE,
+	T_OUTPUT_FILE,
+	T_HEREDOC,
+	T_APPEND,
+	T_TO_EXPAND,
+	T_NO_EXPAND,
+}						t_token_type;
 
 typedef enum e_bool
 {
@@ -120,25 +124,31 @@ typedef struct s_ast_node
 typedef struct s_core
 {
 	t_ast_node	*ast;
-	char		**envp;
+	struct s_token	*token_list;
+	char			**env;
+	int				env_size;
 	int			error_code;
 }					t_core;
 
 typedef struct s_token
 {
-	void			*value;
-	t_token_type	type;
+	char			*value;
+	int				type;
+	struct s_token	*next;
+	struct s_token	*prev;
 }					t_token;
 
 extern atomic_int	g_signal;
 
 // ========================================================================= //
+/*PARSING*/
 
-// tokenizer.c //
+// parser.c //
+void				ft_start_parse(t_core *minishell, char *str);
 
 // basic token management //
 t_token				*ft_create_token(void *token_value,
-						t_token_type token_type);
+							t_token_type token_type);
 void				ft_clear_token(void *content);
 t_token_type		ft_find_type(t_token *token);
 t_token_type		ft_define_type(char charset);
@@ -148,8 +158,22 @@ void				ft_tokenizer(char *str);
 void				ft_find_full_token(t_list **start, t_token_type type);
 t_token				*ft_merge_token(t_token *token_1, t_token *token_2,
 						t_token_type type);
+// parser_utils.c//
+int					ft_quotes(char *s, int pos);
+int					ft_escape(char *s, int pos);
+int					ft_find_char_str(char c, char *str);
+int					ft_samestr(char *s1, char *s2);
 
-// fix_syntax.c //
+// tokenizer.c//
+int					ft_check_error(t_token *token);
+int					ft_define_type(t_token *tmp);
+char				*ft_tokenizer(t_core *minishell);
+void				ft_fix_redirect_types(t_token token_to_fix);
+// split_tokens.c //
+int					ft_split_utils(int i, char *str, char *sep, int sign);
+int					ft_split_tokens2(t_core *minishell, char *str, int *i,
+						t_token **start);
+void				ft_split_tokens(t_core *minishell, char *str);
 
 // fix operator tokens //
 void				ft_fix_syntax(t_token token);
@@ -160,6 +184,12 @@ void				ft_browse_list(t_list **start);
 // utils //
 t_bool				ft_is_operator(t_token_type type);
 void				ft_error_found(char *msg1, char *arg, char *msg2);
+// tokenizer_utils.c //
+t_token				*ft_create_arg_token(char *word, int type);
+t_token				*ft_create_token(t_core *minishell, int i, char *str);
+void				ft_clear_token_list(t_token **begin, void (*del)(void *));
+int					ft_token_list_size(t_token **begin);
+void				ft_add_token_list(t_token **begin, t_token *new);
 
 // ========================================================================= //
 
@@ -175,6 +205,9 @@ t_command_node		*init_node(t_command_node *node);
 void				node_add_back(t_command_node **list, t_command_node *node);
 
 // ========================================================================= //
+
+// parse_envp.c
+void				parse_envp(char **envp, t_core *core);
 
 // clean fonctions in clean_exit.c
 
@@ -199,7 +232,7 @@ void				ft_free_node(t_token_stream_node *node);
 
 // ========================================================================= //
 
-// Signal handler in signal.c \\
+// Signal handler in signal.c //
 
 // init signal handling
 void				init_sig(void);
@@ -209,14 +242,26 @@ void				react_sig(t_core *core);
 
 // ========================================================================= //
 
-// utils for bult_in in built_in_utils.c
+// Used to retrieve a var from env. var should include '$'
+// --> char *str = ft_getenv(core, "$PATH"). return str should be fried
+// find it in built_ins_utils.c
+char				*ft_getenv(t_core *core, char *var);
 
-int					get_number_of_args(char **av);
+// ========================================================================= //
+
+// update shell level at start in update_shell_level.c
+void				update_shell_lvl(t_core *core);
 
 // ========================================================================= //
 
 // built-ins
-int					echo(char **av);
+int					echo(char **av, t_core *core); // echo.c
+int					ft_cd(char **av, t_core *core); // cd.c
+int					ft_exit(char **av, t_core *core); // exit.c
+int					ft_pwd(char **av, t_core *core);
+int					ft_env(char **av, t_core *core); // env.c
+int					ft_unset(char **av, t_core *core); // unset.c
+int					ft_export(char **av, t_core *core); // export.c
 
 // Entry point for ast setup
 void				ast_init(t_token_stream_node *token_stream, t_core *core);
