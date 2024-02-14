@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/13 14:51:19 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/14 09:12:05 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_split_tokens2(t_core *minishell, char *str, int *i, t_token **start)
 	if ((ft_find_char_str(str[*i], "|;<>&()") && *i > 0
 			&& !ft_find_char_str(str[*i - 1], "|;<>&()")) && !ft_quotes(str, *i)
 		&& !ft_escape(str, *i - 1))
-		ft_add_token_list(start, ft_create_token(minishell, *i));
+		ft_add_token_list(start, ft_create_token(minishell, *i, str));
 	return (1);
 }
 
@@ -74,13 +74,13 @@ void	ft_split_tokens(t_core *minishell, char *str)
 			|| ft_split_utils(i, str, "<", 1) || ft_split_utils(i, str, "<", 0)
 			|| ft_split_utils(i, str, "&", 2) || ft_split_utils(i, str, ";()",
 				3))
-			ft_add_token_list(start, ft_create_token(minishell, i + 1));
+			ft_add_token_list(start, ft_create_token(minishell, i + 1, str));
 		i++;
 	}
 	if (i > 0)
 	{
 		ft_add_token_list(&minishell->token_list, ft_create_token(minishell,
-				i));
+				i, str));
 		ft_add_token_list(&minishell->token_list, ft_create_arg_token("newline",
 				T_NEWLINE));
 	}

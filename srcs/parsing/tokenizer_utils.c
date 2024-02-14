@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/13 14:08:25 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/14 09:20:49 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,17 @@ void	ft_clear_token_list(t_token **begin, void (*del)(void *))
 t_token	*ft_create_token(t_core *minishell, int i, char *str)
 {
 	t_token	*new;
+	int		token_length;
 
 	if (!(new = ft_calloc(1, sizeof(t_token))))
 		ft_clean_exit(minishell);
-	new->value = /*faire marcher ft_substr(str, i, ???);*/
+	token_length = 0;
+	while (str[i + token_length] != '\0' && !ft_is_separator(str[i
+			+ token_length]))
+	{
+		token_length++;
+	}
+	new->value = ft_substr(str, i, token_length);
 	return (new);
 }
 
