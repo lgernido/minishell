@@ -88,22 +88,15 @@ void	ft_ast_clear(t_ast_node **node)
 
 void	ft_clean_exit(t_core *core, int code)
 {
-<<<<<<< HEAD
-	if (core->envp)
-		ft_free_tab(core->envp);
 	if (core->ast)
 	{
 		climb_tree_to_origin(&core->ast);
 		ft_ast_clear(&core->ast);
 	}
-=======
 	if (core->env)
 		ft_free_tab(core->env);
-	if (core->command_list)
-		ft_command_clear(&core->command_list);
 	if (core->token_list)
 		ft_clear_token_list(&core->token_list, free);
->>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
 	rl_clear_history();
 	exit(code);
 }
