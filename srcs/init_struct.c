@@ -43,12 +43,7 @@ void	node_add_back(t_command_node **list, t_command_node *node)
 void	init_core(t_core *core)
 {
 	core->error_code = 0;
-<<<<<<< HEAD
 	core->ast = NULL;
-	core->envp = NULL;
-=======
-	core->command_list = NULL;
 	core->env = NULL;
 	core->token_list = NULL;
->>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
 }
