@@ -11,15 +11,13 @@ BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c\
 						update_shell_lvl.c $(BUILT_IN_FILES)\
 
-<<<<<<< HEAD
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
 						token_stream_node_management.c clear_stream_and_exit.c)
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c tokenizer.c ast_tester.c\
 						$(AST_FILES)
-=======
->>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
+
 SRC_FILES_BONUS = 
 BUILD = build/
 
@@ -65,11 +63,8 @@ $(NAME): $(OBJ_FILES)
 
 build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}
-<<<<<<< HEAD
 	@mkdir -p ${BUILD}/${AST_DIR}
-=======
 	@mkdir -p ${BUILD}/${BUILT_IN_DIR}
->>>>>>> 8ec3da36f82fac68069ee142251b99f128c116cb
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 
