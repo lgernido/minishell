@@ -42,7 +42,7 @@ void				climb_tree_to_origin(t_ast_node **node); // ast_new_node.c
 // Limit can be set to NULL to copy the new list.
 // Memory address are not shared, truly copy everything
 
-void				ft_lst_cpy(t_core	*core, t_token_stream_node *src,
+void				ft_lst_cpy(t_token_stream_node *src,
 						t_token_stream_node **dest, t_token_stream_node *limit);
 // in token_stream_copy.c
 

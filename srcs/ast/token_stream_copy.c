@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "AST.h"
 
-void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
+void	ft_lst_cpy(t_token_stream_node *src,
 	t_token_stream_node **dest, t_token_stream_node *limit)
 {
 	t_token_stream_node	*node;
@@ -24,9 +24,11 @@ void	ft_lst_cpy(t_core	*core, t_token_stream_node *src,
 		if (node == NULL)
 		{
 			ft_token_stream_clear(dest);
-			clear_stream_and_exit(core, src, MALLOC);
+			errno = ENOMEM;
+			return ;
 		}
 		ft_token_stream_add_back(dest, node);
 		src = src->next;
 	}
+	return ;
 }

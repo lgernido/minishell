@@ -60,7 +60,7 @@ static void	get_token_stream_for_the_specified_branch(
 		(stream_after_last_used_node, mode);
 	if (next_searched_operator != NULL)
 	{
-		ft_lst_cpy(core, next_searched_operator->next, dest, NULL);
+		ft_lst_cpy(next_searched_operator->next, dest, NULL);
 	}
 }
 
@@ -87,8 +87,3 @@ void	setup_recursive_calls(t_token_stream_node *stream_after_last_used_node,
 	ft_token_stream_clear(&stream_after_last_used_node);
 	call_recursivity_if_needed(core, on_success, on_failure);
 }
-
-/* find_begining of the new branches -- done
-	 create new asts nodes
-	 copy the stream in new nodes
-*/	

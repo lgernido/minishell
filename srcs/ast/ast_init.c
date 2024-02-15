@@ -17,7 +17,7 @@ static void	copy_token_stream_relevant_for_current_node(t_core *core,
 		t_token_stream_node *token_stream,
 		t_token_stream_node *next_logical_operator)
 {
-	ft_lst_cpy(core, token_stream, &core->ast->token_stream,
+	ft_lst_cpy(token_stream, &core->ast->token_stream,
 		next_logical_operator);
 }
 
