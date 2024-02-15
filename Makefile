@@ -19,7 +19,7 @@ PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens
 								tokenizer.c tokenizer_utils.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES)\
+						$(AST_FILES) $(BUILT_IN_FILES) $(PARSING_FILES)\
 
 
 
