@@ -10,16 +10,19 @@ BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils
 
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
-						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
-						token_stream_node_management.c clear_stream_and_exit.c\
-						bridge_between_node.c ast_handling_utils.c template.c)
+						setup_recursive_calls.c token_stream_node_management.c\
+						clear_stream_and_exit.c bridge_between_node.c ast_handling_utils.c)
+
+SEARCH_DIR = search_in_token_stream/
+SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
+									 find_logical_operator2.c searching_functions1.c)
 
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES)\
+						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES)\
 
 
 
@@ -67,6 +70,7 @@ build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}/${AST_DIR}
 	@mkdir -p ${BUILD}/${BUILT_IN_DIR}
 	@mkdir -p $(BUILD)/$(PARSING_DIR)
+	@mkdir -p $(BUILD)/$(SEARCH_DIR)
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 
