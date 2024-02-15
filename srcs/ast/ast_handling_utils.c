@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_stream_copy.c                                :+:      :+:    :+:   */
+/*   ast_handling_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/12 18:25:47 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/12 18:25:48 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/15 16:45:13 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/15 16:45:13 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "AST.h"
 
-void	ft_lst_cpy(t_token_stream_node *src,
-	t_token_stream_node **dest, t_token_stream_node *limit)
+void	attach_token_stream(t_ast_node **node, t_token_stream_node **to_attach)
 {
-	t_token_stream_node	*node;
+	(*node)->token_stream = *to_attach;
+	*to_attach = NULL;
+}
 
-	while (src != limit)
-	{
-		node = ft_token_stream_new(src->type, src->value);
-		if (node == NULL)
-		{
-			ft_token_stream_clear(dest);
-			errno = ENOMEM;
-			return ;
-		}
-		ft_token_stream_add_back(dest, node);
-		src = src->next;
-	}
-	return ;
+void	detach_token_stream(t_ast_node **node, t_token_stream_node **to_attach)
+{
+	*to_attach = (*node)->token_stream;
+	(*node)->token_stream = NULL;
+}
+
+void	reset_ast(t_ast_node **node)
+{
+	*node = (*node)->parent;
 }
