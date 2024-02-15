@@ -62,16 +62,11 @@ static void	update_stream_if_needed(t_token_stream_node **token_stream)
 }
 
 static t_bool	search_for_relevant_operator(t_token_stream_node *looked_node,
-		t_token_stream_node **next_logical_operator, int mode)
+		int mode)
 {
 	t_bool	return_value;
 
-	return_value = FALSE;
-	if (is_searched_operator(looked_node, mode) == TRUE)
-	{
-		*next_logical_operator = looked_node;
-		return_value = TRUE;
-	}
+	return_value = is_searched_operator(looked_node, mode);
 	return (return_value);
 }
 
@@ -84,9 +79,9 @@ t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
 	while (token_stream != NULL)
 	{
 		jump_above_parenthesis_if_needed(&token_stream);
-		if (search_for_relevant_operator(token_stream, &next_logical_operator,
-				mode) == TRUE)
+		if (search_for_relevant_operator(token_stream, mode) == TRUE)
 		{
+			next_logical_operator = token_stream;
 			break ;
 		}
 		update_stream_if_needed(&token_stream);
