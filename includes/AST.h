@@ -69,8 +69,8 @@ void				climb_stream_to_origin(t_token_stream_node **token_stream);
 void				discard_parenthesis(t_token_stream_node **token_stream);
 
 // will return a pointer to the first operator. Mode : AND, OR, ANY
-t_token_stream_node	*find_logical_operator(t_token_stream_node *token_stream,
-						int mode);
+t_token_stream_node	*find_searched_token(t_token_stream_node *token_stream,
+						t_bool (*searched_token)(t_token_stream_node *token));
 
 // ========================================================================= //
 
@@ -143,5 +143,10 @@ t_ast_node			*return_relevant_node(t_ast_node *node, int mode);
 void				setup_new_node(t_core *core,
 						t_token_stream_node **on_success,
 						t_token_stream_node **on_failure, int mode);
+
+t_bool				find_logical_and(t_token_stream_node *token);
+t_bool				find_logical_or(t_token_stream_node *token);
+t_bool				find_logical_operator(t_token_stream_node *token);
+t_bool				find_pipe(t_token_stream_node *token);
 
 #endif // !AST_H

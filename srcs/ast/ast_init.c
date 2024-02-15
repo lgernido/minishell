@@ -49,7 +49,8 @@ void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 	t_token_stream_node	*next_logical_operator;
 
 	check_for_parenthesis_to_trim(&token_stream);
-	next_logical_operator = find_logical_operator(token_stream, ANY);
+	next_logical_operator = find_searched_token(token_stream,
+			find_logical_operator);
 	copy_token_stream_relevant_for_current_node(core,
 		token_stream, next_logical_operator);
 	setup_recursive_calls_if_needed_or_exit(core, &next_logical_operator,
