@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "AST.h"
 #include "minishell.h"
 
 void	ft_clean_node(t_command_node *node)
@@ -39,12 +40,61 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
+void	ft_free_node(t_token_stream_node *node)
+{
+	if (node == NULL)
+		return ;
+	if (node->value)
+	{
+		free(node->value);
+	}
+	free(node);
+}
+
+void	ft_clear_token_stream_if_needed(t_token_stream_node **token_stream)
+{
+	if (*token_stream != NULL)
+	{
+		ft_token_stream_clear(token_stream);
+	}
+}
+
+void	ft_token_stream_clear(t_token_stream_node **token_stream)
+{
+	t_token_stream_node	*tmp;
+
+	climb_stream_to_origin(token_stream);
+	while (*token_stream != NULL)
+	{
+		tmp = (*token_stream)->next;
+		ft_free_node(*token_stream);
+		*token_stream = tmp;
+	}
+	*token_stream = NULL;
+}
+
+void	ft_ast_clear(t_ast_node **node)
+{
+	if (*node == NULL)
+		return ;
+	ft_ast_clear(&(*node)->on_success);
+	ft_ast_clear(&(*node)->on_failure);
+	if ((*node)->command_list != NULL)
+		ft_command_clear(&(*node)->command_list);
+	if ((*node)->token_stream)
+		ft_token_stream_clear(&(*node)->token_stream);
+	free(*node);
+}
+
 void	ft_clean_exit(t_core *core, int code)
 {
+	if (core->ast)
+	{
+		climb_tree_to_origin(&core->ast);
+		ft_ast_clear(&core->ast);
+	}
 	if (core->env)
 		ft_free_tab(core->env);
-	if (core->command_list)
-		ft_command_clear(&core->command_list);
 	if (core->token_list)
 		ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
