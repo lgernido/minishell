@@ -65,10 +65,3 @@ void	ast_init(t_token_stream_node *token_stream, t_core *core)
 	}
 	setup_current_node(token_stream, core);
 }
-
-/* So : - go trough token_stream till logical opertor -- good
-				- copy in the node from start to this point -- good 
-				- setup both recursivity calls
-				- free token stream
-				- call recursivity
-*/
