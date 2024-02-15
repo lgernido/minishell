@@ -77,15 +77,14 @@ typedef enum e_bool
 
 typedef struct s_command_node
 {
-	int fd_infile;               // exec
-	char *infile;                // parsing -- NULL if pipe
-	int fd_outfile;              // exec
-	char *outfile;               // parsing -- NULL if pipe
-	int pipe[2];                 // exec
-	t_bool here_doc;             // parsing -- pas sur que y en a besoin
-	char **cmd;                  // parsing
-	struct s_command_node *next; // parsing -- NULL if first node
-	struct s_command_node *prev; // parsing -- NULL if last node
+	int						fd_infile;	
+	char					*infile;
+	int						fd_outfile;
+	char					*outfile;
+	int						pipe[2];
+	char					**cmd;
+	struct s_command_node	*next;
+	struct s_command_node	*prev;
 }					t_command_node;
 
 typedef struct s_token_stream_node
@@ -100,6 +99,7 @@ typedef struct s_ast_node
 {
 	t_command_node		*command_list;
 	t_token_stream_node	*token_stream;
+	t_token_stream_node	**split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
 	struct s_ast_node	*on_failure;
@@ -251,3 +251,15 @@ void				ast_init(t_token_stream_node *token_stream, t_core *core);
 void				split_str(t_core *core, char *str);
 
 #endif
+
+/* 
+Exec pseudo code :
+	- Resolve var and wildcar
+	- split into sub list by pipes
+	- resolve infiles
+	- resolve outfiles
+	- build command
+	- setup pipes and dup 
+	- check access
+	- exec
+*/
