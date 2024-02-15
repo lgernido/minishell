@@ -95,8 +95,8 @@ void	ft_clean_exit(t_core *core, int code)
 	}
 	if (core->env)
 		ft_free_tab(core->env);
-	if (core->token_list)
-		ft_clear_token_list(&core->token_list, free);
+	// if (core->token_list)
+	// 	ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
 	exit(code);
 }

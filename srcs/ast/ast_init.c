@@ -19,6 +19,7 @@ static void	copy_token_stream_relevant_for_current_node(t_core *core,
 {
 	ft_lst_cpy(token_stream, &core->ast->token_stream,
 		next_logical_operator);
+	check_for_error(core, &token_stream, NULL);
 }
 
 static void	check_for_parenthesis_to_trim(t_token_stream_node **token_stream)
@@ -60,7 +61,7 @@ void	ast_init(t_token_stream_node *token_stream, t_core *core)
 	core->ast = ast_new_node();
 	if (core->ast == NULL)
 	{
-		clear_stream_and_exit(core, token_stream, MALLOC);
+		clear_stream_and_exit(core, &token_stream, MALLOC);
 	}
 	setup_current_node(token_stream, core);
 }
