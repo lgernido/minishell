@@ -74,6 +74,19 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 	*token_stream = NULL;
 }
 
+void	ft_split_stream_clean(t_token_stream_node **split_streams)
+{
+	size_t	i;
+
+	i = 0;
+	while (split_streams[i])
+	{
+		ft_token_stream_clear(&((split_streams[i])));
+		i++;
+	}
+	free(split_streams);
+}
+
 void	ft_ast_clear(t_ast_node **node)
 {
 	if (*node == NULL)
@@ -84,6 +97,8 @@ void	ft_ast_clear(t_ast_node **node)
 		ft_command_clear(&(*node)->command_list);
 	if ((*node)->token_stream)
 		ft_token_stream_clear(&(*node)->token_stream);
+	if ((*node)->split_streams)
+		ft_split_stream_clean((*node)->split_streams);
 	free(*node);
 }
 

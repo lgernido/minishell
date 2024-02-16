@@ -113,7 +113,7 @@ void	tokenize_str(t_core *core, char **str)
 	climb_tree_to_origin(&core->ast);
 	print_tree(core->ast);
 	split_token_stream_by_pipes(core->ast);
-	print_splited_stream(core->ast->split_streams);
+	// print_splited_stream(core->ast->split_streams);
 	// ft_token_stream_clear(&stream);
 }
 
