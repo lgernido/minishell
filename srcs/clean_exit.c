@@ -40,15 +40,16 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
-void	ft_free_node(t_token_stream_node *node)
+void	ft_free_node(t_token_stream_node **node)
 {
-	if (node == NULL)
+	if (*node == NULL)
 		return ;
-	if (node->value)
+	if ((*node)->value)
 	{
-		free(node->value);
+		free((*node)->value);
 	}
-	free(node);
+	free(*node);
+	*node = NULL;
 }
 
 void	ft_clear_token_stream_if_needed(t_token_stream_node **token_stream)
@@ -67,10 +68,23 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 	while (*token_stream != NULL)
 	{
 		tmp = (*token_stream)->next;
-		ft_free_node(*token_stream);
+		ft_free_node(token_stream);
 		*token_stream = tmp;
 	}
 	*token_stream = NULL;
+}
+
+void	ft_split_stream_clean(t_token_stream_node **split_streams)
+{
+	size_t	i;
+
+	i = 0;
+	while (split_streams[i])
+	{
+		ft_token_stream_clear(&((split_streams[i])));
+		i++;
+	}
+	free(split_streams);
 }
 
 void	ft_ast_clear(t_ast_node **node)
@@ -83,6 +97,8 @@ void	ft_ast_clear(t_ast_node **node)
 		ft_command_clear(&(*node)->command_list);
 	if ((*node)->token_stream)
 		ft_token_stream_clear(&(*node)->token_stream);
+	if ((*node)->split_streams)
+		ft_split_stream_clean((*node)->split_streams);
 	free(*node);
 }
 
@@ -95,8 +111,8 @@ void	ft_clean_exit(t_core *core, int code)
 	}
 	if (core->env)
 		ft_free_tab(core->env);
-	if (core->token_list)
-		ft_clear_token_list(&core->token_list, free);
+	// if (core->token_list)
+	// 	ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
 	exit(code);
 }

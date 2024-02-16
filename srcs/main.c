@@ -42,6 +42,8 @@ static void	wait_input(t_core *core)
 		str = readline(" minishell>");
 		check_for_empty(core, str);
 		add_history(str);
+		split_str(core, str);
+		// ft_tokenizer(str);
 		// // split_str(core, str);
 		// ft_split_tokens(core, str);
 		// tmp = core->token_list;

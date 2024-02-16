@@ -60,6 +60,19 @@ void	print_token_stream(t_token_stream_node *stream)
 	}
 }
 
+void	print_splited_stream(t_token_stream_node **split_streams)
+{
+	int	i = 0;
+	while (split_streams[i] != NULL)
+	{
+		printf("\nNew token stream :\n");
+		print_token_stream(split_streams[i]);
+		fflush(stdout);
+		i++;
+	}
+	printf("\n");
+}
+
 void	print_tree(t_ast_node *ast)
 {
 	t_ast_node *tmp;
@@ -99,6 +112,8 @@ void	tokenize_str(t_core *core, char **str)
 	fflush(stdout);
 	climb_tree_to_origin(&core->ast);
 	print_tree(core->ast);
+	split_token_stream_by_pipes(core->ast);
+	// print_splited_stream(core->ast->split_streams);
 	// ft_token_stream_clear(&stream);
 }
 

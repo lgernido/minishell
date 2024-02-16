@@ -47,12 +47,13 @@ static void	try_setup_new_nodes(t_core *core,
 
 static void	get_token_stream_for_the_specified_branch(
 		t_token_stream_node *stream_after_last_used_node,
-		int mode, t_token_stream_node **dest)
+		t_bool (*matching_function)(t_token_stream_node *token),
+		t_token_stream_node **dest)
 {
 	t_token_stream_node	*next_searched_operator;
 
-	next_searched_operator = find_logical_operator
-		(stream_after_last_used_node, mode);
+	next_searched_operator = find_searched_token(stream_after_last_used_node,
+			matching_function);
 	if (next_searched_operator != NULL)
 	{
 		ft_lst_cpy(next_searched_operator->next, dest, NULL);
@@ -66,10 +67,10 @@ static void	search_token_streams_for_new_branches(
 	*on_success = NULL;
 	*on_failure = NULL;
 	get_token_stream_for_the_specified_branch(stream_after_last_used_node,
-		AND, on_success);
+		find_logical_and, on_success);
 	check_for_error(core, &stream_after_last_used_node, NULL);
 	get_token_stream_for_the_specified_branch(stream_after_last_used_node,
-		OR, on_failure);
+		find_logical_or, on_failure);
 	check_for_error(core, &stream_after_last_used_node, NULL);
 }
 
