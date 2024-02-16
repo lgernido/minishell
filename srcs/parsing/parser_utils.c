@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/16 09:34:34 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:08:02 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	ft_escape(char *s, int pos)
 	}
 	return (count % 2);
 }
+
 /*
 See if a position in s is between brackets
 s = array in which to check for brackets

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/16 09:07:28 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 13:37:01 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ static int	ft_dprintf(int fd, const char *format, ...)
 void	ft_start_parse(t_core *minishell, char *str)
 {
 	char	*token;
-	t_token	*tmp;
 
-	if (!ft_is_ascii(str))
+	if (ft_is_ascii(str))
 	{
 		ft_dprintf(2, "minishell: invalid ascii characters found in string\n");
 		ft_clean_exit(minishell, BAD_COMMAND);
@@ -70,7 +69,4 @@ void	ft_start_parse(t_core *minishell, char *str)
 			token);
 		ft_clean_exit(minishell, BAD_COMMAND);
 	}
-	tmp = minishell->token_list;
-	// while (tmp)
-	// // next ->parse tokens in commands
 }

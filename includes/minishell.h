@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/16 09:50:16 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 11:22:41 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,23 +151,13 @@ int								ft_split_tokens2(t_core *minishell, char *str,
 									int *i, t_token **start);
 void							ft_split_tokens(t_core *minishell, char *str);
 
-// fix operator tokens //
-void							ft_fix_syntax(t_token token);
-void							ft_fix_other_operators(t_token *token);
-void							ft_fix_redirection(t_token *token);
-void							ft_browse_list(t_list **start);
-
-// utils //
-t_bool							ft_is_operator(t_token_type type);
-void							ft_error_found(char *msg1, char *arg,
-									char *msg2);
 // tokenizer_utils.c //
 t_token							*ft_create_arg_token(t_core *minishell,
 									char *word, int type);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
 void							ft_clear_token_list(t_token **begin,
-									void (*del)(void *));
+				 					void (*del)(void *));
 int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
