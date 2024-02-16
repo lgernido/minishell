@@ -42,10 +42,8 @@ static void	wait_input(t_core *core)
 		str = readline(" minishell>");
 		check_for_empty(core, str);
 		add_history(str);
-<<<<<<< HEAD
 		split_str(core, str);
 		// ft_tokenizer(str);
-=======
 		// // split_str(core, str);
 		// ft_split_tokens(core, str);
 		// tmp = core->token_list;
@@ -55,7 +53,6 @@ static void	wait_input(t_core *core)
 		// 	printf("token type :%d\n", tmp->type);
 		// 	tmp = tmp->next;
 		// }
->>>>>>> 7b689c7b068cbc1e752fa673e9f25873072159d9
 		/*Input parsing fonction here,
 			w/ list and str as argument. STR need to be free in the parsing !!*/
 		free(str);
