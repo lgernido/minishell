@@ -38,10 +38,10 @@ void				climb_tree_to_origin(t_ast_node **node); // ast_new_node.c
 
 // ========================================================================= //
 
-// Will copy every node of the list from given starting point to limit
-// Limit can be set to NULL to copy the new list.
+// Will copy every node of the list from given starting point to limit.
+// Limit can be set to NULL to copy the whole list.
 // Memory address are not shared, truly copy everything
-// On mempry failure, will clea dest , set errno to ENOMEM, then return
+// On mempry failure, will clear dest , set errno to ENOMEM, then return
 void				ft_lst_cpy(t_token_stream_node *src,
 						t_token_stream_node **dest, t_token_stream_node *limit);
 // in token_stream_copy.c
@@ -148,5 +148,9 @@ t_bool				find_logical_and(t_token_stream_node *token);
 t_bool				find_logical_or(t_token_stream_node *token);
 t_bool				find_logical_operator(t_token_stream_node *token);
 t_bool				find_pipe(t_token_stream_node *token);
+
+void				fill_stream(t_ast_node *node,
+						const size_t index_in_split_streams);
+void				split_token_stream_by_pipes(t_ast_node *node);
 
 #endif // !AST_H

@@ -208,7 +208,7 @@ void				ft_clear_token_stream_if_needed(
 void				ft_token_stream_clear(t_token_stream_node **token_stream);
 
 // Clean the given node, for the token stream
-void				ft_free_node(t_token_stream_node *node);
+void				ft_free_node(t_token_stream_node **node);
 
 // ========================================================================= //
 
