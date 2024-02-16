@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/14 09:12:05 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:51:08 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_split_tokens2(t_core *minishell, char *str, int *i, t_token **start)
 	if (ft_find_char_str(str[*i], " \t") && !ft_quotes(str, *i)
 		&& !ft_escape(str, *i - 1))
 	{
-		ft_add_token_list(start, ft_create_token(minishell, *i));
+		ft_add_token_list(start, ft_create_token(minishell, *i, str));
 		(*i)++;
 		return (0);
 	}
@@ -79,9 +79,9 @@ void	ft_split_tokens(t_core *minishell, char *str)
 	}
 	if (i > 0)
 	{
-		ft_add_token_list(&minishell->token_list, ft_create_token(minishell,
-				i, str));
-		ft_add_token_list(&minishell->token_list, ft_create_arg_token("newline",
-				T_NEWLINE));
+		ft_add_token_list(&minishell->token_list, ft_create_token(minishell, i,
+				str));
+		ft_add_token_list(&minishell->token_list, ft_create_arg_token(minishell,
+				"newline", T_NEWLINE));
 	}
 }
