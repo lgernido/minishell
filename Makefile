@@ -11,7 +11,8 @@ BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						find_logical_opertor.c find_logical_operator2.c setup_recursive_calls.c\
-						token_stream_node_management.c clear_stream_and_exit.c)
+						token_stream_node_management.c clear_stream_and_exit.c\
+						bridge_between_node.c ast_handling_utils.c)
 
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
