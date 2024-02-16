@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/13 14:52:27 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:16:08 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	ft_define_type(t_token *tmp)
 
 void	ft_fix_redirect_types(t_token token_to_fix)
 {
-	if (ft_samestr(token_to_fix->value, ">"))
-		tmp->type = T_OUTPUT_FILE;
-	else if (ft_samestr(token_to_fix->value, ">>"))
-		tmp->type = T_APPEND;
-	else if (ft_samestr(token_to_fix->value, "<"))
-		tmp->type = T_INPUT_FILE;
-	else if (ft_samestr(token_to_fix->value = "<<"))
-		tmp->type = T_HEREDOC;
+	if (ft_samestr(token_to_fix.value, ">"))
+		token_to_fix.type = T_OUTPUT_FILE;
+	else if (ft_samestr(token_to_fix.value, ">>"))
+		token_to_fix.type = T_APPEND;
+	else if (ft_samestr(token_to_fix.value, "<"))
+		token_to_fix.type = T_INPUT_FILE;
+	else if (ft_samestr(token_to_fix.value, "<<"))
+		token_to_fix.type = T_HEREDOC;
 }
 char	*ft_tokenizer(t_core *minishell)
 {
@@ -79,7 +79,7 @@ char	*ft_tokenizer(t_core *minishell)
 			tmp->type = T_WORD;
 		if (!ft_check_error(tmp))
 		{
-			ft_fixe_redirect_types(tmp);
+			ft_fix_redirect_types(*tmp);
 			return (tmp->value);
 		}
 		tmp = tmp->next;

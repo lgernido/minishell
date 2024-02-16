@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/14 09:20:56 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:34:34 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ int	ft_samestr(char *s1, char *s2)
 	return (0);
 }
 
+void	ft_strdel(char **str)
+{
+	free(*str);
+	*str = NULL;
+}
 /*
 This is clean code ! ><
 */
@@ -37,7 +42,7 @@ int	ft_find_char_str(char c, char *str)
 		return (0);
 }
 
-bool	ft_is_separator(char c)
+t_bool	ft_is_separator(char c)
 {
 	return (c == ' ' || c == '\t' || c == ';');
 }
@@ -74,10 +79,10 @@ int	ft_quotes(char *s, int pos)
 	i = 0;
 	while (i <= pos)
 	{
-		if (s[i] == 34 && (i == 0 || !is_escaped(s, i - 1)) && single_quotes
+		if (s[i] == 34 && (i == 0 || !ft_escape(s, i - 1)) && single_quotes
 			% 2 == 0)
 			double_quotes++;
-		if (s[i] == 39 && (i == 0 || single_quotes % 2 != 0 || !is_escaped(s, i
+		if (s[i] == 39 && (i == 0 || single_quotes % 2 != 0 || !ft_escape(s, i
 					- 1)) && double_quotes % 2 == 0)
 			single_quotes++;
 		i++;

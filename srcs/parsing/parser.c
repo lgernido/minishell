@@ -6,11 +6,51 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/13 10:03:05 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/02/16 09:07:28 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_is_ascii(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] < 0 || str[i] > 127)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int	ft_dprintf(int fd, const char *format, ...)
+{
+	int		i;
+	int		size;
+	va_list	ap;
+
+	i = 0;
+	size = 0;
+	if (format == NULL)
+		return (-1);
+	va_start(ap, format);
+	while (format[i])
+	{
+		if (format[i] == '%')
+		{
+			size += ft_format(ap, format[i + 1]);
+			i++;
+		}
+		else
+			size += write(fd, &format[i], 1);
+		i++;
+	}
+	va_end(ap);
+	return (size);
+}
 
 void	ft_start_parse(t_core *minishell, char *str)
 {
@@ -20,16 +60,17 @@ void	ft_start_parse(t_core *minishell, char *str)
 	if (!ft_is_ascii(str))
 	{
 		ft_dprintf(2, "minishell: invalid ascii characters found in string\n");
-		return ;
+		ft_clean_exit(minishell, BAD_COMMAND);
 	}
 	ft_split_tokens(minishell, str);
 	token = ft_tokenizer(minishell);
 	if (token)
 	{
-		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n", token);
-		return ;
+		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
+			token);
+		ft_clean_exit(minishell, BAD_COMMAND);
 	}
 	tmp = minishell->token_list;
-	while (tmp)
-	//next ->parse tokens in commands
+	// while (tmp)
+	// // next ->parse tokens in commands
 }
