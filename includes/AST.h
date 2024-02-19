@@ -162,5 +162,7 @@ void				fill_stream(t_ast_node *node,
 						const size_t index_in_split_streams);
 void				split_token_stream_by_pipes(t_ast_node *node);
 void				shrink_stream(t_token_stream_node **stream);
+t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
+		t_bool (*searching_function)(t_token_stream_node *token));
 
 #endif // !AST_H

@@ -115,7 +115,10 @@ void	tokenize_str(t_core *core, char **str)
 	split_token_stream_by_pipes(core->ast);
 	// print_splited_stream(core->ast->split_streams);
 	shrink_stream(core->ast->split_streams);
-	print_splited_stream(core->ast->split_streams);
+	t_token_stream_node *input = build_operator_stream(core->ast->split_streams, find_input_operator);
+	t_token_stream_node *output = build_operator_stream(core->ast->split_streams, find_output_operator);
+	print_token_stream(input);
+	print_token_stream(output);
 	// ft_token_stream_clear(&stream);
 	// ft_ast_clear(&core->ast);
 }
