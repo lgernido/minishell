@@ -21,7 +21,7 @@ SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
-EXPAND_DIR = expand_vars_and_wildcard/
+EXPAND_DIR = expand_and_split/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
 							 fill_split_streams.c split_by_pipes.c)
 

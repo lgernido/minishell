@@ -24,7 +24,6 @@ void	ft_lst_cpy(t_token_stream_node *src,
 		if (node == NULL)
 		{
 			ft_token_stream_clear(dest);
-			errno = ENOMEM;
 			return ;
 		}
 		ft_token_stream_add_back(dest, node);

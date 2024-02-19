@@ -161,6 +161,7 @@ void							ft_clear_token_list(t_token **begin,
 int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
+void							ft_ast_clear(t_ast_node **node);
 
 // ========================================================================= //
 
@@ -246,7 +247,7 @@ void							split_str(t_core *core, char *str);
 
 /* 
 Exec pseudo code :
-	- Resolve var and wildcar
+	- Resolve var and wildcards // discard multiple files input
 	- split into sub list by pipes
 	- resolve infiles
 	- resolve outfiles

@@ -53,7 +53,7 @@ void	print_token_stream(t_token_stream_node *stream)
 	{
 		if (stream->value != NULL)
 		{
-			printf("%s ", (char *)stream->value);
+			printf("%s, at adress %p ", (char *)stream->value, &stream->value);
 			fflush(stdout);
 		}
 		stream = stream->next;
@@ -113,8 +113,9 @@ void	tokenize_str(t_core *core, char **str)
 	climb_tree_to_origin(&core->ast);
 	print_tree(core->ast);
 	split_token_stream_by_pipes(core->ast);
-	// print_splited_stream(core->ast->split_streams);
+	print_splited_stream(core->ast->split_streams);
 	// ft_token_stream_clear(&stream);
+	// ft_ast_clear(&core->ast);
 }
 
 void	split_str(t_core *core, char *str)

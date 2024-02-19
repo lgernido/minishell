@@ -29,7 +29,7 @@ static void	check_for_empty(t_core *core, char *str)
 static void	wait_input(t_core *core)
 {
 	char	*str;
-	t_token	*tmp;
+	// t_token	*tmp;
 
 	while (1)
 	{
@@ -55,7 +55,7 @@ static void	wait_input(t_core *core)
 		// }
 		/*Input parsing fonction here,
 			w/ list and str as argument. STR need to be free in the parsing !!*/
-		free(str);
+		// free(str);
 	}
 }
 
