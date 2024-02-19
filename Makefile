@@ -16,14 +16,15 @@ AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.
 
 SEARCH_DIR = search_in_token_stream/
 SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
-									 find_logical_operator2.c searching_functions1.c)
+									 find_logical_operator2.c searching_functions1.c\
+									 searching_functions2.c searching_functions3.c)
 
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
 EXPAND_DIR = expand_and_split/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
-							 fill_split_streams.c split_by_pipes.c)
+							 fill_split_streams.c split_by_pipes.c shrink_list.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES)\

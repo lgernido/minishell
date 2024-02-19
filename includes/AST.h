@@ -59,7 +59,7 @@ void				ft_token_stream_add_back(t_token_stream_node **token_stream,
 
 void				ft_del_node(t_token_stream_node **node_to_del);
 
-void				ft_del_node(t_token_stream_node **node_to_del);
+void				ft_extract_node(t_token_stream_node **node_to_pop);
 
 void				climb_stream_to_origin(t_token_stream_node **token_stream);
 
@@ -154,9 +154,13 @@ t_bool				find_infile_operator(t_token_stream_node *token);
 t_bool				find_here_doc_operator(t_token_stream_node *token);
 t_bool				find_outfile_operator(t_token_stream_node *token);
 t_bool				find_append_operator(t_token_stream_node *token);
+t_bool				find_input_operator(t_token_stream_node *token);
+t_bool				find_output_operator(t_token_stream_node *token);
+t_bool				find_redirection_operator(t_token_stream_node *token);
 
 void				fill_stream(t_ast_node *node,
 						const size_t index_in_split_streams);
 void				split_token_stream_by_pipes(t_ast_node *node);
+void				shrink_stream(t_token_stream_node **stream);
 
 #endif // !AST_H

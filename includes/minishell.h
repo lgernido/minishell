@@ -202,6 +202,8 @@ void							ft_token_stream_clear(t_token_stream_node **token_stream);
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
 
+void							free_if_needed(void **str);
+
 // ========================================================================= //
 
 // Signal handler in signal.c //
