@@ -164,5 +164,11 @@ void				split_token_stream_by_pipes(t_ast_node *node);
 void				shrink_stream(t_token_stream_node **stream);
 t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
 		t_bool (*searching_function)(t_token_stream_node *token));
+void	not_regular(void *arg);
+void	is_dir(void *arg);
+int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2);
+int	get_stat_for_current_node(t_token_stream_node *stream, t_stat *stat);
+int	check_for_bad_redirection(t_token_stream_node *node, t_stat *stat,
+		ino_t *inode_to_discard);
 
 #endif // !AST_H
