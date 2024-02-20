@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <time.h>
 # include <unistd.h>
 
@@ -124,6 +126,7 @@ typedef struct s_token
 }								t_token;
 
 extern atomic_int				g_signal;
+typedef struct stat				t_stat;
 
 // ========================================================================= //
 /*PARSING*/
