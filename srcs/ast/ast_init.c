@@ -24,7 +24,7 @@ static void	copy_token_stream_relevant_for_current_node(t_core *core,
 
 static void	check_for_parenthesis_to_trim(t_token_stream_node **token_stream)
 {
-	if (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
+	while (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
 	{
 		discard_parenthesis(token_stream);
 	}

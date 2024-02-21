@@ -39,13 +39,12 @@ int	check_redirection_stream(t_token_stream_node *stream,
 	return (return_value);
 }
 
-int	check_input(t_token_stream_node *input_stream)
+int	check_input(t_token_stream_node *input_stream, char *path1, char *path2)
 {
 	ino_t	inode_tab[2];
 	int		return_value;
 
-	return_value = get_inode_to_discard(inode_tab,
-			"/dev/stdout", "/proc/self/fd/0");
+	return_value = get_inode_to_discard(inode_tab, path1, path2);
 	if (return_value != -1)
 	{
 		check_redirection_stream(input_stream, inode_tab);

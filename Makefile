@@ -25,7 +25,8 @@ PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens
 EXPAND_DIR = expand_and_split/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
 							 fill_split_streams.c split_by_pipes.c shrink_list.c\
-							 operator_stream.c)
+							 operator_stream.c operator_stream_low_level_func.c\
+							 operator_error_message.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES)\
