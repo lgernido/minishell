@@ -17,7 +17,8 @@ AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.
 SEARCH_DIR = search_in_token_stream/
 SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
 									 find_logical_operator2.c searching_functions1.c\
-									 searching_functions2.c searching_functions3.c)
+									 searching_functions2.c searching_functions3.c\
+									 discard_parenthesis_utils.c)
 
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \

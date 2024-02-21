@@ -24,29 +24,16 @@ static void	update_stream_if_needed(t_token_stream_node **token_stream)
 void	discard_parenthesis(t_token_stream_node **token_stream)
 {
 	t_token_stream_node	*iterator;
-	size_t		parenthesis_counter;
+	size_t				parenthesis_counter;
 
 	parenthesis_counter = 1;
-	*token_stream = (*token_stream)->next;
-	ft_free_node(&(*token_stream)->prev);
-	(*token_stream)->prev = NULL;
+	free_first_parenthesis(token_stream);
 	iterator = *token_stream;
 	while (iterator != NULL)
 	{
-		if (is_the_searched_token(iterator, T_PAR_OPEN))
-		{
-			++parenthesis_counter;
-		}
-		else if (is_the_searched_token(iterator, T_PAR_CLOSE))
-		{
-			--parenthesis_counter;
-			if (parenthesis_counter == 0)
-			{
-				ft_del_node(&iterator);
-				break ;
-			}
-		}
-		iterator = iterator->next;
+		parenthesis_counter += check_for_parenthesis(iterator, T_PAR_OPEN);
+		check_for_closing_parenthesis(iterator, &parenthesis_counter);
+		update_stream_if_needed(&iterator);
 	}
 	return ;
 }
