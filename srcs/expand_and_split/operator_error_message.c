@@ -17,21 +17,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-void	not_regular(void *arg)
-{
-	ft_printf_err("minishell: %s: not a regular file.\n", arg);
-	return ;
-}
-
-void	is_dir(void *arg)
-{
-	ft_printf_err("minishell: %s: Is a directory.\n", arg);
-	return ;
-}
-
 void	lstat_error(void *arg)
 {
-	const char	*error = strerror(errno);
-
-	ft_printf_err("minishell: %s: %s\n", arg, error);
+	ft_printf_err("minishell: %s: %s\n", arg, strerror(errno));
 }
