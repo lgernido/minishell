@@ -41,12 +41,13 @@ t_bool	match_mode_condition(const int mode, const int searched_mode)
 t_token_stream_node	*jump_above_parenthesis(t_token_stream_node *token)
 {
 	token = token->next;
-	while (is_the_searched_token(token, T_PAR_CLOSE) == FALSE)
+	while (token != NULL && is_the_searched_token(token, T_PAR_CLOSE) == FALSE)
 	{
 		jump_above_parenthesis_if_needed(&token);
 		token = token->next;
 	}
-	return (token->next);
+	update_stream_if_needed(&token);
+	return (token);
 }
 
 void	jump_above_parenthesis_if_needed(t_token_stream_node **token_stream)

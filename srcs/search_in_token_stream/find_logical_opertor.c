@@ -13,7 +13,7 @@
 #include "AST.h"
 #include "minishell.h"
 
-static void	update_stream_if_needed(t_token_stream_node **token_stream)
+void	update_stream_if_needed(t_token_stream_node **token_stream)
 {
 	if (*token_stream != NULL)
 	{
@@ -32,7 +32,7 @@ void	discard_parenthesis(t_token_stream_node **token_stream)
 	while (iterator != NULL)
 	{
 		parenthesis_counter += check_for_parenthesis(iterator, T_PAR_OPEN);
-		check_for_closing_parenthesis(iterator, &parenthesis_counter);
+		check_for_closing_parenthesis(&iterator, &parenthesis_counter);
 		update_stream_if_needed(&iterator);
 	}
 	return ;

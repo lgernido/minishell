@@ -13,6 +13,8 @@
 #include "AST.h"
 #include "minishell.h"
 #include "built_ins.h"
+#include <asm-generic/errno-base.h>
+#include <errno.h>
 
 int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2)
 {
@@ -20,17 +22,33 @@ int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2)
 
 	if (lstat(path1, &stat[0]) == -1)
 	{
-		perror("minishell");
+		throw_error_message(path1, lstat_error);
 		return (-1);
 	}
 	if (lstat(path2, &stat[1]) == -1)
 	{
-		perror("minishell");
+		throw_error_message(path2, lstat_error);
 		return (-1);
 	}
 	inode_tab[0] = stat[0].st_ino;
 	inode_tab[1] = stat[1].st_ino;
 	return (0);
+}
+
+void	check_error_case(int *return_value, t_token_stream_node *node)
+{
+	if (is_the_searched_token(node, T_OUTPUT_FILE) == TRUE
+		|| is_the_searched_token(node, T_APPEND) == TRUE)
+	{
+		if (errno == ENOENT)
+		{
+			*return_value = 1;
+		}
+		else
+		{
+			throw_error_message(node->value, lstat_error);
+		}
+	}
 }
 
 int	get_stat_for_current_node(t_token_stream_node *stream, t_stat *stat)
@@ -44,7 +62,7 @@ int	get_stat_for_current_node(t_token_stream_node *stream, t_stat *stat)
 	}
 	if (return_value == -1)
 	{
-		perror("minishell");
+		check_error_case(&return_value, stream);
 	}
 	return (return_value);
 }

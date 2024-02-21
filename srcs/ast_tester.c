@@ -53,11 +53,12 @@ void	print_token_stream(t_token_stream_node *stream)
 	{
 		if (stream->value != NULL)
 		{
-			printf("%s, at adress %p ", (char *)stream->value, &stream->value);
+			printf("%s,", (char *)stream->value);
 			fflush(stdout);
 		}
 		stream = stream->next;
 	}
+	printf("\n");
 }
 
 void	print_splited_stream(t_token_stream_node **split_streams)
@@ -119,6 +120,12 @@ void	tokenize_str(t_core *core, char **str)
 	t_token_stream_node *output = build_operator_stream(core->ast->split_streams, find_output_operator);
 	print_token_stream(input);
 	print_token_stream(output);
+	check_input(input, "/dev/stdin", "/proc/self/fd/0");
+	check_input(output, "/dev/stdout", "/proc/self/fd/1");
+	print_token_stream(input);
+	print_token_stream(output);
+	ft_clear_token_stream_if_needed(&input);
+	ft_clear_token_stream_if_needed(&output);
 	// ft_token_stream_clear(&stream);
 	// ft_ast_clear(&core->ast);
 }

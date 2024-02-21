@@ -43,7 +43,6 @@ static	void	setup_recursive_calls_if_needed_or_exit(t_core *core,
 		ft_clear_token_stream_if_needed(current_token_stream);
 	}
 }
-
 void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 {
 	t_token_stream_node	*next_logical_operator;

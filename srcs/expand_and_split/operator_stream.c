@@ -23,8 +23,9 @@ int	check_redirection_stream(t_token_stream_node *stream,
 	t_token_stream_node	*temp;
 	int					return_value;
 
+	ft_bzero(&stat_for_current_node, sizeof(t_stat));
 	return_value = 0;
-	while (stream != NULL && return_value == 0)
+	while (stream != NULL && return_value != -1)
 	{
 		return_value = get_stat_for_current_node(stream,
 				&stat_for_current_node);
@@ -32,8 +33,11 @@ int	check_redirection_stream(t_token_stream_node *stream,
 		{
 			temp = stream;
 			stream = stream->next;
-			return_value = check_for_bad_redirection(temp,
-					&stat_for_current_node, inode_to_discard);
+			if (return_value == 0)
+			{
+				return_value = check_for_bad_redirection(temp,
+						&stat_for_current_node, inode_to_discard);
+			}
 		}
 	}
 	return (return_value);

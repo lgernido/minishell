@@ -172,8 +172,11 @@ int	check_for_bad_redirection(t_token_stream_node *node, t_stat *stat,
 		ino_t *inode_to_discard);
 size_t	check_for_parenthesis(t_token_stream_node *node,
 		t_token_type searched);
-void	check_for_closing_parenthesis(t_token_stream_node *node,
+void	check_for_closing_parenthesis(t_token_stream_node **node,
 		size_t *parenthesis_counter);
 void	free_first_parenthesis(t_token_stream_node **token_stream);
+int	check_input(t_token_stream_node *input_stream, char *path1, char *path2);
+void	lstat_error(void *arg);
+void	update_stream_if_needed(t_token_stream_node **token_stream);
 
 #endif // !AST_H

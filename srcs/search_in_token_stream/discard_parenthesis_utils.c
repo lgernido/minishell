@@ -26,13 +26,13 @@ size_t	check_for_parenthesis(t_token_stream_node *node,
 	return (return_value);
 }
 
-void	check_for_closing_parenthesis(t_token_stream_node *node,
+void	check_for_closing_parenthesis(t_token_stream_node **node,
 		size_t *parenthesis_counter)
 {
-	*parenthesis_counter -= check_for_parenthesis(node, T_PAR_CLOSE);
+	*parenthesis_counter -= check_for_parenthesis(*node, T_PAR_CLOSE);
 	if (*parenthesis_counter == 0)
 	{
-		ft_del_node(&node);
+		ft_del_node(node);
 	}
 }
 
