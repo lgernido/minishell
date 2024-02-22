@@ -44,7 +44,7 @@ int	split_stream_driver(t_token_stream_node **split_stream,
 	shrink_stream(split_stream);
 	inputs = build_operator_stream(split_stream, find_input_operator);
 	outputs = build_operator_stream(split_stream, find_output_operator);
-	if (errno != ENOMEM)
+	if (errno == ENOMEM)
 	{
 		return (MALLOC);
 	}
@@ -76,7 +76,6 @@ void	ast_driver(t_core *core)
 		}
 		else if (return_value != 0)
 		{
-			core->error_code = 1;
 			break ;
 		}
 		i++;
