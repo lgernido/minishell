@@ -169,16 +169,20 @@ void				fill_stream(t_ast_node *node,
 						const size_t index_in_split_streams);
 void				split_token_stream_by_pipes(t_ast_node *node);
 void				shrink_stream(t_token_stream_node **stream);
-t_token_stream_node	*build_operator_stream(t_token_stream_node *stream,
+t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
 		t_bool (*searching_function)(t_token_stream_node *token));
 
 
 int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2);
-int	check_input(t_token_stream_node *input_stream);
-int	check_output(t_token_stream_node *output_stream);
+int	check_redirections(t_token_stream_node **input_stream,
+		int (*verif_function)(t_token_stream_node *node, t_stat *stat),
+		char *path1, char *path2);
 void	lstat_error(void *arg);
 int	get_stat_for_the_path(t_stat *stat, t_token_stream_node *node);
-void	check_inode_to_discard(t_token_stream_node **node, t_stat *stat,
+int	check_inode_to_discard(t_token_stream_node **node, t_token_stream_node **stream, t_stat *stat,
 		ino_t *inode_to_discard);
+void	safely_del_node(t_token_stream_node **node);
+int	verify_outputs(t_token_stream_node *node, t_stat *stat);
+int	verify_inputs(t_token_stream_node *node, t_stat *stat);
 
 #endif // !AST_H

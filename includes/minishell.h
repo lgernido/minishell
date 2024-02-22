@@ -52,7 +52,7 @@
 # define STD_IN_PROC "/proc/self/fd/0"
 
 # define STD_OUT_DEV "/dev/stdout"
-# define STD_OUT_PROC "/proc/self/fd/0"
+# define STD_OUT_PROC "/proc/self/fd/1"
 
 typedef enum e_error
 {

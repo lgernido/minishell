@@ -28,7 +28,7 @@ int	get_stat_for_the_path(t_stat *stat, t_token_stream_node *node)
 	return (return_value);
 }
 
-static void	safely_del_node(t_token_stream_node **node)
+void	safely_del_node(t_token_stream_node **node)
 {
 	t_token_stream_node	*temp;
 
@@ -37,18 +37,27 @@ static void	safely_del_node(t_token_stream_node **node)
 	ft_del_node(&temp);
 }
 
-void	check_inode_to_discard(t_token_stream_node **node, t_stat *stat,
+int	check_inode_to_discard(t_token_stream_node **node, t_token_stream_node **stream, t_stat *stat,
 		ino_t *inode_to_discard)
 {
+	int	return_value;
+
+	return_value = 0;
 	if (node == NULL)
 	{
-		return ;
+		return (return_value);
 	}
 	if (stat->st_ino == inode_to_discard[0]
 		|| stat->st_ino == inode_to_discard[1])
 	{
+		if (*node == *stream)
+		{
+			*stream = (*stream)->next;
+		}
 		safely_del_node(node);
+		++return_value;
 	}
+	return (return_value);
 }
 
 int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2)

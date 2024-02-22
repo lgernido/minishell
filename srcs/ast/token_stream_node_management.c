@@ -66,6 +66,10 @@ void	ft_token_stream_add_back(t_token_stream_node **token_stream,
 
 void	climb_stream_to_origin(t_token_stream_node **token_stream)
 {
+	if (*token_stream == NULL)
+	{
+		return ;
+	}
 	while ((*token_stream)->prev != NULL)
 	{
 		*token_stream = (*token_stream)->prev;
