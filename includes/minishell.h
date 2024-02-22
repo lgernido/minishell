@@ -48,7 +48,7 @@
 
 // Path to discards
 
-# define STD_IN_DEV "/dev/stdin"
+#define STD_IN_DEV "/dev/stdin"
 # define STD_IN_PROC "/proc/self/fd/0"
 
 # define STD_OUT_DEV "/dev/stdout"
@@ -97,9 +97,9 @@ typedef enum e_bool
 typedef struct s_command_node
 {
 	int						fd_infile;	
-	char					*infile;
+	char					*here_doc;
+	t_bool					is_here_doc;
 	int						fd_outfile;
-	char					*outfile;
 	int						pipe[2];
 	char					**cmd;
 	struct s_command_node	*next;
@@ -118,6 +118,7 @@ typedef struct s_ast_node
 {
 	t_token_stream_node	*token_stream;
 	t_token_stream_node	**split_streams;
+	t_command_node		*command_list;
 	size_t				number_of_split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
@@ -189,8 +190,13 @@ void							ft_ast_clear(t_ast_node **node);
 // init core struct
 void							init_core(t_core *core);
 
-// init a new node
-t_command_node					*init_node(t_command_node *node);
+// init a new node --> This must move
+void		init_node(t_command_node *node);
+t_command_node	*create_command_list_node(void);
+void	command_node_add_back(t_command_node **command_list,
+		t_command_node *new_node);
+void	get_last_command_node(t_command_node **command_list);
+void	update_command_list(t_core *core);
 
 // Add a new node at the back of the given list
 void							node_add_back(t_command_node **list,

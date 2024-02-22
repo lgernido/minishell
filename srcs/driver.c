@@ -21,7 +21,20 @@ void	check_errno(t_core *core)
 	}
 }
 
-int	split_stream_driver(t_token_stream_node **split_stream)
+int	check_i_o(t_token_stream_node **inputs, t_token_stream_node **outputs)
+{
+	int	return_value;
+
+	return_value = 0;
+	return_value += check_redirections(inputs, verify_inputs,
+			STD_IN_DEV, STD_IN_PROC);
+	return_value += check_redirections(outputs, verify_outputs,
+			STD_OUT_DEV, STD_OUT_PROC);
+	return (return_value);
+}
+
+int	split_stream_driver(t_token_stream_node **split_stream,
+		t_command_node *command_node)
 {
 	t_token_stream_node	*inputs;
 	t_token_stream_node	*outputs;
@@ -33,15 +46,9 @@ int	split_stream_driver(t_token_stream_node **split_stream)
 	outputs = build_operator_stream(split_stream, find_output_operator);
 	if (errno != ENOMEM)
 	{
-		return_value += check_redirections(&inputs, verify_inputs,
-				STD_IN_DEV, STD_IN_PROC);
-		return_value += check_redirections(&outputs, verify_outputs,
-				STD_OUT_DEV, STD_OUT_PROC);
+		return (MALLOC);
 	}
-	else
-	{
-		return_value = MALLOC;
-	}
+	return_value = check_i_o(&inputs, &outputs);
 	return (return_value);
 }
 
@@ -55,7 +62,9 @@ void	ast_driver(t_core *core)
 	i = 0;
 	while (i < core->ast->number_of_split_streams)
 	{	
-		return_value = split_stream_driver(&core->ast->split_streams[i]);
+		update_command_list(core);
+		return_value = split_stream_driver(&core->ast->split_streams[i],
+				core->ast->command_list);
 		if (return_value == MALLOC)
 		{
 			ft_clean_exit(core, MALLOC);

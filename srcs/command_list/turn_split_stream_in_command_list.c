@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_struct.c                                      :+:      :+:    :+:   */
+/*   turn_split_stream_in_command_list.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
+/*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 16:16:23 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/13 10:55:49 by lgernido         ###   ########.fr       */
+/*   Created: 2024/02/22 19:26:04 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/22 19:26:04 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_core(t_core *core)
+int	build_command_node(t_token_stream_node **command_stream,
+		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
+		t_command_node *t_command_node)
 {
-	core->error_code = 0;
-	core->ast = NULL;
-	core->env = NULL;
-	core->token_list = NULL;
+	int	return_value;
+
+	return_value = 0;
+	return (return_value);
 }
