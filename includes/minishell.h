@@ -272,6 +272,13 @@ char	*fetch_input(int error_code);
 // to test ast without parsing
 t_token_stream_node *split_str(t_core *core, char *str);
 void	minishell_driver(t_core *core);
+int	translate_input(t_token_stream_node **input_stream,
+		t_command_node *command_node);
+int	translate_output(t_token_stream_node **output_stream,
+		t_command_node *command_node);
+int	build_command_node(t_token_stream_node **command_stream,
+		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
+		t_command_node *command_node);
 
 #endif
 

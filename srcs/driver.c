@@ -49,6 +49,11 @@ int	split_stream_driver(t_token_stream_node **split_stream,
 		return (MALLOC);
 	}
 	return_value = check_i_o(&inputs, &outputs);
+	if (return_value == 0)
+	{
+		return_value = build_command_node(split_stream, &inputs,
+				&outputs, command_node);
+	}
 	return (return_value);
 }
 

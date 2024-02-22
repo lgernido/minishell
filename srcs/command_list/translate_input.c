@@ -14,7 +14,7 @@
 #include "built_ins.h"
 #include "minishell.h"
 
-void	handle_here_doc(t_token_stream_node **input_stream,
+static void	handle_here_doc(t_token_stream_node **input_stream,
 		t_command_node *command_node)
 {
 	if ((*input_stream)->next != NULL)
@@ -33,7 +33,7 @@ void	handle_here_doc(t_token_stream_node **input_stream,
 	return ;
 }
 
-int	handle_infiles(t_token_stream_node **input_stream,
+static int	handle_infiles(t_token_stream_node **input_stream,
 		t_command_node *command_node)
 {
 	int	fd;
