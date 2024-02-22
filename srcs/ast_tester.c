@@ -95,7 +95,7 @@ void	print_tree(t_ast_node *ast)
 	print_tree(tmp);
 }
 
-void	tokenize_str(t_core *core, char **str)
+t_token_stream_node	*tokenize_str(t_core *core, char **str)
 {
 	t_token_stream_node	*stream;
 	int	i = 0;
@@ -108,6 +108,7 @@ void	tokenize_str(t_core *core, char **str)
 		++i;
 	}
 	free(str);
+	return (stream);
 	// print_token_stream(stream);
 	// printf("Here ?\n");
 	// fflush(stdout);
@@ -135,9 +136,10 @@ void	tokenize_str(t_core *core, char **str)
 	// ft_ast_clear(&core->ast);
 }
 
-void	split_str(t_core *core, char *str)
+t_token_stream_node	*split_str(t_core *core, char *str)
 {
 	char **splitted;
+	t_token_stream_node *stream;
 
 	splitted = ft_split(str, ' ');
 	if (splitted == NULL)
@@ -145,5 +147,6 @@ void	split_str(t_core *core, char *str)
 		ft_clean_exit(core, MALLOC);
 	}
 	free(str);
-	tokenize_str(core, splitted);
+	stream = tokenize_str(core, splitted);
+	return (stream);
 }

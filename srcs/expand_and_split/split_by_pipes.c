@@ -37,10 +37,6 @@ static void	allocate_split_streams(t_token_stream_node ***split_streams,
 {
 	*split_streams = ft_calloc(number_of_streams + 1,
 			sizeof(t_token_stream_node *));
-	if (*split_streams == NULL)
-	{
-		errno = ENOMEM;
-	}
 }
 
 void	split_token_stream_by_pipes(t_ast_node *node)
@@ -48,10 +44,7 @@ void	split_token_stream_by_pipes(t_ast_node *node)
 	const size_t	number_of_splitted_streams
 		= retrieve_number_of_splitted_streams(node->token_stream);
 
+	node->number_of_split_streams = number_of_splitted_streams;
 	allocate_split_streams(&(node->split_streams), number_of_splitted_streams);
 	fill_stream(node, 0);
-	if (errno == ENOMEM)
-	{
-		return ;
-	}
 }

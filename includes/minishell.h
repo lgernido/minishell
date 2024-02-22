@@ -116,9 +116,9 @@ typedef struct s_token_stream_node
 
 typedef struct s_ast_node
 {
-	t_command_node		*command_list;
 	t_token_stream_node	*token_stream;
 	t_token_stream_node	**split_streams;
+	size_t				number_of_split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
 	struct s_ast_node	*on_failure;
@@ -260,9 +260,12 @@ int	ft_export(char **av, t_core *core); // export.c
 void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
 
+char	*fetch_input(int error_code);
+
 // Call this functions just after retrieving user input
 // to test ast without parsing
-void							split_str(t_core *core, char *str);
+t_token_stream_node *split_str(t_core *core, char *str);
+void	minishell_driver(t_core *core);
 
 #endif
 

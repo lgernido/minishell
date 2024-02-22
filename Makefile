@@ -30,7 +30,7 @@ EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
 							 operator_error_message.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES)\
+						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES) driver.c\
 
 
 
