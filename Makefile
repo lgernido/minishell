@@ -8,6 +8,10 @@ BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
 									pwd.c cd.c cd_utils.c cd_update_env_var.c)\
 
+COMMAND_DIR = command_list/
+COMMAND_FILES = $(addprefix $(COMMAND_DIR), command_list_base_funct.c translate_input.c\
+								translate_output.c turn_split_stream_in_command_list.c)
+
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						setup_recursive_calls.c token_stream_node_management.c\
@@ -30,7 +34,7 @@ EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
 							 operator_error_message.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES) driver.c\
+						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES) $(COMMAND_FILES) driver.c\
 
 
 
@@ -80,6 +84,7 @@ build/%.o: srcs/%.c
 	@mkdir -p $(BUILD)/$(PARSING_DIR)
 	@mkdir -p $(BUILD)/$(SEARCH_DIR)
 	@mkdir -p $(BUILD)/$(EXPAND_DIR)
+	@mkdir -p $(BUILD)/$(COMMAND_DIR)
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 

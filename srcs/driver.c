@@ -54,6 +54,11 @@ int	split_stream_driver(t_token_stream_node **split_stream,
 		return_value = build_command_node(split_stream, &inputs,
 				&outputs, command_node);
 	}
+	else
+	{
+		ft_token_stream_clear(&inputs);
+		ft_token_stream_clear(&outputs);
+	}
 	return (return_value);
 }
 
@@ -74,12 +79,19 @@ void	ast_driver(t_core *core)
 		{
 			ft_clean_exit(core, MALLOC);
 		}
-		else if (return_value != 0)
+		if (return_value != 0)
 		{
 			break ;
 		}
 		i++;
 	}
+	if (return_value != 0)
+	{
+		ft_clean_exit(core, return_value);
+	}
+	t_token_stream_node **jkassemonkrane = core->ast->split_streams;
+	ft_split_stream_clean(&jkassemonkrane, core->ast->number_of_split_streams);
+	core->ast->split_streams = jkassemonkrane;
 }
 
 void	minishell_driver(t_core *core)

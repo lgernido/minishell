@@ -25,11 +25,11 @@ size_t	command_stream_size(t_token_stream_node *command_stream)
 	return (counter);
 }
 
-void	build_command_from_tokens(t_token_stream_node **command_stream,
+void	build_command_from_tokens(t_token_stream_node *command_stream,
 		t_command_node *command_node)
 {
-	const size_t	counter = command_stream_size(*command_stream);
-	size_t			i;
+	const size_t		counter = command_stream_size(command_stream);
+	size_t				i;
 
 	i = 0;
 	command_node->cmd = ft_calloc(counter + 1, sizeof(char *));
@@ -37,12 +37,11 @@ void	build_command_from_tokens(t_token_stream_node **command_stream,
 	{
 		return ;
 	}
-	while (*command_stream != NULL)
+	while (i < counter)
 	{
-		command_node->cmd[i] = (*command_stream)->value;
-		(*command_stream)->value = NULL;
-		*command_stream = (*command_stream)->next;
-		ft_free_node(&(*command_stream)->prev);
+		command_node->cmd[i] = command_stream->value;
+		command_stream->value = NULL;
+		command_stream = command_stream->next;
 		++i;
 	}
 	return ;
@@ -62,7 +61,7 @@ int	build_command_node(t_token_stream_node **command_stream,
 	}
 	if (return_value == 0)
 	{
-		build_command_from_tokens(command_stream, command_node);
+		build_command_from_tokens(*command_stream, command_node);
 		if (command_node->cmd == NULL && errno == ENOMEM)
 		{
 			return_value = MALLOC;

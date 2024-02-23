@@ -59,7 +59,7 @@ static int	check_input_redirection_stream(t_token_stream_node **stream,
 		ino_t *inode_to_discard)
 {
 	t_stat				stat_for_current_node;
-	t_token_stream_node *looked_node;
+	t_token_stream_node	*looked_node;
 	int					return_value;
 
 	ft_bzero(&stat_for_current_node, sizeof(t_stat));
@@ -88,7 +88,8 @@ int	check_redirections(t_token_stream_node **input_stream,
 	return_value = get_inode_to_discard(inode_tab, path1, path2);
 	if (return_value != -1)
 	{
-		check_input_redirection_stream(input_stream, verif_function, inode_tab);
+		return_value = check_input_redirection_stream(input_stream,
+				verif_function, inode_tab);
 	}
 	return (return_value);
 }
