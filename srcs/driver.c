@@ -67,10 +67,11 @@ void	ast_driver(t_core *core)
 	int		return_value;
 	size_t	i;
 
+	return_value = 0;
 	split_token_stream_by_pipes(core->ast);
 	check_errno(core);
 	i = 0;
-	while (i < core->ast->number_of_split_streams)
+	while (i < core->ast->number_of_split_streams && return_value == 0)
 	{	
 		update_command_list(core);
 		return_value = split_stream_driver(&core->ast->split_streams[i],
@@ -79,19 +80,13 @@ void	ast_driver(t_core *core)
 		{
 			ft_clean_exit(core, MALLOC);
 		}
-		if (return_value != 0)
-		{
-			break ;
-		}
 		i++;
 	}
 	if (return_value != 0)
 	{
 		ft_clean_exit(core, return_value);
 	}
-	t_token_stream_node **jkassemonkrane = core->ast->split_streams;
-	ft_split_stream_clean(&jkassemonkrane, core->ast->number_of_split_streams);
-	core->ast->split_streams = jkassemonkrane;
+	ft_split_stream_clean(core->ast);
 }
 
 void	minishell_driver(t_core *core)

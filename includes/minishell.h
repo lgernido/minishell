@@ -223,7 +223,7 @@ void							ft_clear_token_stream_if_needed(t_token_stream_node **token_stream);
 
 // Clean the given token stream
 void							ft_token_stream_clear(t_token_stream_node **token_stream);
-void	ft_split_stream_clean(t_token_stream_node ***split_streams, const size_t number_of_stream);
+void	ft_split_stream_clean(t_ast_node *ast);
 
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
@@ -280,6 +280,7 @@ int	translate_output(t_token_stream_node **output_stream,
 int	build_command_node(t_token_stream_node **command_stream,
 		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
 		t_command_node *command_node);
+void	check_errno(t_core *core);
 
 #endif
 
