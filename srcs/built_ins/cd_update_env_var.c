@@ -23,7 +23,7 @@ char	*get_pwd_in_buffer(void)
 	return (pwd);
 }
 
-void	free_if_needed(char **str)
+void	free_if_needed(void **str)
 {
 	if (*str)
 		free(*str);
@@ -50,7 +50,7 @@ void	swap_var(t_core *core, char *var_content, const char *var_name)
 	char		*full_var;
 
 	pwd_address = get_valid_addr(core, (char *)var_name);
-	free_if_needed(pwd_address);
+	free_if_needed((void **)pwd_address);
 	full_var = build_var(var_name, var_content);
 	if (!full_var)
 	{

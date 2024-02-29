@@ -49,6 +49,8 @@ void	ft_token_stream_add_back(t_token_stream_node **token_stream,
 	if (*token_stream == NULL)
 	{
 		*token_stream = new_node;
+		new_node->prev = NULL;
+		new_node->next = NULL;
 		return ;
 	}
 	stream_cpy = *token_stream;
@@ -58,11 +60,16 @@ void	ft_token_stream_add_back(t_token_stream_node **token_stream,
 	}
 	new_node->prev = stream_cpy;
 	stream_cpy->next = new_node;
+	new_node->next = NULL;
 	return ;
 }
 
 void	climb_stream_to_origin(t_token_stream_node **token_stream)
 {
+	if (*token_stream == NULL)
+	{
+		return ;
+	}
 	while ((*token_stream)->prev != NULL)
 	{
 		*token_stream = (*token_stream)->prev;

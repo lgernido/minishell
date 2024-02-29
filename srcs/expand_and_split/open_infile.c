@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_stream_copy.c                                :+:      :+:    :+:   */
+/*   open_infile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/12 18:25:47 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/12 18:25:48 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/20 20:01:22 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/20 20:01:23 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "AST.h"
+#include "minishell.h"
 
-void	ft_lst_cpy(t_token_stream_node *src,
-	t_token_stream_node **dest, t_token_stream_node *limit)
+int	open_infiles(t_token_stream_node *input_stream, t_command_node *command_node)
 {
-	t_token_stream_node	*node;
-
-	while (src != limit)
+	int	return_value;
+	
+	return_value = 0;
+	while (input_stream != NULL)
 	{
-		node = ft_token_stream_new(src->type, src->value);
-		if (node == NULL)
+		if (input_stream->type == T_INPUT_FILE)
 		{
-			ft_token_stream_clear(dest);
-			return ;
+			command_node->fd_infile = open(input_stream->value, O_RDONLY);
 		}
-		ft_token_stream_add_back(dest, node);
-		src = src->next;
 	}
-	return ;
 }

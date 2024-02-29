@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_stream_copy.c                                :+:      :+:    :+:   */
+/*   expand_node_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/12 18:25:47 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/12 18:25:48 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/15 18:06:33 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/15 18:06:33 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 #include "AST.h"
 
-void	ft_lst_cpy(t_token_stream_node *src,
-	t_token_stream_node **dest, t_token_stream_node *limit)
+void	expand_init(t_token_stream_node *token_stream)
 {
-	t_token_stream_node	*node;
-
-	while (src != limit)
+	while (token_stream != NULL)
 	{
-		node = ft_token_stream_new(src->type, src->value);
-		if (node == NULL)
+		if (is_the_searched_token(token_stream, T_TO_EXPAND) == TRUE)
 		{
-			ft_token_stream_clear(dest);
-			return ;
+			//
 		}
-		ft_token_stream_add_back(dest, node);
-		src = src->next;
+		else if (is_the_searched_token(token_stream, T_WORD) == TRUE)
+		{
+			//
+		}
+		token_stream = token_stream->next;
 	}
-	return ;
 }

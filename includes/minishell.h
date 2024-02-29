@@ -24,6 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <time.h>
 # include <unistd.h>
 
@@ -31,10 +33,26 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
+# define NRM  "\x1B[0m"
+# define RED  "\x1B[31m"
+# define GRN  "\x1B[32m"
+# define YEL  "\x1B[33m"
+# define BLU  "\x1B[34m"
+# define MAG  "\x1B[35m"
+# define CYN  "\x1B[36m"
+# define WHT  "\x1B[37m"
 // For ft_pwd
 # define PWD_BUFFER 128
 # define BUFFER_LIMIT 4096
 // Error Code
+
+// Path to discards
+
+#define STD_IN_DEV "/dev/stdin"
+# define STD_IN_PROC "/proc/self/fd/0"
+
+# define STD_OUT_DEV "/dev/stdout"
+# define STD_OUT_PROC "/proc/self/fd/1"
 
 typedef enum e_error
 {
@@ -79,9 +97,9 @@ typedef enum e_bool
 typedef struct s_command_node
 {
 	int						fd_infile;	
-	char					*infile;
+	char					*here_doc;
+	t_bool					is_here_doc;
 	int						fd_outfile;
-	char					*outfile;
 	int						pipe[2];
 	char					**cmd;
 	struct s_command_node	*next;
@@ -98,9 +116,10 @@ typedef struct s_token_stream_node
 
 typedef struct s_ast_node
 {
-	t_command_node		*command_list;
 	t_token_stream_node	*token_stream;
 	t_token_stream_node	**split_streams;
+	t_command_node		*command_list;
+	size_t				number_of_split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
 	struct s_ast_node	*on_failure;
@@ -124,6 +143,7 @@ typedef struct s_token
 }								t_token;
 
 extern atomic_int				g_signal;
+typedef struct stat				t_stat;
 
 // ========================================================================= //
 /*PARSING*/
@@ -161,6 +181,7 @@ void							ft_clear_token_list(t_token **begin,
 int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
+void							ft_ast_clear(t_ast_node **node);
 
 // ========================================================================= //
 
@@ -169,8 +190,13 @@ void							ft_add_token_list(t_token **begin,
 // init core struct
 void							init_core(t_core *core);
 
-// init a new node
-t_command_node					*init_node(t_command_node *node);
+// init a new node --> This must move
+void		init_node(t_command_node *node);
+t_command_node	*create_command_list_node(void);
+void	command_node_add_back(t_command_node **command_list,
+		t_command_node *new_node);
+void	get_last_command_node(t_command_node **command_list);
+void	update_command_list(t_core *core);
 
 // Add a new node at the back of the given list
 void							node_add_back(t_command_node **list,
@@ -197,9 +223,12 @@ void							ft_clear_token_stream_if_needed(t_token_stream_node **token_stream);
 
 // Clean the given token stream
 void							ft_token_stream_clear(t_token_stream_node **token_stream);
+void	ft_split_stream_clean(t_ast_node *ast);
 
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
+
+void							free_if_needed(void **str);
 
 // ========================================================================= //
 
@@ -238,15 +267,26 @@ int	ft_export(char **av, t_core *core); // export.c
 void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
 
+char	*fetch_input(int error_code);
+
 // Call this functions just after retrieving user input
 // to test ast without parsing
-void							split_str(t_core *core, char *str);
+t_token_stream_node *split_str(t_core *core, char *str);
+void	minishell_driver(t_core *core);
+int	translate_input(t_token_stream_node **input_stream,
+		t_command_node *command_node);
+int	translate_output(t_token_stream_node **output_stream,
+		t_command_node *command_node);
+int	build_command_node(t_token_stream_node **command_stream,
+		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
+		t_command_node *command_node);
+void	check_errno(t_core *core);
 
 #endif
 
 /* 
 Exec pseudo code :
-	- Resolve var and wildcar
+	- Resolve var and wildcards // discard multiple files input
 	- split into sub list by pipes
 	- resolve infiles
 	- resolve outfiles

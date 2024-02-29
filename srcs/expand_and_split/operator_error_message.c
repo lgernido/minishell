@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_stream_copy.c                                :+:      :+:    :+:   */
+/*   operator_error_message.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/12 18:25:47 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/12 18:25:48 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/02/20 19:37:14 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/02/20 19:37:15 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "AST.h"
+#include "printerr.h"
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
 
-void	ft_lst_cpy(t_token_stream_node *src,
-	t_token_stream_node **dest, t_token_stream_node *limit)
+void	lstat_error(void *arg)
 {
-	t_token_stream_node	*node;
-
-	while (src != limit)
-	{
-		node = ft_token_stream_new(src->type, src->value);
-		if (node == NULL)
-		{
-			ft_token_stream_clear(dest);
-			return ;
-		}
-		ft_token_stream_add_back(dest, node);
-		src = src->next;
-	}
-	return ;
+	ft_printf_err("minishell: %s: %s\n", arg, strerror(errno));
 }

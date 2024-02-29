@@ -24,7 +24,7 @@ static void	copy_token_stream_relevant_for_current_node(t_core *core,
 
 static void	check_for_parenthesis_to_trim(t_token_stream_node **token_stream)
 {
-	if (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
+	while (is_the_searched_token(*token_stream, T_PAR_OPEN) == TRUE)
 	{
 		discard_parenthesis(token_stream);
 	}
@@ -43,7 +43,6 @@ static	void	setup_recursive_calls_if_needed_or_exit(t_core *core,
 		ft_clear_token_stream_if_needed(current_token_stream);
 	}
 }
-
 void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 {
 	t_token_stream_node	*next_logical_operator;
@@ -60,7 +59,7 @@ void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 void	ast_init(t_token_stream_node *token_stream, t_core *core)
 {
 	core->ast = ast_new_node();
-	if (core->ast == NULL)
+	if (core->ast == NULL || token_stream == NULL)
 	{
 		clear_stream_and_exit(core, &token_stream, MALLOC);
 	}

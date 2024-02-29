@@ -57,7 +57,9 @@ t_token_stream_node	*ft_token_stream_new(t_token_type type, void *value);
 void				ft_token_stream_add_back(t_token_stream_node **token_stream,
 						t_token_stream_node *new_node);
 
-void				ft_pop_node(t_token_stream_node **node_to_pop);
+void				ft_del_node(t_token_stream_node **node_to_del);
+
+void				ft_extract_node(t_token_stream_node **node_to_pop);
 
 void				climb_stream_to_origin(t_token_stream_node **token_stream);
 
@@ -148,9 +150,39 @@ t_bool				find_logical_and(t_token_stream_node *token);
 t_bool				find_logical_or(t_token_stream_node *token);
 t_bool				find_logical_operator(t_token_stream_node *token);
 t_bool				find_pipe(t_token_stream_node *token);
+t_bool				find_infile_operator(t_token_stream_node *token);
+t_bool				find_here_doc_operator(t_token_stream_node *token);
+t_bool				find_outfile_operator(t_token_stream_node *token);
+t_bool				find_append_operator(t_token_stream_node *token);
+t_bool				find_input_operator(t_token_stream_node *token);
+t_bool				find_output_operator(t_token_stream_node *token);
+t_bool				find_redirection_operator(t_token_stream_node *token);
+
+size_t	check_for_parenthesis(t_token_stream_node *node,
+		t_token_type searched);
+void	check_for_closing_parenthesis(t_token_stream_node **node,
+		size_t *parenthesis_counter);
+void	free_first_parenthesis(t_token_stream_node **token_stream);
+void	update_stream_if_needed(t_token_stream_node **token_stream);
 
 void				fill_stream(t_ast_node *node,
 						const size_t index_in_split_streams);
 void				split_token_stream_by_pipes(t_ast_node *node);
+void				shrink_stream(t_token_stream_node **stream);
+t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
+		t_bool (*searching_function)(t_token_stream_node *token));
+
+
+int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2);
+int	check_redirections(t_token_stream_node **input_stream,
+		int (*verif_function)(t_token_stream_node *node, t_stat *stat),
+		char *path1, char *path2);
+void	lstat_error(void *arg);
+int	get_stat_for_the_path(t_stat *stat, t_token_stream_node *node);
+int	check_inode_to_discard(t_token_stream_node **node, t_token_stream_node **stream, t_stat *stat,
+		ino_t *inode_to_discard);
+void	safely_del_node(t_token_stream_node **node);
+int	verify_outputs(t_token_stream_node *node, t_stat *stat);
+int	verify_inputs(t_token_stream_node *node, t_stat *stat);
 
 #endif // !AST_H

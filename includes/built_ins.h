@@ -55,7 +55,6 @@ char			*assign_pwd(t_core *core);
 void			update_env_var(t_core	*core, char *old_pwd);
 void			home_not_set(void *arg);
 void			swap_var(t_core *core, char *var_content, const char *var_name);
-void			free_if_needed(char **str);
 void			error_while_shifting_directory(void *path);
 int				go_specified_dir(void	*path);
 int				throw_error_message(void *arg, void (*message)(void *));

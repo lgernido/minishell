@@ -28,7 +28,6 @@ void	ast_add_back(t_ast_node **ast, int mode)
 	new_node = ast_new_node();
 	if (new_node == NULL)
 	{
-		errno = ENOMEM;
 		return ;
 	}
 	new_node->parent = *ast;
