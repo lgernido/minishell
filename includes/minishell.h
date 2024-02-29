@@ -48,7 +48,7 @@
 
 // Path to discards
 
-#define STD_IN_DEV "/dev/stdin"
+# define STD_IN_DEV "/dev/stdin"
 # define STD_IN_PROC "/proc/self/fd/0"
 
 # define STD_OUT_DEV "/dev/stdout"

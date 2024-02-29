@@ -16,6 +16,8 @@
 void	init_node(t_command_node *node)
 {
 	ft_bzero(node, sizeof(t_command_node));
+	node->pipe[READ_ENTRY] = -1;
+	node->pipe[WRITE_ENTRY] = -1;
 	node->fd_infile = -1;
 	node->fd_outfile = -1;
 	return ;
