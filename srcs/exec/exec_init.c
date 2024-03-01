@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "exec.h"
+#include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -38,39 +39,16 @@ t_bool	is_built_in(char *command)
 	return (FALSE);
 }
 
-t_bool	is_pipe_needed(t_command_node *current_command)
-{
-	t_bool	return_value;
-
-	return_value = FALSE;
-	if (current_command->next != NULL)
-	{
-		return_value = TRUE;
-	}
-	return (return_value);
-}
-
 int	pipe_if_needed(t_command_node *current_command)
 {
-	const t_bool	need_pipe = is_pipe_needed(current_command);
 	int				return_value;
 
 	return_value = 0;
-	if (current_command->next !=)
+	if (current_command->next != NULL)
 	{
 		return_value = pipe(current_command->pipe);
 	}
 	return (return_value);
-}
-
-void	close_if_open(int *fd)
-{
-	if (*fd != -1)
-	{
-		close (*fd);
-		*fd = -1;
-	}
-	return ;
 }
 
 void	parent_routine(t_command_node *current_command)
@@ -82,22 +60,20 @@ void	parent_routine(t_command_node *current_command)
 	return ;
 }
 
-void	exec_command(t_core *core, t_command_node *current_command)
+void	exec_command(t_core *core, t_command_node *current_command, pid_t *pid)
 {
-	pid_t	pid;
-
 	if (pipe_if_needed(current_command) == -1)
 	{
 		ft_clean_exit(core, PIPE_ERROR);
 	}
-	pid = fork();
-	if (pid == -1)
+	*pid = fork();
+	if (*pid == -1)
 	{
 		ft_clean_exit(core, FORK_ERROR);
 	}
-	if (pid == 0)
+	if (*pid == 0)
 	{
-		//
+		child_routine(core, current_command);
 	}
 	parent_routine(current_command);
 	return ;
@@ -105,6 +81,11 @@ void	exec_command(t_core *core, t_command_node *current_command)
 
 void	exec_init(t_core *core)
 {
+	t_pid_vector	*pid_vector;
+
+	pid_vector = NULL;
+	init_pid_vector(core, pid_vector);
+	attach_pid_vector(core->ast, pid_vector);
 	while (core->ast->command_list != NULL)
 	{
 		if (is_built_in(core->ast->command_list->cmd[0]) == TRUE)
@@ -114,7 +95,9 @@ void	exec_init(t_core *core)
 		else
 		{
 			check_errno(core);
-			// do other thing
+			exec_command(core, core->ast->command_list,
+				&pid_vector->pids[pid_vector->iterator_position]);
+			update_iterator_position(core, pid_vector);
 		}
 		core->ast->command_list = core->ast->command_list->next;
 	}

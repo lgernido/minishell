@@ -114,11 +114,19 @@ typedef struct s_token_stream_node
 	struct s_token_stream_node	*next;
 }								t_token_stream_node;
 
+typedef struct s_pid_vector
+{
+	pid_t	*pids;
+	size_t	iterator_position;
+	size_t	vector_size;
+}							t_pid_vector;
+
 typedef struct s_ast_node
 {
 	t_token_stream_node	*token_stream;
 	t_token_stream_node	**split_streams;
 	t_command_node		*command_list;
+	t_pid_vector		*pid_vector;
 	size_t				number_of_split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
@@ -229,6 +237,7 @@ void	ft_split_stream_clean(t_ast_node *ast);
 void							ft_free_node(t_token_stream_node **node);
 
 void							free_if_needed(void **str);
+void	close_if_open(int *fd);
 
 // ========================================================================= //
 

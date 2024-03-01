@@ -13,14 +13,27 @@
 #include "AST.h"
 #include "minishell.h"
 
+void	close_if_open(int *fd)
+{
+	if (*fd != -1)
+	{
+		close (*fd);
+		*fd = -1;
+	}
+	return ;
+}
+
 void	ft_clean_node(t_command_node *node)
 {
-	if (node->fd_infile != -1)
-		close(node->fd_infile);
-	if (node->fd_outfile != -1)
-		close(node->fd_outfile);
+	close_if_open(&node->fd_infile);
+	close_if_open(&node->fd_outfile);
+	close_if_open(&node->pipe[READ_ENTRY]);
+	close_if_open(&node->pipe[WRITE_ENTRY]);
+	free_if_needed((void **)node->here_doc);
 	if (node->cmd)
+	{
 		ft_free_tab(node->cmd);
+	}
 }
 
 void	ft_command_clear(t_command_node **list)
@@ -86,6 +99,16 @@ void	ft_split_stream_clean(t_ast_node *ast)
 	ast->split_streams = NULL;
 }
 
+void	free_pid_vector(t_pid_vector **pid_vector)
+{
+	if (*pid_vector != NULL)
+	{
+		free((*pid_vector)->pids);
+		free(*pid_vector);
+	}
+	return ;
+}
+
 void	ft_ast_clear(t_ast_node **node)
 {
 	if (*node == NULL)
@@ -106,6 +129,7 @@ void	ft_ast_clear(t_ast_node **node)
 	{
 		ft_split_stream_clean(*node);
 	}
+	free_pid_vector(&(*node)->pid_vector);
 	free(*node);
 	*node = NULL;
 }

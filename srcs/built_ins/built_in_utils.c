@@ -60,9 +60,9 @@ char	*ft_getenv(t_core *core, char *var)
 	var++;
 	if (!ft_strncmp(var, "?", 2))
 		return (ft_itoa(core->error_code));
-	while (core->env[i])
+	while (i < core->env_size)
 	{
-		if (!ft_strncmp(core->env[i], var, len))
+		if (core->env[i] != NULL && !ft_strncmp(core->env[i], var, len))
 			return (ft_strdup(core->env[i] + 1 + len));
 		i++;
 	}
