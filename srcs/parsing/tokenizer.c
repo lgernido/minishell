@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/02/16 09:16:08 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/05 13:10:06 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*ft_tokenizer(t_core *minishell)
 			ft_fix_redirect_types(*tmp);
 			return (tmp->value);
 		}
+		ft_fix_redirect_types(*tmp);
 		tmp = tmp->next;
 	}
 	return (NULL);
