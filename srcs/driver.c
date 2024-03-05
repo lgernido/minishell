@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   driver.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 17:22:06 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/22 17:22:07 by purmerinos       ###   ########.fr       */
+/*   Updated: 2024/03/04 09:19:05 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	minishell_driver(t_core *core)
 	{
 		react_sig(core);
 	}
-	user_input = fetch_input(core->error_code);
+	user_input = fetch_input(core, core->error_code);
 	tokenized_user_input = split_str(core, user_input);
 	ast_init(tokenized_user_input, core);
 	ast_driver(core);
