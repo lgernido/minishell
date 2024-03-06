@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/06 09:13:37 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:54:15 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,12 @@ void	ft_start_parse(t_core *minishell, char *str)
 	if (ft_is_ascii(str))
 	{
 		ft_dprintf(2, "minishell: invalid ascii characters found in string\n");
-		ft_clean_exit(minishell, BAD_COMMAND);
+		return ;
+	}
+	if (ft_quotes(str))
+	{
+		ft_dprintf(2, "unclosed quotes can't be interpreted\n");
+		return ;
 	}
 	ft_split_tokens(minishell, str);
 	token = ft_tokenizer(minishell);
@@ -67,6 +72,7 @@ void	ft_start_parse(t_core *minishell, char *str)
 	{
 		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
 			token);
-		ft_clean_exit(minishell, BAD_COMMAND);
+		ft_clear_token_list(&minishell->token_list, free);
+		return ;
 	}
 }

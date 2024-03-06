@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/02/16 11:08:02 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:49:11 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,25 @@ See if a position in s is between brackets
 s = array in which to check for brackets
 pos = position to check
 */
-int	ft_quotes(char *s, int pos)
+int	ft_quotes(char *str)
 {
-	int	double_quotes;
-	int	single_quotes;
 	int	i;
+	int	single_quotes;
+	int	double_quotes;
 
-	double_quotes = 0;
-	single_quotes = 0;
 	i = 0;
-	while (i <= pos)
+	single_quotes = 0;
+	double_quotes = 0;
+	while (str[i])
 	{
-		if (s[i] == 34 && (i == 0 || !ft_escape(s, i - 1)) && single_quotes
-			% 2 == 0)
+		if (str[i] == '\"')
 			double_quotes++;
-		if (s[i] == 39 && (i == 0 || single_quotes % 2 != 0 || !ft_escape(s, i
-					- 1)) && double_quotes % 2 == 0)
+		else if (str[i] == '\'')
 			single_quotes++;
 		i++;
 	}
-	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
+	if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
 		return (1);
-	return (0);
+	else
+		return (0);
 }

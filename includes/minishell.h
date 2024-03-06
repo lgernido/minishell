@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/06 09:18:18 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:46:54 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ typedef struct stat				t_stat;
 void							ft_start_parse(t_core *minishell, char *str);
 
 // parser_utils.c//
-int								ft_quotes(char *s, int pos);
+int								ft_quotes(char *str);
 int								ft_escape(char *s, int pos);
 int								ft_find_char_str(char c, char *str);
 int								ft_samestr(char *s1, char *s2);
