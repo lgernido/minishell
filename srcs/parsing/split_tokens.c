@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/06 10:05:09 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:22:38 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,40 +23,40 @@ sign = handling context
 	3 -> check if c[i] == sep
 */
 
-int	ft_split_utils(int i, char *str, char *sep, int sign)
-{
-	if (sign == 1 && ft_find_char_str(str[i], sep) && !ft_find_char_str(str[i
-			+ 1], sep) && !ft_quotes(str, i) && !ft_escape(str, i - 1))
-		return (1);
-	else if (sign == 0 && ft_find_char_str(str[i], sep) && i > 0
-		&& ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
-		&& !ft_escape(str, i - 1))
-		return (1);
-	else if (sign == 2 && ft_find_char_str(str[i], sep) && i > 0
-		&& ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
-		&& !ft_escape(str, i - 1))
-		return (1);
-	else if (sign == 3 && ft_find_char_str(str[i], sep) && !ft_quotes(str, i)
-		&& !ft_escape(str, i - 1))
-		return (1);
-	return (0);
-}
+// int	ft_split_utils(int i, char *str, char *sep, int sign)
+// {
+// 	if (sign == 1 && ft_find_char_str(str[i], sep) && !ft_find_char_str(str[i
+// 			+ 1], sep) && !ft_quotes(str, i) && !ft_escape(str, i - 1))
+// 		return (1);
+// 	else if (sign == 0 && ft_find_char_str(str[i], sep) && i > 0
+// 		&& ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
+// 		&& !ft_escape(str, i - 1))
+// 		return (1);
+// 	else if (sign == 2 && ft_find_char_str(str[i], sep) && i > 0
+// 		&& ft_find_char_str(str[i - 1], sep) && !ft_quotes(str, i)
+// 		&& !ft_escape(str, i - 1))
+// 		return (1);
+// 	else if (sign == 3 && ft_find_char_str(str[i], sep) && !ft_quotes(str, i)
+// 		&& !ft_escape(str, i - 1))
+// 		return (1);
+// 	return (0);
+// }
 
-int	ft_split_tokens2(t_core *minishell, char *str, int *i, t_token **start)
-{
-	if (!ft_find_char_str(str[*i], " \t") && !ft_quotes(str, *i)
-		&& !ft_escape(str, *i - 1))
-	{
-		ft_add_token_list(start, ft_create_token(minishell, *i, str));
-		(*i)++;
-		return (0);
-	}
-	if ((ft_find_char_str(str[*i], "|;<>&()") && *i > 0
-			&& !ft_find_char_str(str[*i - 1], "|;<>&()")) && !ft_quotes(str, *i)
-		&& !ft_escape(str, *i - 1))
-		ft_add_token_list(start, ft_create_token(minishell, *i, str));
-	return (1);
-}
+// int	ft_split_tokens2(t_core *minishell, char *str, int *i, t_token **start)
+// {
+// 	if (!ft_find_char_str(str[*i], " \t") && !ft_quotes(str, *i)
+// 		&& !ft_escape(str, *i - 1))
+// 	{
+// 		ft_add_token_list(start, ft_create_token(minishell, *i, str));
+// 		(*i)++;
+// 		return (0);
+// 	}
+// 	if ((ft_find_char_str(str[*i], "|;<>&()") && *i > 0
+// 			&& !ft_find_char_str(str[*i - 1], "|;<>&()")) && !ft_quotes(str, *i)
+// 		&& !ft_escape(str, *i - 1))
+// 		ft_add_token_list(start, ft_create_token(minishell, *i, str));
+// 	return (1);
+// }
 void	ft_split_tokens(t_core *minishell, char *str)
 {
 	int		i;
