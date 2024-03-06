@@ -48,24 +48,15 @@ void	build_command_from_tokens(t_token_stream_node *command_stream,
 }
 
 int	build_command_node(t_token_stream_node **command_stream,
-		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
 		t_command_node *command_node)
 {
 	int	return_value;
 
 	return_value = 0;
-	return_value = translate_input(input_stream, command_node);
-	if (return_value == 0)
+	build_command_from_tokens(*command_stream, command_node);
+	if (errno == ENOMEM)
 	{
-		return_value = translate_output(output_stream, command_node);
-	}
-	if (return_value == 0)
-	{
-		build_command_from_tokens(*command_stream, command_node);
-		if (command_node->cmd == NULL && errno == ENOMEM)
-		{
-			return_value = MALLOC;
-		}
+		return_value = MALLOC;
 	}
 	return (return_value);
 }

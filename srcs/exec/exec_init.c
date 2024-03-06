@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 #include "exec.h"
+#include <stdlib.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
-t_bool	is_built_in(char *command)
+int	is_built_in(char *command)
 {
 	const char		**built_ins = (const char **)ft_split
 		("env export unset cd pwd exit echo", ' ');
@@ -26,17 +28,17 @@ t_bool	is_built_in(char *command)
 	i = 0;
 	if (built_ins == NULL)
 	{	
-		return (FALSE);
+		return (-1);
 	}
 	while (built_ins[i] != NULL)
 	{
 		if (ft_strncmp(command, built_ins[i], command_len) == 0)
 		{
-			return (TRUE);
+			return (i);
 		}
 		i++;
 	}
-	return (FALSE);
+	return (-1);
 }
 
 int	pipe_if_needed(t_command_node *current_command)
@@ -60,32 +62,65 @@ void	parent_routine(t_command_node *current_command)
 	return ;
 }
 
-void	exec_command(t_core *core, t_command_node *current_command, pid_t *pid)
+pid_t	exec_command(t_core *core, t_command_node *current_command)
 {
+	pid_t	pid;
+
 	if (pipe_if_needed(current_command) == -1)
 	{
 		ft_clean_exit(core, PIPE_ERROR);
 	}
-	*pid = fork();
-	if (*pid == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		ft_clean_exit(core, FORK_ERROR);
 	}
-	if (*pid == 0)
+	if (pid == 0)
 	{
 		child_routine(core, current_command);
 	}
 	parent_routine(current_command);
+	return (pid);
+}
+
+int	wait_last_child(pid_t last_pid)
+{
+	int	status;
+	int	return_value;
+
+	waitpid(last_pid, &status, 0);
+	if (WIFSIGNALED(status) == TRUE)
+	{
+		return_value = WTERMSIG(status);
+	}
+	else
+	{
+		return_value = WEXITSTATUS(status);
+	}
+	return (return_value);
+}
+
+void	wait_for_childrens(t_core *core, int built_in_return, pid_t last_pid)
+{
+	if (built_in_return == -1)
+	{
+		core->error_code = built_in_return;
+	}
+	else
+	{
+		core->error_code = wait_last_child(last_pid);
+	}
+	while (wait(NULL) != -1)
+	{
+	}
 	return ;
 }
 
 void	exec_init(t_core *core)
 {
-	t_pid_vector	*pid_vector;
+	pid_t	last_pid;
+	int		built_in_return;
 
-	pid_vector = NULL;
-	init_pid_vector(core, pid_vector);
-	attach_pid_vector(core->ast, pid_vector);
 	while (core->ast->command_list != NULL)
 	{
 		if (is_built_in(core->ast->command_list->cmd[0]) == TRUE)
@@ -94,11 +129,11 @@ void	exec_init(t_core *core)
 		}
 		else
 		{
+			built_in_return = -1;
 			check_errno(core);
-			exec_command(core, core->ast->command_list,
-				&pid_vector->pids[pid_vector->iterator_position]);
-			update_iterator_position(core, pid_vector);
+			last_pid = exec_command(core, core->ast->command_list);
 		}
 		core->ast->command_list = core->ast->command_list->next;
 	}
+	wait_for_childrens(core, built_in_return, last_pid);
 }

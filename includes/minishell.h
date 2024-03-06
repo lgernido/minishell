@@ -48,9 +48,11 @@
 
 // Path to discards
 
+# define STDIN_NODE 0
 # define STD_IN_DEV "/dev/stdin"
 # define STD_IN_PROC "/proc/self/fd/0"
 
+# define STDOUT_NODE 1
 # define STD_OUT_DEV "/dev/stdout"
 # define STD_OUT_PROC "/proc/self/fd/1"
 
@@ -94,18 +96,6 @@ typedef enum e_bool
 	TRUE = 1
 }								t_bool;
 
-typedef struct s_command_node
-{
-	int						fd_infile;	
-	char					*here_doc;
-	t_bool					is_here_doc;
-	int						fd_outfile;
-	int						pipe[2];
-	char					**cmd;
-	struct s_command_node	*next;
-	struct s_command_node	*prev;
-}					t_command_node;
-
 typedef struct s_token_stream_node
 {
 	t_token_type				type;
@@ -114,19 +104,24 @@ typedef struct s_token_stream_node
 	struct s_token_stream_node	*next;
 }								t_token_stream_node;
 
-typedef struct s_pid_vector
+typedef struct s_command_node
 {
-	pid_t	*pids;
-	size_t	iterator_position;
-	size_t	vector_size;
-}							t_pid_vector;
+	int						fd_infile;	
+	char					*here_doc;
+	t_bool					is_here_doc;
+	int						fd_outfile;
+	int						pipe[2];
+	char					**cmd;
+	t_token_stream_node		*redirections;
+	struct s_command_node	*next;
+	struct s_command_node	*prev;
+}					t_command_node;
 
 typedef struct s_ast_node
 {
 	t_token_stream_node	*token_stream;
 	t_token_stream_node	**split_streams;
 	t_command_node		*command_list;
-	t_pid_vector		*pid_vector;
 	size_t				number_of_split_streams;
 	struct s_ast_node	*parent;
 	struct s_ast_node	*on_success;
@@ -152,6 +147,7 @@ typedef struct s_token
 
 extern atomic_int				g_signal;
 typedef struct stat				t_stat;
+typedef int						(*t_built_ins)(char **av, t_core *core);
 
 // ========================================================================= //
 /*PARSING*/
@@ -264,7 +260,7 @@ void							update_shell_lvl(t_core *core);
 // ========================================================================= //
 
 // built-ins
-int	echo(char **av, t_core *core);    // echo.c
+int	ft_echo(char **av, t_core *core);    // echo.c
 int	ft_cd(char **av, t_core *core);   // cd.c
 int	ft_exit(char **av, t_core *core); // exit.c
 int								ft_pwd(char **av, t_core *core);
@@ -287,7 +283,6 @@ int	translate_input(t_token_stream_node **input_stream,
 int	translate_output(t_token_stream_node **output_stream,
 		t_command_node *command_node);
 int	build_command_node(t_token_stream_node **command_stream,
-		t_token_stream_node **input_stream, t_token_stream_node **output_stream,
 		t_command_node *command_node);
 void	check_errno(t_core *core);
 

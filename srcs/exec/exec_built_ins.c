@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operator_stream_low_level_func.c                   :+:      :+:    :+:   */
+/*   exec_built_ins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 19:39:04 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/20 19:39:05 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/03/05 09:40:59 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/03/05 09:41:00 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
 #include "minishell.h"
 #include "built_ins.h"
-#include <asm-generic/errno-base.h>
-#include <errno.h>
+#include "exec.h"
 
-void	safely_del_node(t_token_stream_node **node)
+void	init_built_ins_tab(t_built_ins *built_ins_tab)
 {
-	t_token_stream_node	*temp;
+	built_ins_tab[0] = ft_env;
+	built_ins_tab[1] = ft_export;
+	built_ins_tab[2] = ft_unset;
+	built_ins_tab[3] = ft_cd;
+	built_ins_tab[4] = ft_pwd;
+	built_ins_tab[5] = ft_exit;
+	built_ins_tab[6] = ft_echo;
+	return ;
+}
 
-	temp = *node;
-	*node = (*node)->next;
-	ft_del_node(&temp);
+void	exec_built_ins(t_core *core, t_command_node *current_command,
+		int command_index)
+{
+	t_built_ins	built_in_tab[7];
+
+	init_built_ins_tab(built_in_tab);
 }

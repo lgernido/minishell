@@ -62,7 +62,7 @@ void	assemble_command(char **possible_path, char *command_to_exec)
 		{
 			break ;
 		}
-		if (access(joined_str, X_OK) == 0)
+		if (access(joined_str, F_OK) == 0)
 		{
 			free(command_to_exec);
 			command_to_exec = joined_str;

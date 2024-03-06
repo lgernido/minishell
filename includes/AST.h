@@ -70,7 +70,8 @@ void				climb_stream_to_origin(t_token_stream_node **token_stream);
 // Will clear the parenthesis pair, according to the address of the node send
 void				discard_parenthesis(t_token_stream_node **token_stream);
 
-// will return a pointer to the first operator. Mode : AND, OR, ANY
+// will return a pointer to the first operator. The second parameter should 
+// be the functions that will identify the searched token type(s)
 t_token_stream_node	*find_searched_token(t_token_stream_node *token_stream,
 						t_bool (*searched_token)(t_token_stream_node *token));
 
@@ -173,16 +174,6 @@ t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
 		t_bool (*searching_function)(t_token_stream_node *token));
 
 
-int	get_inode_to_discard(ino_t *inode_tab, char *path1, char *path2);
-int	check_redirections(t_token_stream_node **input_stream,
-		int (*verif_function)(t_token_stream_node *node, t_stat *stat),
-		char *path1, char *path2);
-void	lstat_error(void *arg);
-int	get_stat_for_the_path(t_stat *stat, t_token_stream_node *node);
-int	check_inode_to_discard(t_token_stream_node **node, t_token_stream_node **stream, t_stat *stat,
-		ino_t *inode_to_discard);
 void	safely_del_node(t_token_stream_node **node);
-int	verify_outputs(t_token_stream_node *node, t_stat *stat);
-int	verify_inputs(t_token_stream_node *node, t_stat *stat);
 
 #endif // !AST_H

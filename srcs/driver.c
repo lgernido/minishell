@@ -21,44 +21,20 @@ void	check_errno(t_core *core)
 	}
 }
 
-int	check_i_o(t_token_stream_node **inputs, t_token_stream_node **outputs)
-{
-	int	return_value;
-
-	return_value = 0;
-	return_value += check_redirections(inputs, verify_inputs,
-			STD_IN_DEV, STD_IN_PROC);
-	return_value += check_redirections(outputs, verify_outputs,
-			STD_OUT_DEV, STD_OUT_PROC);
-	return (return_value);
-}
-
 int	split_stream_driver(t_token_stream_node **split_stream,
 		t_command_node *command_node)
 {
-	t_token_stream_node	*inputs;
-	t_token_stream_node	*outputs;
 	int					return_value;
 
 	return_value = 0;
 	shrink_stream(split_stream);
-	inputs = build_operator_stream(split_stream, find_input_operator);
-	outputs = build_operator_stream(split_stream, find_output_operator);
+	command_node->redirections = build_operator_stream(split_stream,
+			find_redirection_operator);
 	if (errno == ENOMEM)
 	{
 		return (MALLOC);
 	}
-	return_value = check_i_o(&inputs, &outputs);
-	if (return_value == 0)
-	{
-		return_value = build_command_node(split_stream, &inputs,
-				&outputs, command_node);
-	}
-	else
-	{
-		ft_token_stream_clear(&inputs);
-		ft_token_stream_clear(&outputs);
-	}
+	return_value = build_command_node(split_stream, command_node);
 	return (return_value);
 }
 

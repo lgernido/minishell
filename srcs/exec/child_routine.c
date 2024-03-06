@@ -13,6 +13,7 @@
 #include "exec.h"
 #include "minishell.h"
 #include "built_ins.h"
+#include <signal.h>
 #include <unistd.h>
 
 void	safely_close_pipe_entry(t_command_node *node, int entry_to_close)
@@ -81,14 +82,11 @@ int	manage_output(t_command_node *current_command)
 	return (return_value);
 }
 
-void	command_not_found(void *arg)
-{
-	ft_printf_err("minishell: command not found: %s\n", (char *)arg);
-}
-
 void	child_routine(t_core *core, t_command_node *current_command)
 {
-	safely_close_pipe_entry(current_command->next, READ_ENTRY);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
+	safely_close_pipe_entry(current_command, READ_ENTRY);
 	if (manage_input(current_command) == -1)
 	{
 		ft_clean_exit(core, errno);
@@ -99,6 +97,6 @@ void	child_routine(t_core *core, t_command_node *current_command)
 	}
 	retrieve_path(core, current_command);
 	execve(current_command->cmd[0], current_command->cmd, core->env);
-	throw_error_message(current_command->cmd[0], command_not_found);
+	throw_exec_message(current_command->cmd[0]);
 	ft_clean_exit(core, EXECVE_ERROR);
 }
