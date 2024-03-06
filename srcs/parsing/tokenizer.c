@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/06 09:15:17 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:17:28 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,9 @@ char	*ft_tokenizer(t_core *minishell)
 	while (tmp)
 	{
 		if (ft_check_error(tmp))
-		{
 			return (tmp->value);
-		}
 		else
-		{
-			if (tmp->type == T_REDIRECT)
-				tmp->type = ft_fix_redirect_types(*tmp);
-		}
+			tmp->type = ft_fix_redirect_types(*tmp);
 		tmp = tmp->next;
 	}
 	return (NULL);
