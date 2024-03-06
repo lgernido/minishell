@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/04 09:22:16 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:15:36 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,13 +146,7 @@ extern atomic_int				g_signal;
 typedef struct stat				t_stat;
 
 // ========================================================================= //
-/*PARSING*/
-
-// parser.c //
-void							ft_start_parse(t_core *minishell, char *str);
-
-// parser_utils.c//
-int								ft_quotes(char *s, int pos);
+/*PARSING*/token_to_fix.type			ft_quotes(char *s, int pos);
 int								ft_escape(char *s, int pos);
 int								ft_find_char_str(char c, char *str);
 int								ft_samestr(char *s1, char *s2);
@@ -163,7 +157,7 @@ t_bool							ft_is_separator(char c);
 int								ft_check_error(t_token *token);
 int								ft_define_type(t_token *tmp);
 char							*ft_tokenizer(t_core *minishell);
-void							ft_fix_redirect_types(t_token token_to_fix);
+int								ft_fix_redirect_types(t_token token_to_fix);
 // split_tokens.c //
 int								ft_split_utils(int i, char *str, char *sep,
 									int sign);

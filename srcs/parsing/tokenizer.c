@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/05 13:10:06 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/06 09:15:17 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,20 @@ int	ft_check_error(t_token *token)
 {
 	if ((token->type == T_PIPE || token->type == T_SEP || token->type == T_AND
 			|| token->type == T_OR) && !token->prev)
-		return (0);
+		return (1);
 	if (token->type == T_REDIRECT && (token->prev
 			&& token->prev->type == T_REDIRECT))
-		return (0);
+		return (1);
 	if (token->type == T_NEWLINE && token->prev
 		&& (token->prev->type == T_REDIRECT || token->prev->type == T_PIPE
 			|| token->prev->type == T_AND || token->prev->type == T_OR))
-		return (0);
+		return (1);
 	if ((token->type == T_PIPE || token->type == T_SEP || token->type == T_AND
 			|| token->type == T_OR) && (token->prev->type == T_PIPE
 			|| token->prev->type == T_SEP || token->prev->type == T_REDIRECT
 			|| token->prev->type == T_AND || token->prev->type == T_OR))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 int	ft_define_type(t_token *tmp)
 {
@@ -52,16 +52,18 @@ int	ft_define_type(t_token *tmp)
 	return (1);
 }
 
-void	ft_fix_redirect_types(t_token token_to_fix)
+int	ft_fix_redirect_types(t_token token_to_fix)
 {
 	if (ft_samestr(token_to_fix.value, ">"))
-		token_to_fix.type = T_OUTPUT_FILE;
+		return (T_OUTPUT_FILE);
 	else if (ft_samestr(token_to_fix.value, ">>"))
-		token_to_fix.type = T_APPEND;
+		return (T_APPEND);
 	else if (ft_samestr(token_to_fix.value, "<"))
-		token_to_fix.type = T_INPUT_FILE;
+		return (T_INPUT_FILE);
 	else if (ft_samestr(token_to_fix.value, "<<"))
-		token_to_fix.type = T_HEREDOC;
+		return (T_HEREDOC);
+	else
+		return (token_to_fix.type);
 }
 char	*ft_tokenizer(t_core *minishell)
 {
@@ -77,12 +79,20 @@ char	*ft_tokenizer(t_core *minishell)
 			;
 		else
 			tmp->type = T_WORD;
-		if (!ft_check_error(tmp))
+		tmp = tmp->next;
+	}
+	tmp = minishell->token_list;
+	while (tmp)
+	{
+		if (ft_check_error(tmp))
 		{
-			ft_fix_redirect_types(*tmp);
 			return (tmp->value);
 		}
-		ft_fix_redirect_types(*tmp);
+		else
+		{
+			if (tmp->type == T_REDIRECT)
+				tmp->type = ft_fix_redirect_types(*tmp);
+		}
 		tmp = tmp->next;
 	}
 	return (NULL);
