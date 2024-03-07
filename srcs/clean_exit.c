@@ -29,9 +29,15 @@ void	ft_clean_node(t_command_node *node)
 	close_if_open(&node->fd_outfile);
 	close_if_open(&node->pipe[READ_ENTRY]);
 	close_if_open(&node->pipe[WRITE_ENTRY]);
-	free_if_needed((void **)node->here_doc);
-	if (node->cmd)
+	close_if_open(&node->saved_infile);
+	close_if_open(&node->saved_outfile);
+	if (node->here_doc != NULL)
 	{
+		free(node->here_doc);
+	}
+	if (node->cmd != NULL)
+	{
+		// IS ERROR PRONE !! ARRAY CAN BE NULL. WILL HANDLE IT LATER
 		ft_free_tab(node->cmd);
 	}
 }
@@ -97,16 +103,6 @@ void	ft_split_stream_clean(t_ast_node *ast)
 	}
 	free(tmp);
 	ast->split_streams = NULL;
-}
-
-void	free_pid_vector(t_pid_vector **pid_vector)
-{
-	if (*pid_vector != NULL)
-	{
-		free((*pid_vector)->pids);
-		free(*pid_vector);
-	}
-	return ;
 }
 
 void	ft_ast_clear(t_ast_node **node)

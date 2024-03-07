@@ -28,7 +28,7 @@ static int	get_stat_for_the_path(const char *path_to_stat,
 	}
 	else
 	{
-		throw_error_message(NULL, lstat_error);
+		throw_error_message("lstat", exec_error);
 	}
 	return (return_value);
 }

@@ -21,7 +21,7 @@ int	open_file(char *path, int flags)
 	fd = open(path, flags);
 	if (fd == -1)
 	{
-		throw_error_message(path, open_file_error);
+		throw_error_message(path, exec_error);
 	}
 	return (fd);
 }

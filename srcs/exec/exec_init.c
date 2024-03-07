@@ -48,7 +48,7 @@ int	pipe_if_needed(t_command_node *current_command)
 	return_value = 0;
 	if (current_command->next != NULL)
 	{
-		return_value = pipe(current_command->pipe);
+		return_value = checked_pipe(current_command->pipe);
 	}
 	return (return_value);
 }
@@ -68,12 +68,12 @@ pid_t	exec_command(t_core *core, t_command_node *current_command)
 
 	if (pipe_if_needed(current_command) == -1)
 	{
-		ft_clean_exit(core, PIPE_ERROR);
+		ft_clean_exit(core, errno);
 	}
-	pid = fork();
+	pid = checked_fork();
 	if (pid == -1)
 	{
-		ft_clean_exit(core, FORK_ERROR);
+		ft_clean_exit(core, errno);
 	}
 	if (pid == 0)
 	{
@@ -100,13 +100,10 @@ int	wait_last_child(pid_t last_pid)
 	return (return_value);
 }
 
-void	wait_for_childrens(t_core *core, int built_in_return, pid_t last_pid)
+void	wait_for_childrens(t_core *core, pid_t last_pid,
+		t_bool last_cmd_is_a_built_in)
 {
-	if (built_in_return == -1)
-	{
-		core->error_code = built_in_return;
-	}
-	else
+	if (last_cmd_is_a_built_in == FALSE)
 	{
 		core->error_code = wait_last_child(last_pid);
 	}
@@ -119,21 +116,21 @@ void	wait_for_childrens(t_core *core, int built_in_return, pid_t last_pid)
 void	exec_init(t_core *core)
 {
 	pid_t	last_pid;
-	int		built_in_return;
+	t_bool	last_cmd_is_a_build_in;
 
 	while (core->ast->command_list != NULL)
 	{
 		if (is_built_in(core->ast->command_list->cmd[0]) == TRUE)
 		{
-			//
+			last_cmd_is_a_build_in = TRUE;
 		}
 		else
 		{
-			built_in_return = -1;
+			last_cmd_is_a_build_in = FALSE;
 			check_errno(core);
 			last_pid = exec_command(core, core->ast->command_list);
 		}
 		core->ast->command_list = core->ast->command_list->next;
 	}
-	wait_for_childrens(core, built_in_return, last_pid);
+	wait_for_childrens(core, last_pid, last_cmd_is_a_build_in);
 }

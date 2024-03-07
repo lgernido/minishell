@@ -13,17 +13,19 @@
 #include "libft.h"
 #include "minishell.h"
 
-void	init_node(t_command_node *node)
+static void	init_node(t_command_node *node)
 {
 	ft_bzero(node, sizeof(t_command_node));
 	node->pipe[READ_ENTRY] = -1;
 	node->pipe[WRITE_ENTRY] = -1;
 	node->fd_infile = -1;
 	node->fd_outfile = -1;
+	node->saved_infile = -1;
+	node->saved_outfile = -1;
 	return ;
 }
 
-t_command_node	*create_command_list_node(void)
+static t_command_node	*create_command_list_node(void)
 {
 	t_command_node	*new_node;
 
@@ -35,7 +37,7 @@ t_command_node	*create_command_list_node(void)
 	return (new_node);
 }
 
-void	command_node_add_back(t_command_node **command_list,
+static void	command_node_add_back(t_command_node **command_list,
 		t_command_node *new_node)
 {
 	t_command_node	*tmp;
@@ -59,7 +61,7 @@ void	command_node_add_back(t_command_node **command_list,
 	return ;
 }
 
-void	get_last_command_node(t_command_node **command_list)
+static void	get_last_command_node(t_command_node **command_list)
 {
 	if (command_list == NULL || *command_list == NULL)
 	{

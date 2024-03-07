@@ -112,6 +112,8 @@ typedef struct s_command_node
 	int						fd_outfile;
 	int						pipe[2];
 	char					**cmd;
+	int						saved_infile;
+	int						saved_outfile;
 	t_token_stream_node		*redirections;
 	struct s_command_node	*next;
 	struct s_command_node	*prev;
@@ -180,8 +182,8 @@ t_token							*ft_create_arg_token(t_core *minishell,
 									char *word, int type);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
-void							ft_clear_token_list(t_token **begin,
-				 					void (*del)(void *));
+void							ft_clear_token_list(
+									t_token **begin, void (*del)(void *));
 int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
@@ -194,17 +196,40 @@ void							ft_ast_clear(t_ast_node **node);
 // init core struct
 void							init_core(t_core *core);
 
-// init a new node --> This must move
-void		init_node(t_command_node *node);
-t_command_node	*create_command_list_node(void);
-void	command_node_add_back(t_command_node **command_list,
-		t_command_node *new_node);
-void	get_last_command_node(t_command_node **command_list);
-void	update_command_list(t_core *core);
+// ========================================================================= //
 
-// Add a new node at the back of the given list
-void							node_add_back(t_command_node **list,
-									t_command_node *node);
+// In driver.c, it is the functions where the programm comes back
+// after executing each command
+
+// Entry point for handling a command. Is constantly called
+// after programm init until the program exit.
+void							minishell_driver(t_core *core);
+
+// Wil call readline to get an input and return it.
+char							*fetch_input(int error_code);
+
+// In turn_split_stream_in_command_node.c
+// Will take the split_stream (which , at this point, only contain)
+// a command and it's argument, and turn it into char ** attach to
+// the command node.
+int								build_command_node(
+									t_token_stream_node **command_stream,
+									t_command_node *command_node);
+
+// Exit if errno is set to ENOMEM. Used when a function who allocate have
+// the right to return NULL ( "ex : > out | echo la" After handling
+// Redirection, first node stream will be NULL).
+void							check_errno(t_core *core);
+
+// For debuging exec purpose only.  Don't norm me !
+t_token_stream_node *split_str(t_core *core, char *str);
+
+// ========================================================================= //
+
+// in command_list_base_function.c
+// Will create a new command node , add it back to the end
+// of the command node stream, and update the pointer to point to it.
+void							update_command_list(t_core *core);
 
 // ========================================================================= //
 
@@ -264,43 +289,19 @@ void							update_shell_lvl(t_core *core);
 
 // ========================================================================= //
 
-// built-ins
-int	ft_echo(char **av, t_core *core);    // echo.c
-int	ft_cd(char **av, t_core *core);   // cd.c
-int	ft_exit(char **av, t_core *core); // exit.c
+// built-ins in the built-ins folder
+int								ft_echo(char **av, t_core *core); // echo.c
+int								ft_cd(char **av, t_core *core); // cd.c
+int								ft_exit(char **av, t_core *core); // exit.c
 int								ft_pwd(char **av, t_core *core);
-int	ft_env(char **av, t_core *core);    // env.c
-int	ft_unset(char **av, t_core *core);  // unset.c
-int	ft_export(char **av, t_core *core); // export.c
+int								ft_env(char **av, t_core *core); // env.c
+int								ft_unset(char **av, t_core *core); // unset.c
+int								ft_export(char **av, t_core *core); // export.c
+
+// ========================================================================= //
 
 // Entry point for ast setup
 void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
 
-char	*fetch_input(int error_code);
-
-// Call this functions just after retrieving user input
-// to test ast without parsing
-t_token_stream_node *split_str(t_core *core, char *str);
-void	minishell_driver(t_core *core);
-int	translate_input(t_token_stream_node **input_stream,
-		t_command_node *command_node);
-int	translate_output(t_token_stream_node **output_stream,
-		t_command_node *command_node);
-int	build_command_node(t_token_stream_node **command_stream,
-		t_command_node *command_node);
-void	check_errno(t_core *core);
-
 #endif
-
-/* 
-Exec pseudo code :
-	- Resolve var and wildcards // discard multiple files input
-	- split into sub list by pipes
-	- resolve infiles
-	- resolve outfiles
-	- build command
-	- setup pipes and dup 
-	- check access
-	- exec
-*/

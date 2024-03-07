@@ -64,7 +64,7 @@ static int	find_good_output(t_token_stream_node *redirections_stream,
 					&command_node->fd_outfile, O_WRONLY | O_TRUNC);
 			break ;
 		}
-		else if (is_the_searched_token(redirections_stream, T_REDIRECT) == TRUE)
+		else if (is_the_searched_token(redirections_stream, T_APPEND) == TRUE)
 		{
 				return_value = write_redirection_in_command_node(
 					redirections_stream->value,

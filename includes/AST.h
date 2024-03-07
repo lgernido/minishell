@@ -183,16 +183,33 @@ void				check_for_closing_parenthesis(
 // should be discard.
 void				free_first_parenthesis(t_token_stream_node **token_stream);
 
+// In split_by_pipes.c
+// Will count the number of pipe in an AST node and allocate the 
+// number of stream pointers needed to split the pipeline by pipes
+void				split_token_stream_by_pipes(t_ast_node *node);
+
+// In fill_split_streams.c
+// Will fill the allocated space with the token_stream relevant for each pipe
+void				fill_stream(t_ast_node *node,
+						const size_t index_in_split_streams);
+
 // In resolve_opertor.c
 // Will set the stream pointer to next if it isn't NULL.
 void				update_stream_if_needed(t_token_stream_node **token_stream);
 
-void				fill_stream(t_ast_node *node,
-						const size_t index_in_split_streams);
-void				split_token_stream_by_pipes(t_ast_node *node);
+// In shrink_list.c
+// Will go through the stream, and, everytime a redirection operator is found
+// It will assign the value of the folllowing token to the value of the
+// redirection operator, then pop the node following the operator.
 void				shrink_stream(t_token_stream_node **stream);
+
+// In operator_stream.c
+// Will extract all the redirection token to put them in a new stream, so 
+// there are now two stream : On with only the command and argument,
+// and one with all the redirections. Redirection order is preserved.
 t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
-		t_bool (*searching_function)(t_token_stream_node *token));
+						t_bool (*searching_function)
+						(t_token_stream_node *token));
 
 
 void	safely_del_node(t_token_stream_node **node);
