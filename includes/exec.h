@@ -26,7 +26,17 @@ void	retrieve_path(t_core *core, t_command_node *current_command);
 // Entry point for the child process in child_routin.c
 void	child_routine(t_core *core, t_command_node *current_command);
 
+// Entry point for built-in execution in exec_built_ins.c
+void	exec_built_ins(t_core *core, t_command_node *current_command,
+			int command_index);
+
+// Return the index of the built_in if the command is one
+int		is_built_in(char *command);
+
+// ========================================================================= //
+
 // In resolve_operator.c
+
 // Entry point for managing redirection .Will look through all the
 // redirections, discard the unused ones, open the other, then close everything
 // but the last ones if they exist. If an error occurs, It will
@@ -66,6 +76,7 @@ int		write_redirection_in_command_node(char *path,
 // ========================================================================= //
 
 // In pre_exec_setup.c
+
 // Those functions will manage what to dup2 for the current command.
 
 // Will close the specified entry of the pipe, after first verifying if	
@@ -80,7 +91,19 @@ int		manage_output(t_command_node *current_command);
 
 // ========================================================================= //
 
+// In parent_stuff.c
+
+// Close what is unecessary for the paarent
+void	parent_routine(t_command_node *current_command);
+
+// After all the command are launched, wait for his childrens
+void	wait_for_childrens(t_core *core, pid_t last_pid,
+			t_bool last_cmd_is_a_built_in);
+
+// ========================================================================= //
+
 // In syscalls_with_internal_error_throwing.c
+
 // All those function only exec a syscall and check for error.
 // If one is , they will print the corresponding error message according
 // to errno, then forward back the return value of the syscall.

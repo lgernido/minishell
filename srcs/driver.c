@@ -43,6 +43,10 @@ void	ast_driver(t_core *core)
 	int		return_value;
 	size_t	i;
 
+	if (core->ast == NULL)
+	{
+		return ;
+	}
 	return_value = 0;
 	split_token_stream_by_pipes(core->ast);
 	check_errno(core);
@@ -52,10 +56,6 @@ void	ast_driver(t_core *core)
 		update_command_list(core);
 		return_value = split_stream_driver(&core->ast->split_streams[i],
 				core->ast->command_list);
-		if (return_value == MALLOC)
-		{
-			ft_clean_exit(core, MALLOC);
-		}
 		i++;
 	}
 	if (return_value != 0)

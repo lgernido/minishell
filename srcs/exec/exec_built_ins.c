@@ -14,6 +14,29 @@
 #include "built_ins.h"
 #include "exec.h"
 
+int	is_built_in(char *command)
+{
+	const char		**built_ins = (const char **)ft_split
+		("env export unset cd pwd exit echo", ' ');
+	const size_t	command_len = ft_strlen(command) + 1;
+	int				i;
+
+	i = 0;
+	if (built_ins == NULL)
+	{	
+		return (-1);
+	}
+	while (built_ins[i] != NULL)
+	{
+		if (ft_strncmp(command, built_ins[i], command_len) == 0)
+		{
+			return (i);
+		}
+		++i;
+	}
+	return (-1);
+}
+
 void	init_built_ins_tab(t_built_ins *built_ins_tab)
 {
 	built_ins_tab[0] = ft_env;

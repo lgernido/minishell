@@ -18,29 +18,6 @@
 #include <time.h>
 #include <unistd.h>
 
-int	is_built_in(char *command)
-{
-	const char		**built_ins = (const char **)ft_split
-		("env export unset cd pwd exit echo", ' ');
-	const size_t	command_len = ft_strlen(command) + 1;
-	int				i;
-
-	i = 0;
-	if (built_ins == NULL)
-	{	
-		return (-1);
-	}
-	while (built_ins[i] != NULL)
-	{
-		if (ft_strncmp(command, built_ins[i], command_len) == 0)
-		{
-			return (i);
-		}
-		i++;
-	}
-	return (-1);
-}
-
 int	pipe_if_needed(t_command_node *current_command)
 {
 	int				return_value;
@@ -51,15 +28,6 @@ int	pipe_if_needed(t_command_node *current_command)
 		return_value = checked_pipe(current_command->pipe);
 	}
 	return (return_value);
-}
-
-void	parent_routine(t_command_node *current_command)
-{
-	close_if_open(&current_command->fd_infile);
-	close_if_open(&current_command->fd_outfile);
-	close_if_open(&current_command->pipe[WRITE_ENTRY]);
-	safely_close_pipe_entry(current_command->prev, READ_ENTRY);
-	return ;
 }
 
 pid_t	exec_command(t_core *core, t_command_node *current_command)
@@ -83,45 +51,18 @@ pid_t	exec_command(t_core *core, t_command_node *current_command)
 	return (pid);
 }
 
-int	wait_last_child(pid_t last_pid)
-{
-	int	status;
-	int	return_value;
-
-	waitpid(last_pid, &status, 0);
-	if (WIFSIGNALED(status) == TRUE)
-	{
-		return_value = WTERMSIG(status);
-	}
-	else
-	{
-		return_value = WEXITSTATUS(status);
-	}
-	return (return_value);
-}
-
-void	wait_for_childrens(t_core *core, pid_t last_pid,
-		t_bool last_cmd_is_a_built_in)
-{
-	if (last_cmd_is_a_built_in == FALSE)
-	{
-		core->error_code = wait_last_child(last_pid);
-	}
-	while (wait(NULL) != -1)
-	{
-	}
-	return ;
-}
-
 void	exec_init(t_core *core)
 {
 	pid_t	last_pid;
 	t_bool	last_cmd_is_a_build_in;
+	int		command_index;
 
 	while (core->ast->command_list != NULL)
 	{
-		if (is_built_in(core->ast->command_list->cmd[0]) == TRUE)
+		command_index = is_built_in(core->ast->command_list->cmd[0]);
+		if (command_index != -1)
 		{
+			exec_built_ins(core, core->ast->command_list, command_index);
 			last_cmd_is_a_build_in = TRUE;
 		}
 		else
