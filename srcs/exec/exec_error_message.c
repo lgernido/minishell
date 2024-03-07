@@ -35,3 +35,18 @@ void	throw_exec_message(void *arg)
 		throw_error_message(arg, permission_denied);
 	}
 }
+
+void	lstat_error(void *arg)
+{
+	const int	errsv = errno;
+
+	(void)arg;
+	ft_printf_err("minishell: lstat: %s\n", strerror(errsv));
+}
+
+void	open_file_error(void *arg)
+{
+	const int	errsv = errno;
+
+	ft_printf_err("minishell: %s: %s\n", (char *)arg, strerror(errsv));
+}

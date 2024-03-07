@@ -223,17 +223,22 @@ void							ft_command_clear(t_command_node **list);
 void							ft_clean_node(t_command_node *node);
 
 // Call ft_token_stream_clear if the token isn't NULL
-void							ft_clear_token_stream_if_needed(t_token_stream_node **token_stream);
+void							ft_clear_token_stream_if_needed(
+									t_token_stream_node **token_stream);
 
 // Clean the given token stream
-void							ft_token_stream_clear(t_token_stream_node **token_stream);
-void	ft_split_stream_clean(t_ast_node *ast);
+void							ft_token_stream_clear(
+									t_token_stream_node **token_stream);
+void							ft_split_stream_clean(t_ast_node *ast);
 
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
 
 void							free_if_needed(void **str);
-void	close_if_open(int *fd);
+
+// Take a pointer to the targeted fd. Will close it if it isn't set to -1
+// then set it back to -1 to avoid trying to close it one more time.
+void							close_if_open(int *fd);
 
 // ========================================================================= //
 
