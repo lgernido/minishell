@@ -147,6 +147,12 @@ void				setup_new_node(t_core *core,
 						t_token_stream_node **on_success,
 						t_token_stream_node **on_failure, int mode);
 
+// ========================================================================= //
+
+// find_logical_operator.c, searching_functions1-2-3.c 
+// All this functions are meant to be passed as the parameter of other 
+// functions to match one or more token type;
+
 t_bool				find_logical_and(t_token_stream_node *token);
 t_bool				find_logical_or(t_token_stream_node *token);
 t_bool				find_logical_operator(t_token_stream_node *token);
@@ -159,12 +165,27 @@ t_bool				find_input_operator(t_token_stream_node *token);
 t_bool				find_output_operator(t_token_stream_node *token);
 t_bool				find_redirection_operator(t_token_stream_node *token);
 
-size_t	check_for_parenthesis(t_token_stream_node *node,
-		t_token_type searched);
-void	check_for_closing_parenthesis(t_token_stream_node **node,
-		size_t *parenthesis_counter);
-void	free_first_parenthesis(t_token_stream_node **token_stream);
-void	update_stream_if_needed(t_token_stream_node **token_stream);
+// ========================================================================= //
+
+// In discard_parenthesis_utils.c 
+
+// return 1 if the token is an open parenthsis
+size_t				check_for_parenthesis(t_token_stream_node *node,
+						t_token_type searched);
+
+// Decrement the parenthesis counter by one if the tken type 
+// is close parenthesis. Delete the node if the counter value is 0.
+void				check_for_closing_parenthesis(
+						t_token_stream_node **node,
+						size_t *parenthesis_counter);
+// Will be called whenever the first token of a new AST need is 
+// an open parenthesis , meaning that the parenthesis pair
+// should be discard.
+void				free_first_parenthesis(t_token_stream_node **token_stream);
+
+// In resolve_opertor.c
+// Will set the stream pointer to next if it isn't NULL.
+void				update_stream_if_needed(t_token_stream_node **token_stream);
 
 void				fill_stream(t_ast_node *node,
 						const size_t index_in_split_streams);
