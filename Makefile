@@ -8,10 +8,6 @@ BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
 									pwd.c cd.c cd_utils.c cd_update_env_var.c)\
 
-COMMAND_DIR = command_list/
-COMMAND_FILES = $(addprefix $(COMMAND_DIR), command_list_base_funct.c translate_input.c\
-								translate_output.c turn_split_stream_in_command_list.c)
-
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
 						setup_recursive_calls.c token_stream_node_management.c\
@@ -19,7 +15,7 @@ AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.
 						ft_pop_node.c)
 
 SEARCH_DIR = search_in_token_stream/
-SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
+SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_operator.c\
 									 find_logical_operator2.c searching_functions1.c\
 									 searching_functions2.c searching_functions3.c\
 									 discard_parenthesis_utils.c)
@@ -27,14 +23,21 @@ SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_opertor.c\
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
-EXPAND_DIR = expand_and_split/
-EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
-							 fill_split_streams.c split_by_pipes.c shrink_list.c\
-							 operator_stream.c operator_stream_low_level_func.c\
-							 operator_error_message.c)
+
+PRE_EXEC_DIR = pre_exec_set_up/
+PRE_EXEC_FILES = $(addprefix $(PRE_EXEC_DIR),command_list_base_funct.c\
+								 expand_vars_and_wildcards_init.c fill_split_streams.c\
+								 operator_stream.c shrink_list.c split_by_pipes.c\
+								 turn_split_stream_in_command_list.c)
+
+EXEC_DIR = exec/
+EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c\
+						 exec_built_ins.c exec_error_message.c exec_init.c find_command_to_exec.c\
+						 next_node.c parent_stuff.c pre_exec_setup.c redirection_handling_utils.c\
+						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES) $(COMMAND_FILES) driver.c\
+						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
 
 
 
@@ -55,7 +58,7 @@ LINKER = -lreadline
 
 LIBFT_PATH	= libft/
 LIBFT		= $(LIBFT_PATH)libft.a
-INCLUDE	= minishell.h libft.h
+INCLUDE	= minishell.h libft.h AST.h built_ins.h exec.h
 INCLUDE_BONUS = 
 INCLUDE_PATH = includes/
 
@@ -71,7 +74,7 @@ RESET	=	\033[0m
 ###########################################################################
 #### RULES
 
-$(NAME): $(OBJ_FILES)
+$(NAME): $(OBJ_FILES) $(INCLUDES)
 	@make -C $(LIBFT_PATH) --no-print-directory -s
 	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT) $(LINKER) -o $(NAME)
 	@echo "$(MAGENTA)Les fichiers modifiés sont: $?$(RESET)"
@@ -83,8 +86,8 @@ build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}/${BUILT_IN_DIR}
 	@mkdir -p $(BUILD)/$(PARSING_DIR)
 	@mkdir -p $(BUILD)/$(SEARCH_DIR)
-	@mkdir -p $(BUILD)/$(EXPAND_DIR)
-	@mkdir -p $(BUILD)/$(COMMAND_DIR)
+	@mkdir -p $(BUILD)/$(PRE_EXEC_DIR)
+	@mkdir -p $(BUILD)/$(EXEC_DIR)
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 

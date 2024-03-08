@@ -49,6 +49,16 @@ pid_t	exec_command(t_core *core, t_command_node *current_command)
 	return (pid);
 }
 
+void	print_tab(char **tab)
+{
+	size_t i = 0;
+	while (tab[i] != NULL)
+	{
+		printf("%s\n", tab[i]);
+		++i;
+	}
+}
+
 void	exec_init(t_core *core)
 {
 	pid_t	last_pid;

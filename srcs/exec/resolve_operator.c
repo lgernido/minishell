@@ -93,6 +93,10 @@ int	redirection_driver(t_command_node *command_node)
 {
 	int	return_value;
 
+	if (command_node->redirections == NULL)
+	{
+		return (0);
+	}
 	return_value = verify_nodes(command_node->redirections);
 	if (return_value != -1)
 	{
