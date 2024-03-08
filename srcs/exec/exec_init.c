@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 #include "exec.h"
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
 
 int	pipe_if_needed(t_command_node *current_command)
 {
@@ -47,7 +42,10 @@ pid_t	exec_command(t_core *core, t_command_node *current_command)
 	{
 		child_routine(core, current_command);
 	}
-	parent_routine(current_command);
+	else
+	{
+		parent_routine(current_command);
+	}
 	return (pid);
 }
 
@@ -74,4 +72,6 @@ void	exec_init(t_core *core)
 		core->ast->command_list = core->ast->command_list->next;
 	}
 	wait_for_childrens(core, last_pid, last_cmd_is_a_build_in);
+	choose_next_path_to_take(core);
+	return ;
 }

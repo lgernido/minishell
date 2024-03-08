@@ -63,6 +63,8 @@ void	ast_driver(t_core *core)
 		ft_clean_exit(core, return_value);
 	}
 	ft_split_stream_clean(core->ast);
+	exec_init(core);
+	return ;
 }
 
 void	minishell_driver(t_core *core)

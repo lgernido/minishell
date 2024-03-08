@@ -18,9 +18,9 @@
 
 // ========================================================================= //
 
+// In find_command_to_exec.c
 // Will search env for the path field, then send back, then
 // write the good path directly into the command node
-// In find_command_to_exec.c
 void	retrieve_path(t_core *core, t_command_node *current_command);
 
 // Entry point for the child process in child_routin.c
@@ -32,6 +32,11 @@ void	exec_built_ins(t_core *core, t_command_node *current_command,
 
 // Return the index of the built_in if the command is one
 int		is_built_in(char *command);
+
+// Will read the global variable and the error code to decide
+// Which node of the AST should be executed after. Clear the current node 
+// And the unused part of the tree.
+void	choose_next_path_to_take(t_core *core);
 
 // ========================================================================= //
 
@@ -93,10 +98,12 @@ int		manage_output(t_command_node *current_command);
 
 // In parent_stuff.c
 
-// Close what is unecessary for the paarent
+// Close what is unecessary for the parent
 void	parent_routine(t_command_node *current_command);
 
 // After all the command are launched, wait for his childrens
+// And fetch the last return code if the last command is
+// not a built-in.
 void	wait_for_childrens(t_core *core, pid_t last_pid,
 			t_bool last_cmd_is_a_built_in);
 

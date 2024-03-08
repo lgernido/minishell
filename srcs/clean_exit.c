@@ -105,12 +105,8 @@ void	ft_split_stream_clean(t_ast_node *ast)
 	ast->split_streams = NULL;
 }
 
-void	ft_ast_clear(t_ast_node **node)
+void	ft_ast_node_clear(t_ast_node **node)
 {
-	if (*node == NULL)
-		return ;
-	ft_ast_clear(&(*node)->on_success);
-	ft_ast_clear(&(*node)->on_failure);
 	if ((*node)->command_list != NULL)
 	{
 		while ((*node)->command_list->prev)
@@ -125,9 +121,17 @@ void	ft_ast_clear(t_ast_node **node)
 	{
 		ft_split_stream_clean(*node);
 	}
-	free_pid_vector(&(*node)->pid_vector);
 	free(*node);
 	*node = NULL;
+}
+
+void	ft_ast_clear(t_ast_node **node)
+{
+	if (*node == NULL)
+		return ;
+	ft_ast_clear(&(*node)->on_success);
+	ft_ast_clear(&(*node)->on_failure);
+	ft_ast_node_clear(node);
 }
 
 void	ft_clean_exit(t_core *core, int code)

@@ -136,7 +136,7 @@ typedef struct s_core
 	struct s_token				*token_list;
 	char						**env;
 	int							env_size;
-	int							error_code;
+	unsigned char				error_code;
 }								t_core;
 
 typedef struct s_token
@@ -221,6 +221,17 @@ int								build_command_node(
 // Redirection, first node stream will be NULL).
 void							check_errno(t_core *core);
 
+// Set up the token stream to have the appropriate form for exec
+// Basically : Split the token stream to have one command node per command
+// Call shrink_stream so every redirection are now only one node.
+// Separate the redirections forom the command and arfuments
+// Turn command and argument into a char **
+// Call exec driver
+void							ast_driver(t_core *core);
+
+// Entry point for the executing the command of the current node.
+void							exec_init(t_core *core);
+
 // For debuging exec purpose only.  Don't norm me !
 t_token_stream_node *split_str(t_core *core, char *str);
 
@@ -236,15 +247,24 @@ void							update_command_list(t_core *core);
 // parse_envp.c
 void							parse_envp(char **envp, t_core *core);
 
+// ========================================================================= //
+
 // clean fonctions in clean_exit.c
 
 // clean the core struct
 void							ft_clean_exit(t_core *core, int code);
 
-// clean the whole LL by calling ft_clean_node then exit
+// Rucursively call itself on every node of the ast until 
+// the whole ast is cleared.
+void							ft_ast_clear(t_ast_node **node);
+
+// Clear the given AST node
+void							ft_ast_node_clear(t_ast_node **node);
+
+// clean the whole list of command nodes by calling ft_clean_node then exit
 void							ft_command_clear(t_command_node **list);
 
-// clean the given node
+// clean the given command node
 void							ft_clean_node(t_command_node *node);
 
 // Call ft_token_stream_clear if the token isn't NULL
@@ -259,6 +279,7 @@ void							ft_split_stream_clean(t_ast_node *ast);
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
 
+// free the given pointe it it ain't NULL.
 void							free_if_needed(void **str);
 
 // Take a pointer to the targeted fd. Will close it if it isn't set to -1

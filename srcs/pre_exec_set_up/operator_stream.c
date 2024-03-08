@@ -10,14 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 #include "AST.h"
-#include "built_ins.h"
-#include <asm-generic/errno-base.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+
+void	safely_del_node(t_token_stream_node **node)
+{
+	t_token_stream_node	*temp;
+
+	temp = *node;
+	*node = (*node)->next;
+	ft_del_node(&temp);
+}
 
 t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
 		t_bool (*searching_function)(t_token_stream_node *token))
