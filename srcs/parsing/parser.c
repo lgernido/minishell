@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/06 10:54:15 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:48:44 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,40 @@ static int	ft_dprintf(int fd, const char *format, ...)
 	return (size);
 }
 
-void	ft_start_parse(t_core *minishell, char *str)
+int	ft_syntax_check(char *str)
 {
-	char	*token;
-
 	if (ft_is_ascii(str))
 	{
 		ft_dprintf(2, "minishell: invalid ascii characters found in string\n");
-		return ;
+		return (1);
 	}
-	if (ft_quotes(str))
+	else if (ft_quotes(str))
 	{
 		ft_dprintf(2, "unclosed quotes can't be interpreted\n");
-		return ;
+		return (1);
 	}
-	ft_split_tokens(minishell, str);
-	token = ft_tokenizer(minishell);
-	if (token)
-	{
-		ft_dprintf(2, "minishell: syntax error near unexpected token `%s'\n",
-			token);
-		ft_clear_token_list(&minishell->token_list, free);
+	else
+		return (0);
+}
+
+void	ft_start_parse(t_core *minishell, char *str)
+{
+	char	*token;
+	char	*correct_string;
+
+	if (ft_syntax_check(str) != 0)
 		return ;
+	else
+	{
+		correct_string = ft_discard_quotes(str);
+		ft_split_tokens(minishell, correct_string);
+		token = ft_tokenizer(minishell);
+		if (token)
+		{
+			ft_dprintf(2,
+				"minishell: syntax error near unexpected token `%s'\n", token);
+			ft_clear_token_list(&minishell->token_list, free);
+			return ;
+		}
 	}
 }

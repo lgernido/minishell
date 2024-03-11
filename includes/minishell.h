@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/06 10:46:54 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:45:46 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ typedef struct stat				t_stat;
 
 // parser.c //
 void							ft_start_parse(t_core *minishell, char *str);
+int								ft_syntax_check(char *str);
 
 // parser_utils.c//
 int								ft_quotes(char *str);
@@ -158,6 +159,11 @@ int								ft_find_char_str(char c, char *str);
 int								ft_samestr(char *s1, char *s2);
 void							ft_strdel(char **str);
 t_bool							ft_is_separator(char c);
+
+// discard_quotes.c//
+
+int								ft_str_correct_len(char *str);
+char							*ft_discard_quotes(char *str);
 
 // tokenizer.c//
 int								ft_check_error(t_token *token);
