@@ -125,5 +125,6 @@ int		checked_dup(int fd);
 
 // Error message in exec_error_message.c
 void	exec_error(void *arg);
+void	execve_failure(void *arg);
 
 #endif

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "built_ins.h"
 #include "exec.h"
@@ -30,10 +31,12 @@ int	is_built_in(char *command)
 	{
 		if (ft_strncmp(command, built_ins[i], command_len) == 0)
 		{
+			ft_free_tab((char **)built_ins);
 			return (i);
 		}
 		++i;
 	}
+	ft_free_tab((char **)built_ins);
 	return (-1);
 }
 

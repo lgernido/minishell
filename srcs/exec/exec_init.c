@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include "exec.h"
 
-int	pipe_if_needed(t_command_node *current_command)
+static int	pipe_if_needed(t_command_node *current_command)
 {
 	int				return_value;
 
@@ -25,7 +25,7 @@ int	pipe_if_needed(t_command_node *current_command)
 	return (return_value);
 }
 
-pid_t	exec_command(t_core *core, t_command_node *current_command)
+static pid_t	exec_command(t_core *core, t_command_node *current_command)
 {
 	pid_t	pid;
 
@@ -49,21 +49,12 @@ pid_t	exec_command(t_core *core, t_command_node *current_command)
 	return (pid);
 }
 
-void	print_tab(char **tab)
+static void	loop_through_command(t_core *core,
+		t_command_node *command_list_head)
 {
-	size_t i = 0;
-	while (tab[i] != NULL)
-	{
-		printf("%s\n", tab[i]);
-		++i;
-	}
-}
-
-void	exec_init(t_core *core)
-{
-	pid_t	last_pid;
-	t_bool	last_cmd_is_a_build_in;
-	int		command_index;
+	pid_t			last_pid;
+	t_bool			last_cmd_is_a_build_in;
+	int				command_index;
 
 	while (core->ast->command_list != NULL)
 	{
@@ -82,6 +73,17 @@ void	exec_init(t_core *core)
 		core->ast->command_list = core->ast->command_list->next;
 	}
 	wait_for_childrens(core, last_pid, last_cmd_is_a_build_in);
+	core->ast->command_list = command_list_head;
 	choose_next_path_to_take(core);
+	return ;
+}
+
+void	exec_init(t_core *core)
+{
+	t_command_node	*command_head;
+
+	climb_command_list_to_origin(&core->ast->command_list);
+	command_head = core->ast->command_list;
+	loop_through_command(core, command_head);
 	return ;
 }

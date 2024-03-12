@@ -261,6 +261,10 @@ void							ft_ast_clear(t_ast_node **node);
 // Clear the given AST node
 void							ft_ast_node_clear(t_ast_node **node);
 
+// climb the linked list to the first node.
+void							climb_command_list_to_origin(
+									t_command_node **list);
+
 // clean the whole list of command nodes by calling ft_clean_node then exit
 void							ft_command_clear(t_command_node **list);
 

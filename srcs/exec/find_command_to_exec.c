@@ -13,8 +13,6 @@
 #include "built_ins.h"
 #include "libft.h"
 #include "minishell.h"
-#include "printerr.h"
-#include <unistd.h>
 
 void	append_backslash(char **path_tab)
 {
@@ -49,7 +47,7 @@ char	**split_path(char *path)
 	return (splitted_path);
 }
 
-void	assemble_command(char **possible_path, char *command_to_exec)
+void	assemble_command(char **possible_path, char **command_to_exec)
 {
 	char	*joined_str;
 	size_t	i;
@@ -57,15 +55,15 @@ void	assemble_command(char **possible_path, char *command_to_exec)
 	i = 0;
 	while (possible_path[i] != NULL)
 	{
-		joined_str = ft_strjoin(possible_path[i], command_to_exec);
+		joined_str = ft_strjoin(possible_path[i], *command_to_exec);
 		if (joined_str == NULL)
 		{
 			break ;
 		}
 		if (access(joined_str, F_OK) == 0)
 		{
-			free(command_to_exec);
-			command_to_exec = joined_str;
+			free(*command_to_exec);
+			*command_to_exec = joined_str;
 			break ;
 		}
 		free(joined_str);
@@ -83,7 +81,8 @@ void	retrieve_path(t_core *core, t_command_node *current_command)
 	check_errno(core);
 	splitted_path = split_path(path);
 	check_errno(core);
-	assemble_command(splitted_path, current_command->cmd[0]);
+	assemble_command(splitted_path, &current_command->cmd[0]);
+	ft_free_tab(splitted_path);
 	check_errno(core);
 	return ;
 }

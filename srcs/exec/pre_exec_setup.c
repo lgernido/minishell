@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "exec.h"
+#include <unistd.h>
 
 void	safely_close_pipe_entry(t_command_node *node, int entry_to_close)
 {
@@ -55,7 +56,7 @@ int	manage_input(t_command_node *current_command)
 	else if (current_command->prev != NULL)
 	{
 		return_value = checked_dup2(current_command->prev->pipe[READ_ENTRY],
-				STDOUT_FILENO);
+				STDIN_FILENO);
 	}
 	safely_close_pipe_entry(current_command->prev, READ_ENTRY);
 	close_if_open(&current_command->fd_infile);
@@ -73,8 +74,8 @@ int	manage_output(t_command_node *current_command)
 	}
 	else if (current_command->next != NULL)
 	{
-		return_value = checked_dup2(STDOUT_FILENO,
-				current_command->pipe[WRITE_ENTRY]);
+		return_value = checked_dup2(current_command->pipe[WRITE_ENTRY],
+				STDOUT_FILENO);
 	}
 	close_if_open(&current_command->pipe[WRITE_ENTRY]);
 	close_if_open(&current_command->fd_outfile);

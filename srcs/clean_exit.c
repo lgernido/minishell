@@ -42,10 +42,19 @@ void	ft_clean_node(t_command_node *node)
 	}
 }
 
+void	climb_command_list_to_origin(t_command_node **list)
+{
+	while ((*list)->prev != NULL)
+	{
+		*list = (*list)->prev;
+	}
+}
+
 void	ft_command_clear(t_command_node **list)
 {
 	t_command_node	*tmp;
 
+	climb_command_list_to_origin(list);
 	while (*list)
 	{
 		tmp = (*list)->next;

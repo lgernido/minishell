@@ -14,7 +14,6 @@
 #include "minishell.h"
 #include "built_ins.h"
 
-void	print_tab(char **tab);
 void	pre_exec_set_up(t_core *core, t_command_node *current_command,
 		int (*set_up_routine)(t_command_node *node))
 {
@@ -29,10 +28,8 @@ void	build_and_exec_next_command(t_core *core,
 		t_command_node *current_command)
 {
 	retrieve_path(core, current_command);
-	printf("After building path\n");
-	print_tab(current_command->cmd);
 	execve(current_command->cmd[0], current_command->cmd, core->env);
-	throw_error_message(current_command->cmd[0], exec_error);
+	throw_error_message(current_command->cmd[0], execve_failure);
 	ft_clean_exit(core, EXECVE_ERROR);
 }
 

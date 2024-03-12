@@ -16,7 +16,20 @@ void	exec_error(void *arg)
 {
 	const int	errsv = errno;
 
-	(void)arg;
-	ft_printf_err("minishell: %s: %s\n", strerror(errsv));
+	ft_printf_err("minishell: %s: %s\n", (char *)arg, strerror(errsv));
 	errno = errsv;
+}
+
+void	execve_failure(void *arg)
+{
+	const int	errsv = errno;
+
+	if (errsv == ENOENT)
+	{
+		ft_printf_err("minishell: %s: command not found\n", (char *)arg);
+	}
+	else
+	{
+		ft_printf_err("minishell: %s: %s\n", (char *)arg, strerror(errsv));
+	}
 }
