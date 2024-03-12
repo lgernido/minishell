@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:37:58 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/13 10:55:56 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 14:49:52 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	ft_token_stream_clear(t_token_stream_node **token_stream)
 
 void	ft_split_stream_clean(t_ast_node *ast)
 {
-	t_token_stream_node **tmp;
-	size_t	i;
+	t_token_stream_node	**tmp;
+	size_t				i;
 
 	i = 0;
 	tmp = ast->split_streams;
@@ -119,8 +119,8 @@ void	ft_clean_exit(t_core *core, int code)
 	}
 	if (core->env)
 		ft_free_tab(core->env);
-	// if (core->token_list)
-	// 	ft_clear_token_list(&core->token_list, free);
+	if (core->token_list)
+		ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
 	exit(code);
 }
