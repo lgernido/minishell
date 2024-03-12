@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/12 10:11:39 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:10:02 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_strdel(char **str)
 /*
 This is clean code ! ><
 */
+
 int	ft_find_char_str(char c, char *str)
 {
 	if (ft_strchr(str, c) != NULL)
@@ -45,23 +46,6 @@ int	ft_find_char_str(char c, char *str)
 t_bool	ft_is_separator(char c)
 {
 	return (c == ' ' || c == '\t' || c == ';');
-}
-
-/*
-See if a position in s is escaped
-if return odd -> escaped
-if return even -> not escaped*/
-int	ft_escape(char *s, int pos)
-{
-	int	count;
-
-	count = 0;
-	while (pos >= 0 && s[pos] == '\\')
-	{
-		count++;
-		pos--;
-	}
-	return (count % 2);
 }
 
 /*

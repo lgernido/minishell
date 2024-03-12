@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/12 09:48:31 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:02:28 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	ft_syntax_check(char *str)
 	else
 		return (0);
 }
+
 void	ft_discard_quotes(t_core *minishell)
 {
 	t_token	*tmp;
@@ -79,6 +80,7 @@ void	ft_discard_quotes(t_core *minishell)
 	}
 	return ;
 }
+
 void	ft_start_parse(t_core *minishell, char *str)
 {
 	char	*token;

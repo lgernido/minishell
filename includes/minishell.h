@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/12 10:46:58 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:10:42 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ int								ft_syntax_check(char *str);
 
 // parser_utils.c//
 int								ft_quotes(char *str);
-int								ft_escape(char *s, int pos);
 int								ft_find_char_str(char c, char *str);
 int								ft_samestr(char *s1, char *s2);
 void							ft_strdel(char **str);

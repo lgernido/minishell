@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/05 09:04:26 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:09:18 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,26 @@ void	ft_clear_token_list(t_token **begin, void (*del)(void *))
 t_token	*ft_create_token(t_core *minishell, int i, char *str)
 {
 	t_token	*new;
-	int		token_length;
+	int		token_len;
 
-	if (!(new = ft_calloc(1, sizeof(t_token))))
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
 		ft_clean_exit(minishell, MALLOC);
-	token_length = 0;
-	while (str[i + token_length] != '\0' && !ft_is_separator(str[i
-			+ token_length]))
+	token_len = 0;
+	while (str[i + token_len] != '\0' && !ft_is_separator(str[i + token_len]))
 	{
-		token_length++;
+		token_len++;
 	}
-	new->value = ft_substr(str, i, token_length);
+	new->value = ft_substr(str, i, token_len);
 	return (new);
 }
 
 t_token	*ft_create_arg_token(t_core *minishell, char *word, int type)
 {
-	t_token *new;
+	t_token	*new;
 
-	if (!(new = ft_calloc(1, sizeof(t_token))))
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
 		ft_clean_exit(minishell, MALLOC);
 	new->value = ft_strdup(word);
 	new->type = type;

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/12 10:33:12 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:03:26 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_check_error(t_token *token)
 		return (1);
 	return (0);
 }
+
 int	ft_define_type(t_token *tmp)
 {
 	if (ft_samestr(tmp->value, "||"))
@@ -69,6 +70,7 @@ int	ft_fix_redirect_types(t_token token_to_fix)
 	else
 		return (token_to_fix.type);
 }
+
 char	*ft_tokenizer(t_core *minishell)
 {
 	t_token	*tmp;
