@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/08 12:51:07 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 09:46:40 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ int	ft_check_error(t_token *token)
 }
 int	ft_define_type(t_token *tmp)
 {
-	if (ft_samestr(tmp->value, "|"))
-		tmp->type = T_PIPE;
+	if (ft_samestr(tmp->value, "||"))
+		tmp->type = T_OR;
 	else if (ft_samestr(tmp->value, ";"))
 		tmp->type = T_SEP;
 	else if (ft_samestr(tmp->value, "&&"))
 		tmp->type = T_AND;
-	else if (ft_samestr(tmp->value, "||"))
-		tmp->type = T_OR;
+	else if (ft_samestr(tmp->value, "|"))
+		tmp->type = T_PIPE;
 	else if (ft_samestr(tmp->value, "("))
 		tmp->type = T_PAR_OPEN;
 	else if (ft_samestr(tmp->value, ")"))
