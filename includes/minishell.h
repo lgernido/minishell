@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/11 11:51:51 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/12 10:46:58 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,10 +166,12 @@ int								ft_define_type(t_token *tmp);
 char							*ft_tokenizer(t_core *minishell);
 int								ft_fix_redirect_types(t_token token_to_fix);
 // split_tokens.c //
-int								ft_split_utils(int i, char *str, char *sep,
-									int sign);
-int								ft_split_tokens2(t_core *minishell, char *str,
-									int *i, t_token **start);
+int								ft_tokenize_variable(t_core *minishell,
+									char *str, t_token **start, int i);
+int								ft_tokenize_special(t_core *minishell,
+									char *str, t_token **start, int i);
+int								ft_tokenize_regular(t_core *minishell,
+									char *str, t_token **start, int i);
 void							ft_split_tokens(t_core *minishell, char *str);
 
 // tokenizer_utils.c //
