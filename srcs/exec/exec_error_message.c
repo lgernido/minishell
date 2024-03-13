@@ -20,6 +20,12 @@ void	exec_error(void *arg)
 	errno = errsv;
 }
 
+void	sigquit_error(void *arg)
+{
+	(void)arg;
+	ft_printf_err("Quit (core dumped)\n");
+}
+
 void	execve_failure(void *arg)
 {
 	const int	errsv = errno;

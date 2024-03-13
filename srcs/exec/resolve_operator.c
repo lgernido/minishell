@@ -41,7 +41,7 @@ static int	find_good_input(t_token_stream_node *redirections_stream,
 		{
 			return_value = write_redirection_in_command_node(
 					redirections_stream->value,
-					&command_node->fd_infile, O_RDONLY);
+					&command_node->fd_infile, open_input);
 			break ;
 		}
 		redirections_stream = redirections_stream->prev;
@@ -61,16 +61,17 @@ static int	find_good_output(t_token_stream_node *redirections_stream,
 		{
 				return_value = write_redirection_in_command_node(
 					redirections_stream->value,
-					&command_node->fd_outfile, O_WRONLY | O_TRUNC);
+					&command_node->fd_outfile, open_output);
 			break ;
 		}
 		else if (is_the_searched_token(redirections_stream, T_APPEND) == TRUE)
 		{
 				return_value = write_redirection_in_command_node(
 					redirections_stream->value,
-					&command_node->fd_outfile, O_WRONLY | O_APPEND);
+					&command_node->fd_outfile, open_append);
 			break ;
 		}
+		redirections_stream = redirections_stream->prev;
 	}
 	return (return_value);
 }

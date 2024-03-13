@@ -33,7 +33,31 @@ void	build_and_exec_next_command(t_core *core,
 	ft_clean_exit(core, EXECVE_ERROR);
 }
 
-void	child_routine(t_core *core, t_command_node *current_command)
+static void	exec_current_command(t_core *core, t_command_node *current_command,
+		int built_in_index)
+{
+	t_built_ins	built_in_tab[7];
+	int			built_in_return_value;
+
+	init_built_ins_tab(built_in_tab);
+	if (current_command->cmd == NULL)
+	{
+		return ;
+	}
+	else if (built_in_index == -1)
+	{
+		build_and_exec_next_command(core, current_command);
+	}
+	else
+	{
+		built_in_return_value = built_in_tab[built_in_index]
+			(current_command->cmd, core);
+		ft_clean_exit(core, built_in_return_value);
+	}
+}
+
+void	child_routine(t_core *core, t_command_node *current_command,
+		int built_in_index)
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
@@ -41,9 +65,6 @@ void	child_routine(t_core *core, t_command_node *current_command)
 	pre_exec_set_up(core, current_command, redirection_driver);
 	pre_exec_set_up(core, current_command, manage_input);
 	pre_exec_set_up(core, current_command, manage_output);
-	if (current_command->cmd != NULL)
-	{
-		build_and_exec_next_command(core, current_command);
-	}
+	exec_current_command(core, current_command, built_in_index);
 	ft_clean_exit(core, 0);
 }

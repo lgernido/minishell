@@ -20,7 +20,7 @@ static int	resolve_input(t_token_stream_node *redirections_stream)
 
 	if (is_the_searched_token(redirections_stream, T_INPUT_FILE))
 	{
-		fd = open_file(redirections_stream->value, O_RDONLY);
+		fd = open_file(redirections_stream->value, open_input);
 		if (fd != -1)
 		{
 			close (fd);
@@ -39,13 +39,11 @@ static int	resolve_output(t_token_stream_node *redirections_stream)
 
 	if (is_the_searched_token(redirections_stream, T_OUTPUT_FILE))
 	{
-		fd = open_file(redirections_stream->value,
-				O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open_file(redirections_stream->value, open_output);
 	}
 	else
 	{
-		fd = open_file(redirections_stream->value,
-				O_WRONLY | O_CREAT | O_APPEND);
+		fd = open_file(redirections_stream->value, open_append);
 	}
 	if (fd != -1)
 	{

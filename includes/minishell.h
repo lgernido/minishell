@@ -229,8 +229,10 @@ void							check_errno(t_core *core);
 // Call exec driver
 void							ast_driver(t_core *core);
 
-// Entry point for the executing the command of the current node.
-void							exec_init(t_core *core);
+// Will either call the exec path that fork if the command
+// is a pipeline/not a built-in signle command,
+// or the internal function exec in case of a single built-in.
+void							exec_driver(t_core *core);
 
 // For debuging exec purpose only.  Don't norm me !
 t_token_stream_node *split_str(t_core *core, char *str);
@@ -299,6 +301,9 @@ void							init_sig(void);
 
 // is call if global is updated
 void							react_sig(t_core *core);
+
+//
+void							setup_exec_sig(void);
 
 // ========================================================================= //
 

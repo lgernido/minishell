@@ -14,18 +14,6 @@
 #include "built_ins.h"
 #include "exec.h"
 
-int	open_file(char *path, int flags)
-{
-	int	fd;
-
-	fd = open(path, flags);
-	if (fd == -1)
-	{
-		throw_error_message(path, exec_error);
-	}
-	return (fd);
-}
-
 void	get_down_stream(t_token_stream_node **stream)
 {
 	while ((*stream)->next != NULL)
@@ -35,13 +23,14 @@ void	get_down_stream(t_token_stream_node **stream)
 	return ;
 }
 
-int	write_redirection_in_command_node(char *path, int *target_fd, int flags)
+int	write_redirection_in_command_node(char *path, int *target_fd,
+		int (*open_function)(char *))
 {
 	int	return_value;
 	int	fd;
 
 	return_value = 0;
-	fd = open_file(path, flags);
+	fd = open_file(path, open_function);
 	if (fd != -1)
 	{
 		*target_fd = fd;

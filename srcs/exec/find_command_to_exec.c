@@ -79,10 +79,13 @@ void	retrieve_path(t_core *core, t_command_node *current_command)
 
 	path = ft_getenv(core, "$PATH");
 	check_errno(core);
-	splitted_path = split_path(path);
-	check_errno(core);
-	assemble_command(splitted_path, &current_command->cmd[0]);
-	ft_free_tab(splitted_path);
-	check_errno(core);
+	if (path != NULL)
+	{
+		splitted_path = split_path(path);
+		check_errno(core);
+		assemble_command(splitted_path, &current_command->cmd[0]);
+		ft_free_tab(splitted_path);
+		check_errno(core);
+	}
 	return ;
 }

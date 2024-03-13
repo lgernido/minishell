@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "built_ins.h"
 #include "exec.h"
 
 void	parent_routine(t_command_node *current_command)
@@ -30,23 +31,25 @@ static int	wait_last_child(pid_t last_pid)
 	if (WIFSIGNALED(status) == TRUE)
 	{
 		return_value = WTERMSIG(status);
+		return_value += 128;
 	}
 	else
 	{
 		return_value = WEXITSTATUS(status);
 	}
+	if (return_value == 131)
+	{
+		throw_error_message(NULL, sigquit_error);
+	}
 	return (return_value);
 }
 
-void	wait_for_childrens(t_core *core, pid_t last_pid,
-		t_bool last_cmd_is_a_built_in)
+void	wait_for_childrens(t_core *core, pid_t last_pid)
 {
-	if (last_cmd_is_a_built_in == FALSE)
-	{
-		core->error_code = wait_last_child(last_pid);
-	}
+	core->error_code = wait_last_child(last_pid);
 	while (wait(NULL) != -1)
 	{
 	}
+	printf("I finished to wait\n");
 	return ;
 }

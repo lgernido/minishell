@@ -58,8 +58,12 @@ void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 
 void	ast_init(t_token_stream_node *token_stream, t_core *core)
 {
+	if (token_stream == NULL)
+	{
+		return ;
+	}
 	core->ast = ast_new_node();
-	if (core->ast == NULL || token_stream == NULL)
+	if (core->ast == NULL)
 	{
 		clear_stream_and_exit(core, &token_stream, MALLOC);
 	}

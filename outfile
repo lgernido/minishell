@@ -1,6 +1,3 @@
-After building path
-/usr/bin/cat
-Makefile
 ###########################################################################
 #### SOURCES
 
@@ -37,10 +34,12 @@ EXEC_DIR = exec/
 EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c\
 						 exec_built_ins.c exec_error_message.c exec_init.c find_command_to_exec.c\
 						 next_node.c parent_stuff.c pre_exec_setup.c redirection_handling_utils.c\
-						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c)
+						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c\
+						 open_files.c)
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
+						exec_driver.c
 
 
 

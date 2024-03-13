@@ -63,7 +63,7 @@ void	ast_driver(t_core *core)
 		ft_clean_exit(core, return_value);
 	}
 	ft_split_stream_clean(core->ast);
-	exec_init(core);
+	exec_driver(core);
 	return ;
 }
 
@@ -72,11 +72,17 @@ void	minishell_driver(t_core *core)
 	char				*user_input;
 	t_token_stream_node	*tokenized_user_input;
 
-	if (g_signal == 1)
+	init_sig();
+	printf("Last exit code before prompt: %d\n", core->error_code);
+	user_input = fetch_input(core->error_code);
+	if (g_signal == 130)
 	{
 		react_sig(core);
 	}
-	user_input = fetch_input(core->error_code);
+	if (user_input == NULL)
+	{
+		ft_clean_exit(core, core->error_code);
+	}
 	tokenized_user_input = split_str(core, user_input);
 	ast_init(tokenized_user_input, core);
 	ast_driver(core);

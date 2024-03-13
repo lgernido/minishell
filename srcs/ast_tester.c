@@ -141,11 +141,12 @@ t_token_stream_node	*split_str(t_core *core, char *str)
 	char **splitted;
 	t_token_stream_node *stream;
 
+	(void)core;
 	splitted = ft_split(str, ' ');
-	if (splitted == NULL)
-	{
-		ft_clean_exit(core, MALLOC);
-	}
+	// if (splitted == NULL)
+	// {
+	// 	ft_clean_exit(core, MALLOC);
+	// }
 	free(str);
 	stream = tokenize_str(splitted);
 	return (stream);

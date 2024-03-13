@@ -18,17 +18,26 @@
 
 // ========================================================================= //
 
+// Entry point for the executing the command of the current node,
+// if it is a pipeline or if the single command isn't a built-in.
+void	exec_init(t_core *core,
+			t_command_node *command_list_head);
+
+// Entry point for the child process in child_routin.c
+void	child_routine(t_core *core, t_command_node *current_command,
+			int built_in_index);
+
+// Entry point for built-in execution in exec_built_ins.c
+void	exec_built_ins(t_core *core, t_command_node *current_command,
+			int command_index);
+
 // In find_command_to_exec.c
 // Will search env for the path field, then send back, then
 // write the good path directly into the command node
 void	retrieve_path(t_core *core, t_command_node *current_command);
 
-// Entry point for the child process in child_routin.c
-void	child_routine(t_core *core, t_command_node *current_command);
-
-// Entry point for built-in execution in exec_built_ins.c
-void	exec_built_ins(t_core *core, t_command_node *current_command,
-			int command_index);
+// Will set-up a function pointer tab to point to the good built-in
+void	init_built_ins_tab(t_built_ins *built_ins_tab);
 
 // Return the index of the built_in if the command is one
 int		is_built_in(char *command);
@@ -64,7 +73,10 @@ int		verify_nodes(t_token_stream_node *redirections_stream);
 // Will open the file with the specified flags, and return the fd on success.
 // On error,  will print the error message according to errno value and
 // return -1.
-int		open_file(char *path, int flags);
+int		open_file(char *path, int (*open_function)(char *));
+int		open_input(char *path);
+int		open_output(char *path);
+int		open_append(char *path);
 
 // Will update the stream pointer to be the last node of the list.
 // Mainly used here to select the last redirection as the used one.
@@ -75,8 +87,8 @@ void	get_down_stream(t_token_stream_node **stream);
 // and return .
 // On error , will print the error message according to errno
 // and return -1.
-int		write_redirection_in_command_node(char *path,
-			int *target_fd, int flags);
+int		write_redirection_in_command_node(char *path, int *target_fd,
+			int (*open_function)(char *));
 
 // ========================================================================= //
 
@@ -102,10 +114,8 @@ int		manage_output(t_command_node *current_command);
 void	parent_routine(t_command_node *current_command);
 
 // After all the command are launched, wait for his childrens
-// And fetch the last return code if the last command is
-// not a built-in.
-void	wait_for_childrens(t_core *core, pid_t last_pid,
-			t_bool last_cmd_is_a_built_in);
+// And fetch the last return code.
+void	wait_for_childrens(t_core *core, pid_t last_pid);
 
 // ========================================================================= //
 
@@ -126,5 +136,6 @@ int		checked_dup(int fd);
 // Error message in exec_error_message.c
 void	exec_error(void *arg);
 void	execve_failure(void *arg);
+void	sigquit_error(void *arg);
 
 #endif
