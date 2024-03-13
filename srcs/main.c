@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:31:19 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/12 14:55:59 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/13 14:02:38 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*fetch_input(t_core *core, int error_code)
 		printf("token type :%d\n\n", tmp->type);
 		tmp = tmp->next;
 	}
+	ft_clear_token_list(&core->token_list, free);
 	return (user_input);
 	/*Input parsing fonction here,
 		w/ list and str as argument. STR need to be free in the parsing !!*/
