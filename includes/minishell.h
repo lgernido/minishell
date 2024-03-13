@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/13 11:17:13 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:18:54 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int								ft_dprintf(int fd, const char *format, ...);
 int								ft_handle_dollar(char *str);
 int								ft_is_ascii(char *str);
 void							ft_discard_quotes(t_core *minishell);
+int								ft_handle_backslash(char *str);
 
 // tokenizer.c//
 int								ft_check_error(t_token *token);

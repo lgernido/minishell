@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:48:51 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/13 09:04:00 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:18:29 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,19 @@ int	ft_is_ascii(char *str)
 	while (str[i])
 	{
 		if (str[i] < 0 || str[i] > 127)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+int	ft_handle_backslash(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\')
 			return (1);
 		i++;
 	}
@@ -48,6 +61,7 @@ void	ft_discard_quotes(t_core *minishell)
 	while (tmp)
 	{
 		tmp->value = ft_strtrim(tmp->value, "\"");
+		tmp->value = ft_strtrim(tmp->value, "\'");
 		tmp = tmp->next;
 	}
 	return ;

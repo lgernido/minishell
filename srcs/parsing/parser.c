@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/13 09:05:03 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/13 15:20:23 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ int	ft_syntax_check(char *str)
 	else if (ft_handle_dollar(str))
 	{
 		ft_dprintf(2, "variable syntax : $VARIABLE\n");
+		return (1);
+	}
+	else if (ft_handle_backslash(str))
+	{
+		ft_dprintf(2, "backslash can't be interpreted\n");
 		return (1);
 	}
 	else
