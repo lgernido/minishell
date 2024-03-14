@@ -31,6 +31,7 @@ void	ft_clean_node(t_command_node *node)
 	close_if_open(&node->pipe[WRITE_ENTRY]);
 	close_if_open(&node->saved_infile);
 	close_if_open(&node->saved_outfile);
+	ft_clear_token_stream_if_needed(&node->redirections);
 	if (node->here_doc != NULL)
 	{
 		free(node->here_doc);
