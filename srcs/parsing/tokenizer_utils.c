@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/13 14:00:19 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 09:47:11 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,6 @@ void	ft_add_token_list(t_token **begin, t_token *new)
 	}
 	else
 		*begin = new;
-}
-
-int	ft_token_list_size(t_token **begin)
-{
-	t_token	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = *begin;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
 }
 
 void	ft_clear_token_list(t_token **begin, void (*del)(void *))
@@ -81,6 +66,17 @@ t_token	*ft_create_token(t_core *minishell, int i, char *str)
 		token_len++;
 	}
 	new->value = ft_substr(str, i, token_len);
+	return (new);
+}
+
+t_token	*ft_create_priority_token(t_core *minishell, char *str)
+{
+	t_token	*new;
+
+	new = ft_calloc(1, sizeof(t_token));
+	if (!new)
+		ft_clean_exit(minishell, MALLOC);
+	new->value = str;
 	return (new);
 }
 

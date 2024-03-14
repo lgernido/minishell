@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/13 15:18:54 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 09:47:21 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,11 @@ t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
 void							ft_clear_token_list(t_token **begin,
 									void (*del)(void *));
-int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
 void							ft_ast_clear(t_ast_node **node);
+t_token							*ft_create_priority_token(t_core *minishell,
+									char *str);
 
 // ========================================================================= //
 
