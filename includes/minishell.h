@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/14 09:47:21 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 12:39:19 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ typedef struct stat				t_stat;
 /*PARSING*/
 
 // parser.c //
-void							ft_start_parse(t_core *minishell, char *str);
+int							ft_start_parse(t_core *minishell, char *str);
 int								ft_syntax_check(char *str);
 
 // parser_utils.c//
@@ -193,6 +193,10 @@ void							ft_add_token_list(t_token **begin,
 void							ft_ast_clear(t_ast_node **node);
 t_token							*ft_create_priority_token(t_core *minishell,
 									char *str);
+
+// tokenizer_utils2.c //
+int								ft_tokenize_redirections(t_core *minishell,
+									char *str, t_token **start, int i);
 
 // ========================================================================= //
 

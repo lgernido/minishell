@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:31:19 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/14 09:34:10 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:16:31 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,20 @@ char	*fetch_input(t_core *core, int error_code)
 	add_history(user_input);
 	// return (user_input);
 	// split_str(core, str);
-	ft_start_parse(core, user_input);
-	tmp = core->token_list;
-	while (tmp)
+	if (ft_start_parse(core, user_input) == 0)
 	{
-		printf("token value :%s\n", tmp->value);
-		printf("token type :%d\n\n", tmp->type);
-		tmp = tmp->next;
+		tmp = core->token_list;
+		while (tmp)
+		{
+			printf("token value :%s\n", tmp->value);
+			printf("token type :%d\n\n", tmp->type);
+			tmp = tmp->next;
+		}
 	}
 	ft_clear_token_list(&core->token_list, free);
 	return (user_input);
+	/*Input parsing fonction here,
+		w/ list and str as argument. STR need to be free in the parsing !!*/
 	// free(str);
 }
 

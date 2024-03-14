@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/12 11:10:02 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 09:54:16 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@ void	ft_strdel(char **str)
 	free(*str);
 	*str = NULL;
 }
-/*
-This is clean code ! ><
-*/
 
 int	ft_find_char_str(char c, char *str)
 {
@@ -48,11 +45,6 @@ t_bool	ft_is_separator(char c)
 	return (c == ' ' || c == '\t' || c == ';');
 }
 
-/*
-See if a position in s is between brackets
-s = array in which to check for brackets
-pos = position to check
-*/
 int	ft_quotes(char *str)
 {
 	int	i;
