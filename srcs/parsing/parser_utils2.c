@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:48:51 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/13 15:18:29 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:03:52 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_handle_backslash(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\\')
+		if (str[i] == '\\' || str[i] == ';')
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/14 12:43:16 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/14 14:03:40 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_syntax_check(char *str)
 	}
 	else if (ft_handle_backslash(str))
 	{
-		ft_dprintf(2, "backslash can't be interpreted\n");
+		ft_dprintf(2, "backslash and semicolon can't be interpreted\n");
 		return (1);
 	}
 	else if (ft_handle_redirection(str))
