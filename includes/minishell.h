@@ -90,11 +90,31 @@ typedef enum e_token_types
 	T_NO_EXPAND,
 }								t_token_type;
 
+typedef enum e_subtypes
+{
+	T_REGULAR,
+	T_SINGLE_QUOTES,
+	T_DOUBLE_QUOTES,
+}						t_subtypes;
+
 typedef enum e_bool
 {
 	FALSE = 0,
 	TRUE = 1
 }								t_bool;
+
+typedef struct s_sub_token
+{
+	t_subtypes	type;
+	char		*value;
+}								t_sub_token;
+
+typedef struct s_sub_token_vector
+{
+	t_sub_token	**sub_token_list;
+	size_t		vector_size;
+	size_t		iterator;
+}							t_sub_token_vector;
 
 typedef struct s_token_stream_node
 {
@@ -134,6 +154,7 @@ typedef struct s_core
 {
 	t_ast_node					*ast;
 	struct s_token				*token_list;
+	t_sub_token_vector			*sub_token_vector;
 	char						**env;
 	int							env_size;
 	unsigned char				error_code;
@@ -285,8 +306,16 @@ void							ft_split_stream_clean(t_ast_node *ast);
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
 
-// free the given pointe it it ain't NULL.
+// free the given pointer it it isn't NULL.
 void							free_if_needed(void **str);
+
+// free the sub_token_list
+void							ft_clean_sub_token_list(
+									t_sub_token **token_list, size_t size);
+
+// free the sub_token_vector
+void							ft_clean_sub_vector(
+									t_sub_token_vector **vector);
 
 // Take a pointer to the targeted fd. Will close it if it isn't set to -1
 // then set it back to -1 to avoid trying to close it one more time.

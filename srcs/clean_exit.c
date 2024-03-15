@@ -144,6 +144,41 @@ void	ft_ast_clear(t_ast_node **node)
 	ft_ast_node_clear(node);
 }
 
+void	ft_clean_sub_token(t_sub_token **token)
+{
+	void	*str;
+
+	str = (*token)->value;
+	free_if_needed(&str);
+	free(*token);
+	token = NULL;
+	return ;
+}
+
+void	ft_clean_sub_token_list(t_sub_token **token_list, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (token_list[i] != NULL)
+		{
+			ft_clean_sub_token(&token_list[i]);
+		}
+		++i;
+	}
+	free(*token_list);
+}
+
+void	ft_clean_sub_vector(t_sub_token_vector **vector)
+{
+	ft_clean_sub_token_list((*vector)->sub_token_list, (*vector)->vector_size);
+	(*vector)->sub_token_list = NULL;
+	free(*vector);
+	*vector = NULL;
+}
+
 void	ft_clean_exit(t_core *core, int code)
 {
 	if (core->ast)
@@ -153,6 +188,10 @@ void	ft_clean_exit(t_core *core, int code)
 	}
 	if (core->env)
 		ft_free_tab(core->env);
+	if (core->sub_token_vector)
+	{
+		ft_clean_sub_vector(&core->sub_token_vector);
+	}
 	// if (core->token_list)
 	// 	ft_clear_token_list(&core->token_list, free);
 	rl_clear_history();
