@@ -44,10 +44,9 @@ void	ast_driver(t_core *core)
 	size_t	i;
 
 	if (core->ast == NULL)
-	{
 		return ;
-	}
 	return_value = 0;
+	expand_init(core, core->ast->token_stream);
 	split_token_stream_by_pipes(core->ast);
 	check_errno(core);
 	i = 0;
@@ -59,9 +58,7 @@ void	ast_driver(t_core *core)
 		i++;
 	}
 	if (return_value != 0)
-	{
 		ft_clean_exit(core, return_value);
-	}
 	ft_split_stream_clean(core->ast);
 	exec_driver(core);
 	return ;

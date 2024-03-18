@@ -243,6 +243,8 @@ int								build_command_node(
 // Redirection, first node stream will be NULL).
 void							check_errno(t_core *core);
 
+void							expand_init(t_core *core, t_token_stream_node *token_stream);
+
 // Set up the token stream to have the appropriate form for exec
 // Basically : Split the token stream to have one command node per command
 // Call shrink_stream so every redirection are now only one node.
