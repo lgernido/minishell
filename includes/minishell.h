@@ -92,9 +92,10 @@ typedef enum e_token_types
 
 typedef enum e_subtypes
 {
-	T_REGULAR,
-	T_SINGLE_QUOTES,
-	T_DOUBLE_QUOTES,
+	T_INIT = -1,
+	T_REGULAR = 0,
+	T_DOUBLE_QUOTES = 34,
+	T_SINGLE_QUOTES = 39,
 }						t_subtypes;
 
 typedef enum e_bool

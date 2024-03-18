@@ -56,6 +56,7 @@ static void	realloc_vector(t_core *core)
 	ft_clean_sub_token_list(core->sub_token_vector->sub_token_list,
 		core->sub_token_vector->vector_size);
 	core->sub_token_vector->sub_token_list = temp_vector;
+	core->sub_token_vector->vector_size *= 2;
 }
 
 void	update_iterator_position(t_core *core)
@@ -71,7 +72,7 @@ void	update_iterator_position(t_core *core)
 
 char	*ft_strndup(char *start, char *end)
 {
-	const size_t	len = end - start;
+	const size_t	len = end - start + 1;
 	char			*dest;
 
 	dest = ft_calloc(len + 1, sizeof(char));
@@ -88,9 +89,6 @@ void	create_new_sub_token(t_core *core, char *new_token_start,
 {
 	t_sub_token	*token_to_create;
 
-	update_iterator_position(core);
-	token_to_create = core->sub_token_vector->sub_token_list
-	[core->sub_token_vector->iterator];
 	token_to_create = malloc(sizeof(t_sub_token));
 	if (token_to_create == NULL)
 	{
@@ -102,4 +100,33 @@ void	create_new_sub_token(t_core *core, char *new_token_start,
 	{
 		ft_clean_exit(core, MALLOC);
 	}
+	core->sub_token_vector->sub_token_list[core->sub_token_vector->iterator]
+		= token_to_create;
+	update_iterator_position(core);
+}
+
+char	*join_vector_in_a_string(t_core *core)
+{
+	size_t	i;
+	char	*str;
+	char	*joined_str;
+
+	i = 1;
+	str = core->sub_token_vector->sub_token_list[0]->value;
+	while (i < core->sub_token_vector->vector_size)
+	{
+		if (core->sub_token_vector->sub_token_list[i] != NULL)
+		{
+			joined_str = ft_strjoin(str,
+					core->sub_token_vector->sub_token_list[i]->value);
+			if (joined_str == NULL)
+			{
+				ft_clean_exit(core, MALLOC);
+			}
+			free(str);
+			str = joined_str;
+		}
+		++i;
+	}
+	return (str);
 }
