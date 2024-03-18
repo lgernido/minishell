@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:31:19 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/15 09:22:31 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:14:58 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*fetch_input(t_core *core, int error_code)
 		tmp = core->token_list;
 		while (tmp)
 		{
+			// printf("len : %zu\n", ft_strlen(tmp->value));
 			printf("token value :%s\n", tmp->value);
 			printf("token type :%d\n\n", tmp->type);
 			tmp = tmp->next;

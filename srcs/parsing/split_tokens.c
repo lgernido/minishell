@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/18 09:35:22 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 13:52:54 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,14 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 	int	token_start;
 
 	token_start = i;
-	while (str[i] && !ft_find_char_str(str[i], "\'\" \t|;<>&()$"))
+	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()$"))
+	{
 		i++;
+	}
 	ft_add_token_list(start, ft_create_token(minishell, token_start, str));
 	return (i);
 }
+
 int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
 {
 	if (str[i] == '&' && str[i + 1] == '&')

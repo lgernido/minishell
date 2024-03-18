@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 10:03:55 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/18 09:25:54 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 14:12:41 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,20 @@ int	ft_handle_squote(t_core *minishell, char *user_input, int *i,
 		t_token **start)
 {
 	int		j;
-	char	*tmp;
+	char	*new_value;
 
 	if (user_input[*i] == '\'')
 	{
 		j = *i + 1;
 		while (user_input[j] && user_input[j] != '\'')
 			j++;
-		tmp = ft_substr(user_input, *i + 1, j - *i - 1);
-		if (!tmp)
+		new_value = ft_substr(user_input, *i + 1, j - *i - 1);
+		if (!new_value)
 			ft_clean_exit(minishell, MALLOC);
-		ft_add_token_list(start, ft_create_arg_token(minishell, tmp,
+		ft_add_token_list(start, ft_create_arg_token(minishell, new_value,
 				T_SIMPLE_QUOTES));
 		*i = j + 1;
+		free(new_value);
 		return (*i);
 	}
 	return (*i);
@@ -64,19 +65,20 @@ int	ft_handle_dquote(t_core *minishell, char *user_input, int *i,
 		t_token **start)
 {
 	int		j;
-	char	*tmp;
+	char	*new_value;
 
 	if (user_input[*i] == '\"')
 	{
 		j = *i + 1;
 		while (user_input[j] && user_input[j] != '\"')
 			j++;
-		tmp = ft_substr(user_input, *i + 1, j - *i - 1);
-		if (!tmp)
+		new_value = ft_substr(user_input, *i + 1, j - *i - 1);
+		if (!new_value)
 			ft_clean_exit(minishell, MALLOC);
-		ft_add_token_list(start, ft_create_arg_token(minishell, tmp,
+		ft_add_token_list(start, ft_create_arg_token(minishell, new_value,
 				T_DOUBLE_QUOTES));
 		*i = j + 1;
+		free(new_value);
 		return (*i);
 	}
 	return (*i);
