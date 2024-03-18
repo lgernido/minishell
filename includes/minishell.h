@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/14 12:39:19 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:25:11 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef enum e_token_types
 	T_APPEND,
 	T_TO_EXPAND,
 	T_NO_EXPAND,
+	T_SIMPLE_QUOTES,
+	T_DOUBLE_QUOTES
 }								t_token_type;
 
 typedef enum e_bool
@@ -149,7 +151,7 @@ typedef struct stat				t_stat;
 /*PARSING*/
 
 // parser.c //
-int							ft_start_parse(t_core *minishell, char *str);
+int								ft_start_parse(t_core *minishell, char *str);
 int								ft_syntax_check(char *str);
 
 // parser_utils.c//
@@ -197,8 +199,13 @@ t_token							*ft_create_priority_token(t_core *minishell,
 // tokenizer_utils2.c //
 int								ft_tokenize_redirections(t_core *minishell,
 									char *str, t_token **start, int i);
+int								ft_handle_dquote(t_core *minishell,
+									char *user_input, int *i, t_token **start);
+int								ft_handle_squote(t_core *minishell,
+									char *user_input, int *i, t_token **start);
 
-// ========================================================================= //
+// =========================================================================
+//
 
 // init_struct_and_parse_av.c //
 

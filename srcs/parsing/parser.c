@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/15 09:50:03 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:26:27 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	ft_start_parse(t_core *minishell, char *str)
 				return (1);
 			}
 		}
+		// ft_discard_quotes(minishell);
 	}
-	ft_discard_quotes(minishell);
 	return (0);
 }

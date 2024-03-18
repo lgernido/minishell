@@ -6,11 +6,23 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/14 14:59:29 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/18 09:35:22 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_tokenize_quotes(t_core *minishell, char *str, t_token **start, int i)
+{
+	int	token_start;
+
+	token_start = i;
+	if (str[i] == '\"')
+		i = ft_handle_dquote(minishell, str, &i, start);
+	else if (str[i] == '\'')
+		i = ft_handle_squote(minishell, str, &i, start);
+	return (i);
+}
 
 int	ft_tokenize_variable(t_core *minishell, char *str, t_token **start, int i)
 {
@@ -20,13 +32,12 @@ int	ft_tokenize_variable(t_core *minishell, char *str, t_token **start, int i)
 	i++;
 	if (ft_samestr(str, "$?"))
 	{
-		ft_add_token_list(start, ft_create_arg_token(minishell, "$?",
-				T_NO_EXPAND));
+		ft_add_token_list(start, ft_create_token(minishell, token_start, str));
 		return (i + 2);
 	}
 	else
 	{
-		while (str[i] && (ft_isalpha(str[i]) || str[i] == '_'))
+		while (str[i] && (ft_isalpha(str[i])))
 			i++;
 		ft_add_token_list(start, ft_create_token(minishell, token_start, str));
 		return (i);
@@ -38,7 +49,7 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 	int	token_start;
 
 	token_start = i;
-	while (str[i] && !ft_find_char_str(str[i], " \t|;<>&()$"))
+	while (str[i] && !ft_find_char_str(str[i], "\'\" \t|;<>&()$"))
 		i++;
 	ft_add_token_list(start, ft_create_token(minishell, token_start, str));
 	return (i);
@@ -81,6 +92,8 @@ void	ft_split_tokens(t_core *minishell, char *str)
 			i++;
 			continue ;
 		}
+		else if (str[i] == '\"' || str[i] == '\'')
+			i = ft_tokenize_quotes(minishell, str, start, i);
 		else if (str[i] == '$' && ft_isalpha(str[i + 1]))
 			i = ft_tokenize_variable(minishell, str, start, i);
 		else if (ft_find_char_str(str[i], "|;<>&()$"))

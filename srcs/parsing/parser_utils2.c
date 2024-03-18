@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:48:51 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/15 09:48:37 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/15 11:58:31 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,10 @@ void	ft_discard_quotes(t_core *minishell)
 	tmp = minishell->token_list;
 	while (tmp)
 	{
-		tmp->value = ft_strtrim(tmp->value, "\"");
-		tmp->value = ft_strtrim(tmp->value, "\'");
+		if (ft_strchr(tmp->value, '\"') != NULL)
+			tmp->value = ft_strtrim(tmp->value, "\"");
+		else if (ft_strchr(tmp->value, '\'') != NULL)
+			tmp->value = ft_strtrim(tmp->value, "\'");
 		tmp = tmp->next;
 	}
 	return ;
