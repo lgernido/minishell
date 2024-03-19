@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/18 13:52:54 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:16:08 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
 	}
 	else
 	{
-		ft_add_token_list(start, ft_create_token(minishell, i, str));
+		i = ft_tokenize_parenthesis(minishell, str, start, i);
 		return (i + 1);
 	}
 }
@@ -99,7 +99,7 @@ void	ft_split_tokens(t_core *minishell, char *str)
 			i = ft_tokenize_quotes(minishell, str, start, i);
 		else if (str[i] == '$' && ft_isalpha(str[i + 1]))
 			i = ft_tokenize_variable(minishell, str, start, i);
-		else if (ft_find_char_str(str[i], "|;<>&()$"))
+		else if (ft_find_char_str(str[i], "|<>&()$"))
 			i = ft_tokenize_special(minishell, str, start, i);
 		else
 			i = ft_tokenize_regular(minishell, str, start, i);

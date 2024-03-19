@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/18 09:25:11 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/19 13:10:49 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,9 @@ int								ft_handle_dquote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
 int								ft_handle_squote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
-
+int								ft_tokenize_parenthesis(t_core *minishell,
+									char *str, t_token **start, int i);
+									
 // =========================================================================
 //
 

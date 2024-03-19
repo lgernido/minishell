@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/18 09:26:27 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/19 11:15:32 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int	ft_start_parse(t_core *minishell, char *str)
 			token = ft_tokenizer(minishell);
 			if (token)
 			{
+				ft_clear_token_list(&minishell->token_list, free);
 				ft_dprintf(2,
-					"minishell: syntax error near unexpected token `%s'\n",
-					token);
+					"minishell: syntax error near unexpected token\n");
 				return (1);
 			}
 		}
