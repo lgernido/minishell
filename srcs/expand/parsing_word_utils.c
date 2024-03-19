@@ -68,7 +68,7 @@ static char	*remove_irrelevant_quotes(char	*str, char *double_quote)
 	double_quote[1] = 0;
 	temp_str = ft_strjoin(str, double_quote + 2);
 	free(str);
-	if (str == NULL)
+	if (temp_str == NULL)
 	{
 		return (NULL);
 	}

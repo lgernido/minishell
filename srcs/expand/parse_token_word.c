@@ -13,23 +13,51 @@
 #include "minishell.h"
 #include "expand.h"
 
-static void	extract_new_sub_token(t_core *core, char *token_string,
+static void	exit_properly(t_core *core, char *str_to_free)
+{
+	free(str_to_free);
+	ft_clean_exit(core, MALLOC);
+}
+
+static int	extract_new_sub_token(t_core *core, char *token_string,
 		char **to_dup_start, int *quote_flag)
 {
 	if (*to_dup_start != token_string
 		&& (*quote_flag == -1 || *quote_flag == 0))
 	{
-		create_new_sub_token(core,
-			*to_dup_start, token_string - 1, T_REGULAR);
+		if (create_new_sub_token(core, *to_dup_start,
+				token_string - 1, T_REGULAR) == -1)
+		{
+			return (-1);
+		}
 		*to_dup_start = token_string;
 	}
 	else if (*quote_flag == '\'' || *quote_flag == '"')
 	{
-		create_new_sub_token(core, *to_dup_start,
-			token_string, *quote_flag);
+		if (create_new_sub_token(core, *to_dup_start,
+				token_string, *quote_flag) == -1)
+		{
+			return (-1);
+		}
 		*to_dup_start = token_string + 1;
 	}
 	update_current_quote(quote_flag, *token_string);
+	return (0);
+}
+
+static void	extract_last_token(t_core *core, char *token_string,
+		char *to_dup_start, int index)
+{
+	if (to_dup_start != token_string + index)
+	{
+		if (create_new_sub_token(core, to_dup_start,
+				&token_string[index - 1], T_REGULAR) == -1)
+		{
+			exit_properly(core, token_string);
+		}
+	}
+	free(token_string);
+	return ;
 }
 
 void	parse_word_init(t_core *core, char *token_string)
@@ -38,7 +66,10 @@ void	parse_word_init(t_core *core, char *token_string)
 	int		quote_flag;
 	size_t	i;
 
-	init_vector(core);
+	if (init_vector(core) == -1)
+	{
+		exit_properly(core, token_string);
+	}
 	to_dup_start = token_string;
 	i = 0;
 	quote_flag = -1;
@@ -46,15 +77,14 @@ void	parse_word_init(t_core *core, char *token_string)
 	{
 		if (is_a_relevant_quote(token_string[i], quote_flag) == TRUE)
 		{
-			extract_new_sub_token(core, &token_string[i], &to_dup_start,
-				&quote_flag);
+			if (extract_new_sub_token(core, &token_string[i], &to_dup_start,
+					&quote_flag) == -1)
+			{
+				exit_properly(core, token_string);
+			}
 		}
 		++i;
 	}
-	if (to_dup_start != token_string + i)
-	{
-		create_new_sub_token(core,
-			to_dup_start, &token_string[i - 1], T_REGULAR);
-	}
+	extract_last_token(core, token_string, to_dup_start, i);
 	return ;
 }

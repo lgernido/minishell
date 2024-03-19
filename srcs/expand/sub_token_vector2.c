@@ -25,7 +25,7 @@ static void	copy_vector(t_sub_token_vector *src, t_sub_token **dest)
 	}
 }
 
-static void	realloc_vector(t_core *core)
+static int	realloc_vector(t_core *core)
 {
 	t_sub_token	**temp_vector;
 
@@ -33,24 +33,28 @@ static void	realloc_vector(t_core *core)
 			sizeof(t_sub_token));
 	if (temp_vector == NULL)
 	{
-		ft_clean_exit(core, MALLOC);
+		return (-1);
 	}
 	copy_vector(core->sub_token_vector, temp_vector);
 	ft_clean_sub_token_list(core->sub_token_vector->sub_token_list,
 		core->sub_token_vector->vector_size);
 	core->sub_token_vector->sub_token_list = temp_vector;
 	core->sub_token_vector->vector_size *= 2;
+	return (0);
 }
 
-void	update_iterator_position(t_core *core)
+int	update_iterator_position(t_core *core)
 {
+	int	return_value;
+
+	return_value = -1;
 	if (core->sub_token_vector->iterator + 1
 		== core->sub_token_vector->vector_size)
 	{
-		realloc_vector(core);
+		return_value = realloc_vector(core);
 	}
 	core->sub_token_vector->iterator += 1;
-	return ;
+	return (return_value);
 }
 
 char	*ft_strndup(char *start, char *end)

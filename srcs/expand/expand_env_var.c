@@ -13,6 +13,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "expand.h"
+#include <readline/readline.h>
 
 static t_bool	is_valid_var_ender(char c)
 {
@@ -32,33 +33,45 @@ char	*find_var_end(char *var_begin)
 	return (var_begin);
 }
 
+char	*get_var(t_core *core, char *var_begin, char *var_end)
+{
+	char	*var;
+	char	*substitute_var;
+
+	var = ft_strndup(var_begin, var_end);
+	if (var == NULL)
+	{
+		return (NULL);
+	}
+	substitute_var = ft_getenv(core, var);
+	return (substitute_var);
+}
+
 char	*substitute_var(t_core *core, char *str, char *var_begin, char *var_end)
 {
-	const char	*extracted_var = ft_strndup(var_begin, var_end);
-	const char	*replaced_var = ft_getenv(core, (char *)extracted_var);
-	char		*new_str;
+	const char	*substitute_var = get_var(core, var_begin, var_end);
 	char		*temp_str;
 
-	if (errno == ENOMEM)
+	temp_str = NULL;
+	if (errno != ENOMEM)
 	{
-		return (NULL);
-	}
-	*var_begin = '\0';
-	if (replaced_var != NULL)
-	{
-		temp_str = ft_strjoin(var_begin, replaced_var);
-		if (temp_str != NULL)
+		*var_begin = '\0';
+		if (substitute_var != NULL)
 		{
-			new_str = temp_str;
+			temp_str = ft_strjoin(str, substitute_var);
+			free((char *)substitute_var);
+			free(str);
+			str = temp_str;
 		}
+		if (str != NULL)
+		{
+			temp_str = ft_strjoin(str, var_end);
+			free(str);
+		}
+		return (expand_var_init(core, temp_str));
 	}
-	temp_str = ft_strjoin(new_str, var_end);
 	free(str);
-	if (temp_str == NULL)
-	{
-		return (NULL);
-	}
-	return (expand_var_init(core, temp_str));
+	return (NULL);
 }
 
 char	*expand_var_init(t_core *core, char *str)
@@ -66,6 +79,10 @@ char	*expand_var_init(t_core *core, char *str)
 	size_t	i;
 	char	*var_end;
 
+	if (str == NULL)
+	{
+		return (str);
+	}
 	i = 0;
 	while (str[i] != '\0')
 	{
