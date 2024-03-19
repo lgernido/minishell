@@ -55,7 +55,7 @@ void	remove_quotes_and_highlight_wildcards(t_core *core)
 	{
 		if (core->sub_token_vector->sub_token_list[i] != NULL)
 		{
-			if (core->sub_token_vector->sub_token_list[i]->value == T_REGULAR)
+			if (core->sub_token_vector->sub_token_list[i]->type == T_REGULAR)
 			{
 				highlight_wildcards(core->sub_token_vector
 					->sub_token_list[i]->value);

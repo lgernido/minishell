@@ -83,4 +83,5 @@ void	minishell_driver(t_core *core)
 	tokenized_user_input = split_str(core, user_input);
 	ast_init(tokenized_user_input, core);
 	ast_driver(core);
+	clean_prev_command(core);
 }

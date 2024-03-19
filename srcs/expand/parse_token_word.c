@@ -56,6 +56,14 @@ static void	extract_last_token(t_core *core, char *token_string,
 			exit_properly(core, token_string);
 		}
 	}
+	else if (to_dup_start == token_string && index == 0)
+	{
+		if (create_new_sub_token(core, to_dup_start,
+				token_string, T_REGULAR) == -1)
+		{
+			exit_properly(core, token_string);
+		}
+	}
 	free(token_string);
 	return ;
 }

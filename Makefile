@@ -24,6 +24,11 @@ PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
 
+EXPAND_DIR = expand/
+EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_env_var.c expand_utils.c\
+							 parse_token_word.c parsing_word_utils.c remove_quote.c\
+							 sub_token_vector2.c sub_token_vector.c)
+
 PRE_EXEC_DIR = pre_exec_set_up/
 PRE_EXEC_FILES = $(addprefix $(PRE_EXEC_DIR),command_list_base_funct.c\
 								 expand_vars_and_wildcards_init.c fill_split_streams.c\
@@ -39,7 +44,7 @@ EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c
 
 SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
-						exec_driver.c
+						exec_driver.c $(EXPAND_FILES)
 
 
 
@@ -90,6 +95,7 @@ build/%.o: srcs/%.c
 	@mkdir -p $(BUILD)/$(SEARCH_DIR)
 	@mkdir -p $(BUILD)/$(PRE_EXEC_DIR)
 	@mkdir -p $(BUILD)/$(EXEC_DIR)
+	@mkdir -p $(BUILD)/$(EXPAND_DIR)
 	@echo "$(YELLOW)Compilation de $*$(RESET)"
 	@$(CC) $(CFLAGS) -I$(INCLUDE_PATH) -I$(LIBFT_PATH) -I/usr/include -c $< -o $@
 

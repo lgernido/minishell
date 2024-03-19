@@ -32,5 +32,7 @@ void	check_for_mem_error(t_core *core, char **str_to_check,
 			char **str_to_free);
 t_bool	sub_token_need_expand(t_sub_token *sub_token);
 void	expand_sub_token(t_core *core, int i);
+char	*find_var_end(char *var_begin);
+t_bool	is_valid_var_ender(char c);
 
 #endif

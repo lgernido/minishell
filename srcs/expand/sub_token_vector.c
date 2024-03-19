@@ -62,6 +62,7 @@ char	*join_vector_in_a_string(t_core *core)
 	i = 1;
 	remove_quotes_and_highlight_wildcards(core);
 	str = core->sub_token_vector->sub_token_list[0]->value;
+	core->sub_token_vector->sub_token_list[0]->value = NULL;
 	while (i < core->sub_token_vector->vector_size)
 	{
 		if (core->sub_token_vector->sub_token_list[i] != NULL)

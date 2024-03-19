@@ -16,9 +16,9 @@
 void	check_for_mem_error(t_core *core, char **str_to_check,
 		char **str_to_free)
 {
-	free(*str_to_free);
 	if (str_to_check == NULL)
 	{
+		free(*str_to_free);
 		ft_clean_exit(core, MALLOC);
 	}
 	else
@@ -54,4 +54,22 @@ void	expand_sub_token(t_core *core, int i)
 	}
 	core->sub_token_vector->sub_token_list[i]->value
 		= expanded_token;
+}
+
+t_bool	is_valid_var_ender(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\0' || c == '$')
+	{
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+char	*find_var_end(char *var_begin)
+{
+	while (is_valid_var_ender(*(var_begin + 1)) == FALSE)
+	{
+		++var_begin;
+	}
+	return (var_begin + 1);
 }

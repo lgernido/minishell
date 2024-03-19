@@ -280,6 +280,8 @@ void							parse_envp(char **envp, t_core *core);
 // clean the core struct
 void							ft_clean_exit(t_core *core, int code);
 
+void							clean_prev_command(t_core *core);
+
 // Rucursively call itself on every node of the ast until 
 // the whole ast is cleared.
 void							ft_ast_clear(t_ast_node **node);

@@ -47,7 +47,7 @@ int	update_iterator_position(t_core *core)
 {
 	int	return_value;
 
-	return_value = -1;
+	return_value = 0;
 	if (core->sub_token_vector->iterator + 1
 		== core->sub_token_vector->vector_size)
 	{

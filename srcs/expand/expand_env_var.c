@@ -15,24 +15,6 @@
 #include "expand.h"
 #include <readline/readline.h>
 
-static t_bool	is_valid_var_ender(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\0' || c == '$')
-	{
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-char	*find_var_end(char *var_begin)
-{
-	while (is_valid_var_ender(*(var_begin + 1)) == FALSE)
-	{
-		++var_begin;
-	}
-	return (var_begin);
-}
-
 char	*get_var(t_core *core, char *var_begin, char *var_end)
 {
 	char	*var;
@@ -44,30 +26,41 @@ char	*get_var(t_core *core, char *var_begin, char *var_end)
 		return (NULL);
 	}
 	substitute_var = ft_getenv(core, var);
+	free(var);
 	return (substitute_var);
+}
+
+void	join_first_part(char **temp, char **temp2,
+		const char **substitute_var, char **str)
+{
+	*temp = ft_strjoin(*str, *substitute_var);
+	free(*(char **)substitute_var);
+	*temp2 = *str;
+	*str = *temp;
 }
 
 char	*substitute_var(t_core *core, char *str, char *var_begin, char *var_end)
 {
 	const char	*substitute_var = get_var(core, var_begin, var_end);
 	char		*temp_str;
+	char		*temp2;
 
 	temp_str = NULL;
+	temp2 = NULL;
 	if (errno != ENOMEM)
 	{
 		*var_begin = '\0';
 		if (substitute_var != NULL)
 		{
-			temp_str = ft_strjoin(str, substitute_var);
-			free((char *)substitute_var);
-			free(str);
-			str = temp_str;
+			join_first_part(&temp_str, &temp2, &substitute_var, &str);
 		}
 		if (str != NULL)
 		{
 			temp_str = ft_strjoin(str, var_end);
 			free(str);
 		}
+		if (temp2 != NULL)
+			free(temp2);
 		return (expand_var_init(core, temp_str));
 	}
 	free(str);

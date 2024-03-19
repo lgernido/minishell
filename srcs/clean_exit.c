@@ -168,7 +168,7 @@ void	ft_clean_sub_token_list(t_sub_token **token_list, size_t size)
 		}
 		++i;
 	}
-	free(*token_list);
+	free(token_list);
 }
 
 void	ft_clean_sub_vector(t_sub_token_vector **vector)
@@ -179,21 +179,26 @@ void	ft_clean_sub_vector(t_sub_token_vector **vector)
 	*vector = NULL;
 }
 
-void	ft_clean_exit(t_core *core, int code)
+void	clean_prev_command(t_core *core)
 {
 	if (core->ast)
 	{
 		climb_tree_to_origin(&core->ast);
 		ft_ast_clear(&core->ast);
 	}
-	if (core->env)
-		ft_free_tab(core->env);
 	if (core->sub_token_vector)
 	{
 		ft_clean_sub_vector(&core->sub_token_vector);
 	}
 	// if (core->token_list)
 	// 	ft_clear_token_list(&core->token_list, free);
+}
+
+void	ft_clean_exit(t_core *core, int code)
+{
+	if (core->env)
+		ft_free_tab(core->env);
+	clean_prev_command(core);
 	rl_clear_history();
 	exit(code);
 }

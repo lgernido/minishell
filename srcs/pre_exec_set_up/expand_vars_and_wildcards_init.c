@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "AST.h"
 #include "expand.h"
@@ -42,6 +43,7 @@ char	*handle_word(t_core *core, char *token_value)
 	parse_word_init(core, token_value);
 	expand_vector(core);
 	return_str = join_vector_in_a_string(core);
+	ft_clean_sub_vector(&core->sub_token_vector);
 	return (return_str);
 }
 
