@@ -71,6 +71,7 @@ char	**get_valid_addr(t_core *core, char *av)
 	char	**to_comp;
 
 	i = 0;
+	// printf("Received : %s", av);
 	to_comp = ft_split(av, '=');
 	if (!to_comp)
 		ft_clean_exit(core, MALLOC);
@@ -78,7 +79,7 @@ char	**get_valid_addr(t_core *core, char *av)
 	{
 		if (is_the_var(*to_comp, core->env[i]))
 			break ;
-		i++;
+		++i;
 	}
 	ft_free_tab(to_comp);
 	if (i < core->env_size - 1)

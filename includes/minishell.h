@@ -271,7 +271,9 @@ void							update_command_list(t_core *core);
 // ========================================================================= //
 
 // parse_envp.c
-void							parse_envp(char **envp, t_core *core);
+
+// Parse envp if it exist, or set-up an empty one
+void							handle_envp(char **envp, t_core *core);
 
 // ========================================================================= //
 
