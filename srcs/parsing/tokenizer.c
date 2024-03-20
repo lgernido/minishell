@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/13 11:22:34 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/20 09:33:05 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_define_type(t_token *tmp)
 		tmp->type = T_PAR_OPEN;
 	else if (ft_samestr(tmp->value, ")"))
 		tmp->type = T_PAR_CLOSE;
-	else if (ft_strncmp(tmp->value, "$", 1) == 0)
+	else if (ft_strncmp(tmp->value, "$", 1) == 0 && !tmp->type)
 		tmp->type = T_TO_EXPAND;
 	else if (ft_samestr(tmp->value, "newline") && !tmp->next)
 		tmp->type = T_NEWLINE;
@@ -83,7 +83,7 @@ char	*ft_tokenizer(t_core *minishell)
 			tmp->type = T_REDIRECT;
 		else if (ft_define_type(tmp))
 			;
-		else
+		else if (!tmp->type || tmp->type == T_SIMPLE_QUOTES)
 			tmp->type = T_WORD;
 		tmp = tmp->next;
 	}
