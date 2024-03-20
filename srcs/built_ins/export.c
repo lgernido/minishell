@@ -14,10 +14,39 @@
 #include "minishell.h"
 #include "built_ins.h"
 
-static int	is_invalid(char c)
+static int	is_invalid(char c, int flag)
 {
-	if (!ft_isalnum(c) && c != '_')
+	if (!ft_isalnum(c) && c != '_' && flag == 0)
 		return (1);
+	else if (!ft_isalpha(c) && c != '_' && flag != 0)
+		return (1);
+	return (0);
+}
+
+void	export_error(void *arg)
+{
+	ft_printf_err("minishell: export: `%s':\
+not a valid identifier\n", (char *)arg);
+}
+
+static int	check_curr_char(char *current_char, char *str_beginning)
+{
+	if (current_char == str_beginning)
+	{
+		if (is_invalid(*current_char, 1))
+		{
+			throw_error_message(str_beginning, export_error);
+			return (1);
+		}
+	}
+	else
+	{
+		if (is_invalid(*current_char, 0))
+		{
+			throw_error_message(str_beginning, export_error);
+			return (1);
+		}
+	}
 	return (0);
 }
 
@@ -28,10 +57,8 @@ static int	parse_var(char *str)
 	tmp = str;
 	while (*str != '=')
 	{
-		if (is_invalid(*str))
+		if (check_curr_char(str, tmp) == 1)
 		{
-			ft_printf_err("minishell: export: `%s':\
-not a valid identifier\n", tmp);
 			return (1);
 		}
 		str++;
@@ -71,7 +98,6 @@ char	**get_valid_addr(t_core *core, char *av)
 	char	**to_comp;
 
 	i = 0;
-	// printf("Received : %s", av);
 	to_comp = ft_split(av, '=');
 	if (!to_comp)
 		ft_clean_exit(core, MALLOC);

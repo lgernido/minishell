@@ -243,7 +243,8 @@ int								build_command_node(
 // Redirection, first node stream will be NULL).
 void							check_errno(t_core *core);
 
-void							expand_init(t_core *core, t_token_stream_node *token_stream);
+void							expand_init(t_core *core,
+									t_token_stream_node *token_stream);
 
 // Set up the token stream to have the appropriate form for exec
 // Basically : Split the token stream to have one command node per command
@@ -254,7 +255,7 @@ void							expand_init(t_core *core, t_token_stream_node *token_stream);
 void							ast_driver(t_core *core);
 
 // Will either call the exec path that fork if the command
-// is a pipeline/not a built-in signle command,
+// is a pipeline/not a built-in single command,
 // or the internal function exec in case of a single built-in.
 void							exec_driver(t_core *core);
 

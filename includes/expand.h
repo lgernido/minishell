@@ -15,6 +15,7 @@
 # define EXPAND_H
 
 # include "minishell.h"
+# include <dirent.h>
 
 void	parse_word_init(t_core *core, char *token_string);
 int		init_vector(t_core *core);
