@@ -217,6 +217,66 @@ t_token_stream_node	*get_wildcards(t_core *core, DIR *dir_ptr,
 	clean_wildcard_info(&wildcard_info);
 	return (stream_to_return);
 }
+
+t_bool is_prev_node_is_a_redirection(t_token_stream_node *current_token)
+{
+	t_bool	return_value;
+
+	return_value = FALSE;
+	if (current_token->prev != NULL)
+	{
+		if (current_token->prev->type == T_APPEND
+			|| current_token->prev->type == T_INPUT_FILE
+			|| current_token->type == T_OUTPUT_FILE)
+		{
+			return_value = TRUE;
+		}
+	}
+	return (return_value);
+}
+
+size_t	ft_token_stream_size(t_token_stream_node *token_stream)
+{
+	size_t	size;
+
+	size = 0;
+	while (token_stream != NULL)
+	{
+		++size;
+	}
+	return (size);
+}
+
+void	remove_highlighted_wildcards(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == -42)
+		{
+			str[i] = '*';
+		}
+	}
+	return ;
+}
+
+void	wildcards_init(t_core *core, t_token_stream_node *current_token)
+{
+	const DIR		*dir_ptr = open_dir(core);
+	t_token_stream_node	*entries_stream;
+	const t_bool	prev_node_is_a_redir
+		= is_prev_node_is_a_redirection(current_token);
+	size_t			entries_stream_size;
+
+	entries_stream = get_wildcards(core, (DIR *)dir_ptr, current_token->value);
+	entries_stream_size = ft_token_stream_size(entries_stream);
+	if (entries_stream_size == 0)
+	{
+		remove_highlighted_wildcards(current_token->value);
+	}
+}
 /*
 	Pseudo :
 		check if prev is a redir, store it in a flag
