@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:37:58 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/12 14:49:52 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:09:03 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	ft_clean_exit(t_core *core, int code)
 	if (core->env)
 		ft_free_tab(core->env);
 	if (core->token_list)
-		ft_clear_token_list(&core->token_list, free);
+		ft_clear_token_list(&core->token_list);
 	rl_clear_history();
 	exit(code);
 }
