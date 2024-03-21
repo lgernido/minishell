@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "clean_and_error.h"
 
 void	setup_next_node(t_core *core, t_ast_node *path_to_take,
 		t_ast_node *path_to_clear)

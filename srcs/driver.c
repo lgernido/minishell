@@ -13,6 +13,7 @@
 #include "AST.h"
 #include "exec.h"
 #include "minishell.h"
+#include "clean_and_error.h"
 
 void	check_errno(t_core *core)
 {

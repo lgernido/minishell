@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "expand.h"
 #include "built_ins.h"
+#include "clean_and_error.h"
 
 static void	insert_dir_entries(t_token_stream_node **current_token,
 		t_token_stream_node *dir_entries)

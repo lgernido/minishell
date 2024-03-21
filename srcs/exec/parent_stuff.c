@@ -12,6 +12,7 @@
 
 #include "built_ins.h"
 #include "exec.h"
+#include "clean_and_error.h"
 
 void	parent_routine(t_command_node *current_command)
 {

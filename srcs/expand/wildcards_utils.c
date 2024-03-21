@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 void	clean_wildcard_info(t_wildcard_info *wildcard_info)
 {

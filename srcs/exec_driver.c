@@ -12,6 +12,7 @@
 
 #include "exec.h"
 #include "minishell.h"
+#include "clean_and_error.h"
 
 static t_bool	is_a_pipeline(t_command_node *command_stream)
 {

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "clean_and_error.h"
 
 static void	copy_vector(t_sub_token_vector *src, t_sub_token **dest)
 {

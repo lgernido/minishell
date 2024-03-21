@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 #include "built_ins.h"
+#include "clean_and_error.h"
 #include "exec.h"
 
 int	is_built_in(char *command)

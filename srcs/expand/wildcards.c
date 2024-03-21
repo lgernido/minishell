@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "expand.h"
+#include "clean_and_error.h"
 
 static t_bool	parse_dir_entry(t_wildcard_info *wildcard_info)
 {

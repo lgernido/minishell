@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_node_init.c                                 :+:      :+:    :+:   */
+/*   expand_vars_and_wildcards_init.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/15 18:06:33 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/15 18:06:33 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/03/14 16:00:06 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/03/21 18:56:33 by purmerinos       ###   ########.fr       */
 /*                                                                            */
-
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include "AST.h"
 #include "expand.h"
+#include "clean_and_error.h"
 
 static void	expand_vector(t_core *core)
 {

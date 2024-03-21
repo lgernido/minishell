@@ -4,12 +4,16 @@
 SRC_FOLDER	= srcs/
 SRC_FOLDER_BONUS = srcs/bonus/
 
+CLEAN_DIR = clean_and_error/
+CLEAN_FILES = $(addprefix $(CLEAN_DIR), clean_command.c clean_main.c\
+							clean_sub_vector.c clean_token_stream.c)
+
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
 									pwd.c cd.c cd_utils.c cd_update_env_var.c ft_get_env.c get_address.c)\
 
 AST_DIR = ast/
-AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
+AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c\
 						setup_recursive_calls.c token_stream_node_management.c\
 						clear_stream_and_exit.c bridge_between_node.c ast_handling_utils.c\
 						ft_pop_node.c)
@@ -45,9 +49,9 @@ EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c
 						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c\
 						 open_files.c)
 
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
+SRC_FILES	= main.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
-						exec_driver.c $(EXPAND_FILES)
+						exec_driver.c $(EXPAND_FILES) $(CLEAN_FILES)
 
 
 
@@ -93,6 +97,7 @@ $(NAME): $(OBJ_FILES) $(INCLUDES)
 build/%.o: srcs/%.c
 	@mkdir -p ${BUILD}
 	@mkdir -p ${BUILD}/${AST_DIR}
+	@mkdir -p ${BUILD}/${CLEAN_DIR}
 	@mkdir -p ${BUILD}/${BUILT_IN_DIR}
 	@mkdir -p $(BUILD)/$(PARSING_DIR)
 	@mkdir -p $(BUILD)/$(SEARCH_DIR)

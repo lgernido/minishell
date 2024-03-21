@@ -220,6 +220,12 @@ void							init_core(t_core *core);
 
 // ========================================================================= //
 
+// clean_main.c.c
+// clean the core struct
+void							ft_clean_exit(t_core *core, int code);
+
+// ========================================================================= //
+
 // In driver.c, it is the functions where the programm comes back
 // after executing each command
 

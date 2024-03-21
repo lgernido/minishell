@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 static void	handle_prev_pointer(t_token_stream_node **node_to_pop)
 {

@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "exec.h"
 #include <unistd.h>
+#include "clean_and_error.h"
 
 void	safely_close_pipe_entry(t_command_node *node, int entry_to_close)
 {
