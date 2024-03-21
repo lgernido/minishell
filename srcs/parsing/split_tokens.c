@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/20 09:13:16 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:58:58 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,18 @@ int	ft_tokenize_variable(t_core *minishell, char *str, t_token **start, int i)
 
 	token_start = i;
 	i++;
-	if (ft_samestr(str, "$?"))
+	if (str[i] == '?')
 	{
-		ft_add_token_list(start, ft_create_token(minishell, token_start, str));
-		return (i + 2);
+		ft_add_token_list(start, ft_create_priority_token(minishell, "$?"));
+		return (i + 1);
 	}
 	else
 	{
 		while (str[i] && (ft_isalpha(str[i])))
 			i++;
 		ft_add_token_list(start, ft_create_token(minishell, token_start, str));
-		return (i);
 	}
+	return (i);
 }
 
 int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
@@ -50,9 +50,7 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 
 	token_start = i;
 	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()$"))
-	{
 		i++;
-	}
 	ft_add_token_list(start, ft_create_token(minishell, token_start, str));
 	return (i);
 }
@@ -72,7 +70,7 @@ int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
 	else if (ft_find_char_str(str[i], "<>"))
 	{
 		i = ft_tokenize_redirections(minishell, str, start, i);
-		return (i + 1);
+		return (i);
 	}
 	else
 	{
@@ -88,7 +86,7 @@ void	ft_split_tokens(t_core *minishell, char *str)
 
 	i = 0;
 	start = &minishell->token_list;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == ' ' || str[i] == '\t')
 		{

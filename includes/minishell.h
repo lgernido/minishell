@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/19 13:10:49 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:05:04 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,6 @@ typedef struct s_ast_node
 	struct s_ast_node			*on_failure;
 }								t_ast_node;
 
-typedef struct s_core
-{
-	t_ast_node					*ast;
-	struct s_token				*token_list;
-	char						**env;
-	int							env_size;
-	int							error_code;
-}								t_core;
-
 typedef struct s_token
 {
 	char						*value;
@@ -143,6 +134,14 @@ typedef struct s_token
 	struct s_token				*next;
 	struct s_token				*prev;
 }								t_token;
+typedef struct s_core
+{
+	t_ast_node					*ast;
+	t_token						*token_list;
+	char						**env;
+	int							env_size;
+	int							error_code;
+}								t_core;
 
 extern atomic_int				g_signal;
 typedef struct stat				t_stat;
@@ -188,13 +187,12 @@ t_token							*ft_create_arg_token(t_core *minishell,
 									char *word, int type);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
-void							ft_clear_token_list(t_token **begin,
-									void (*del)(void *));
+void							ft_clear_token_list(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
 void							ft_ast_clear(t_ast_node **node);
 t_token							*ft_create_priority_token(t_core *minishell,
-									char *str);
+									const char *str);
 
 // tokenizer_utils2.c //
 int								ft_tokenize_redirections(t_core *minishell,
@@ -205,7 +203,7 @@ int								ft_handle_squote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
 int								ft_tokenize_parenthesis(t_core *minishell,
 									char *str, t_token **start, int i);
-									
+
 // =========================================================================
 //
 

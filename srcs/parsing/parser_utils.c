@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/19 13:21:45 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 12:47:14 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	ft_samestr(char *s1, char *s2)
 
 void	ft_strdel(char **str)
 {
-	free(*str);
+	if (*str)
+		free(*str);
 	*str = NULL;
 }
 

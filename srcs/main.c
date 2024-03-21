@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:31:19 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/19 13:43:44 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:05:42 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*fetch_input(t_core *core, int error_code)
 			tmp = tmp->next;
 		}
 	}
+	ft_clear_token_list(&core->token_list);
 	return (user_input);
 	/*Input parsing fonction here,
 		w/ list and str as argument. STR need to be free in the parsing !!*/

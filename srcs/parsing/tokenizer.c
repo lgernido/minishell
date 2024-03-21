@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/20 09:33:05 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 09:33:53 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_tokenizer(t_core *minishell)
 	t_token	*tmp;
 
 	tmp = minishell->token_list;
-	while (tmp)
+	while (tmp->next != NULL)
 	{
 		if (ft_samestr(tmp->value, ">") || ft_samestr(tmp->value, ">>")
 			|| ft_samestr(tmp->value, "<<") || ft_samestr(tmp->value, "<"))
@@ -88,7 +88,7 @@ char	*ft_tokenizer(t_core *minishell)
 		tmp = tmp->next;
 	}
 	tmp = minishell->token_list;
-	while (tmp)
+	while (tmp->next != NULL)
 	{
 		if (ft_check_error(tmp))
 			return (tmp->value);

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:48:51 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/15 11:58:31 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 08:38:16 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,6 @@ int	ft_handle_dollar(char *str)
 		i++;
 	}
 	return (0);
-}
-
-void	ft_discard_quotes(t_core *minishell)
-{
-	t_token	*tmp;
-
-	tmp = minishell->token_list;
-	while (tmp)
-	{
-		if (ft_strchr(tmp->value, '\"') != NULL)
-			tmp->value = ft_strtrim(tmp->value, "\"");
-		else if (ft_strchr(tmp->value, '\'') != NULL)
-			tmp->value = ft_strtrim(tmp->value, "\'");
-		tmp = tmp->next;
-	}
-	return ;
 }
 
 int	ft_dprintf(int fd, const char *format, ...)

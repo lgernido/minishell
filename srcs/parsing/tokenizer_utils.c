@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 13:42:14 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/19 13:20:05 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:04:56 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ void	ft_add_token_list(t_token **begin, t_token *new)
 		*begin = new;
 }
 
-void	ft_clear_token_list(t_token **begin, void (*del)(void *))
+void	ft_clear_token_list(t_token **begin)
 {
 	t_token	*tmp;
 	t_token	*tmp2;
 
-	if (!begin || !del)
+	if (!begin)
 		return ;
 	tmp = *begin;
 	while (tmp)
 	{
-		ft_strdel(&tmp->value);
 		tmp2 = tmp->next;
+		ft_strdel(&tmp->value);
 		free(tmp);
 		tmp = tmp2;
 	}
@@ -69,14 +69,14 @@ t_token	*ft_create_token(t_core *minishell, int i, char *str)
 	return (new);
 }
 
-t_token	*ft_create_priority_token(t_core *minishell, char *str)
+t_token	*ft_create_priority_token(t_core *minishell, const char *str)
 {
 	t_token	*new;
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
 		ft_clean_exit(minishell, MALLOC);
-	new->value = str;
+	new->value = ft_strdup(str);
 	return (new);
 }
 
