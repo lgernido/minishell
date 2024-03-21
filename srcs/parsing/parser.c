@@ -6,11 +6,30 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/21 13:11:23 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:37:04 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_and_alone(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '&' && str[i - 1] != '&' && (str[i + 1] == ' ' || str[i
+				+ 1] == '\0'))
+		{
+			ft_dprintf(2, "syntax error :
+				&& must be an operator or between quotes\n");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 static int	ft_handle_redirection(char *str)
 {
@@ -52,7 +71,7 @@ int	ft_syntax_check(char *str)
 		ft_dprintf(2, "backslash and semicolon can't be interpreted\n");
 		return (1);
 	}
-	else if (ft_handle_redirection(str))
+	else if (ft_handle_redirection(str) || ft_and_alone(str))
 		return (1);
 	else
 		return (0);
