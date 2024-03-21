@@ -26,7 +26,6 @@ void	choose_next_path_to_take(t_core *core)
 	printf("Last exit code in node: %d\n", core->error_code);
 	if (g_signal == 130)
 	{
-		printf("c'est moi lol \n");
 		ft_ast_clear(&core->ast);
 	}
 	else if (core->error_code == 0)
@@ -37,6 +36,9 @@ void	choose_next_path_to_take(t_core *core)
 	{
 		setup_next_node(core, core->ast->on_failure, core->ast->on_success);
 	}
-	ast_driver(core);
+	if (core->ast != NULL)
+	{
+		ast_driver(core);
+	}
 	return ;
 }

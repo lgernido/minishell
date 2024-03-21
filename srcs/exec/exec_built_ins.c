@@ -104,5 +104,6 @@ void	exec_built_ins(t_core *core, t_command_node *current_command,
 	}
 	core->error_code = built_in_tab[command_index](current_command->cmd, core);
 	reset_std_fd(core, current_command);
+	choose_next_path_to_take(core);
 	return ;
 }

@@ -8,14 +8,13 @@
 /*   Created: 2024/02/15 18:06:33 by purmerinos        #+#    #+#             */
 /*   Updated: 2024/02/15 18:06:33 by purmerinos       ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
 
-#include "libft.h"
+
 #include "minishell.h"
 #include "AST.h"
 #include "expand.h"
 
-void	expand_vector(t_core *core)
+static void	expand_vector(t_core *core)
 {
 	size_t	i;
 
@@ -34,12 +33,10 @@ void	expand_vector(t_core *core)
 	}
 }
 
-char	*handle_word(t_core *core, char *token_value)
+static char	*handle_word(t_core *core, char *token_value)
 {
 	char	*return_str;
 
-	// return_str = get_rid_of_double_quote(token_value);
-	// check_for_mem_error(core, &return_str, &token_value);
 	parse_word_init(core, token_value);
 	expand_vector(core);
 	return_str = join_vector_in_a_string(core);
@@ -47,23 +44,50 @@ char	*handle_word(t_core *core, char *token_value)
 	return (return_str);
 }
 
-void	expand_init(t_core *core, t_token_stream_node *token_stream)
+static int	need_wildcard_expand(t_core *core, t_token_stream_node **token)
 {
-	char	*token_value_copy;
+	t_bool		return_value;
+	const char	*token_value = (*token)->value;
+	size_t		i;
 
-	while (token_stream != NULL)
+	return_value = 0;
+	i = 0;
+	while (token_value[i] != '\0')
 	{
-		if (is_the_searched_token(token_stream, T_TO_EXPAND) == TRUE)
+		if (token_value[i] == -42)
 		{
-			token_stream->value = expand_var_init(core, token_stream->value);
+			return_value = wildcards_init(core, token);
+			break ;
+		}
+		++i;
+	}
+	return (return_value);
+}
+
+int	expand_init(t_core *core, t_token_stream_node **token_stream)
+{
+	char						*token_value_copy;
+	const t_token_stream_node	*head = *token_stream;
+	int							return_value;
+
+	return_value = 0;
+	while (*token_stream != NULL && return_value == 0)
+	{
+		if (is_the_searched_token(*token_stream, T_TO_EXPAND) == TRUE)
+		{
+			(*token_stream)->value = expand_var_init(
+					core, (*token_stream)->value);
 			check_errno(core);
 		}
-		else if (is_the_searched_token(token_stream, T_WORD) == TRUE)
+		else if (is_the_searched_token((*token_stream), T_WORD) == TRUE)
 		{
-			token_value_copy = token_stream->value;
-			token_stream->value = NULL;
-			token_stream->value = handle_word(core, token_value_copy);
+			token_value_copy = (*token_stream)->value;
+			(*token_stream)->value = NULL;
+			(*token_stream)->value = handle_word(core, token_value_copy);
+			return_value = need_wildcard_expand(core, token_stream);
 		}
-		token_stream = token_stream->next;
+		*token_stream = (*token_stream)->next;
 	}
+	*token_stream = (t_token_stream_node *)head;
+	return (return_value);
 }

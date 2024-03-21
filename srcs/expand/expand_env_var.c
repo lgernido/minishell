@@ -15,7 +15,7 @@
 #include "expand.h"
 #include <readline/readline.h>
 
-char	*get_var(t_core *core, char *var_begin, char *var_end)
+static char	*get_var(t_core *core, char *var_begin, char *var_end)
 {
 	char	*var;
 	char	*substitute_var;
@@ -30,7 +30,7 @@ char	*get_var(t_core *core, char *var_begin, char *var_end)
 	return (substitute_var);
 }
 
-void	join_first_part(char **temp, char **temp2,
+static void	join_first_part(char **temp, char **temp2,
 		const char **substitute_var, char **str)
 {
 	*temp = ft_strjoin(*str, *substitute_var);
@@ -39,7 +39,8 @@ void	join_first_part(char **temp, char **temp2,
 	*str = *temp;
 }
 
-char	*substitute_var(t_core *core, char *str, char *var_begin, char *var_end)
+static char	*substitute_var(t_core *core, char *str,
+		char *var_begin, char *var_end)
 {
 	const char	*substitute_var = get_var(core, var_begin, var_end);
 	char		*temp_str;

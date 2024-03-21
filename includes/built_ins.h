@@ -33,6 +33,7 @@ char			**get_valid_addr(t_core *core, char *av);
 // Used by export
 t_bool			is_the_var(char *var, char *env);
 void			print_export(char **env);
+void			export_error(void *arg);
 
 // Used to retrieve a var from env. var should include '$'
 // --> char *str = ft_getenv(core, "$PATH"). return str should be fried

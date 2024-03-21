@@ -146,10 +146,7 @@ void	ft_ast_clear(t_ast_node **node)
 
 void	ft_clean_sub_token(t_sub_token **token)
 {
-	void	*str;
-
-	str = (*token)->value;
-	free_if_needed(&str);
+	free_if_needed(&(*token)->value);
 	free(*token);
 	token = NULL;
 	return ;

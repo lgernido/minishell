@@ -6,7 +6,7 @@ SRC_FOLDER_BONUS = srcs/bonus/
 
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
-									pwd.c cd.c cd_utils.c cd_update_env_var.c)\
+									pwd.c cd.c cd_utils.c cd_update_env_var.c ft_get_env.c get_address.c)\
 
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c \
@@ -19,7 +19,6 @@ SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_operator.c\
 									 find_logical_operator2.c searching_functions1.c\
 									 searching_functions2.c searching_functions3.c\
 									 discard_parenthesis_utils.c)
-
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c)
@@ -27,7 +26,11 @@ PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens
 EXPAND_DIR = expand/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_env_var.c expand_utils.c\
 							 parse_token_word.c parsing_word_utils.c remove_quote.c\
-							 sub_token_vector2.c sub_token_vector.c)
+							 sub_token_vector2.c sub_token_vector.c wildcards.c\
+							 wildcard_init_functions.c wildcard_insert_substream.c\
+							 wildcards_booleans.c wildcards_error_messages.c\
+							 wildcards_matching_functions.c wildcards_utils.c)
+
 
 PRE_EXEC_DIR = pre_exec_set_up/
 PRE_EXEC_FILES = $(addprefix $(PRE_EXEC_DIR),command_list_base_funct.c\

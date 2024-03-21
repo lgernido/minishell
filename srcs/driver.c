@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "AST.h"
+#include "exec.h"
 #include "minishell.h"
 
 void	check_errno(t_core *core)
@@ -43,10 +44,13 @@ void	ast_driver(t_core *core)
 	int		return_value;
 	size_t	i;
 
-	if (core->ast == NULL)
-		return ;
 	return_value = 0;
-	expand_init(core, core->ast->token_stream);
+	if (expand_init(core, &core->ast->token_stream) == -1)
+	{
+		core->error_code = 1;
+		choose_next_path_to_take(core);
+		return ;
+	}
 	split_token_stream_by_pipes(core->ast);
 	check_errno(core);
 	i = 0;
@@ -70,7 +74,6 @@ void	minishell_driver(t_core *core)
 	t_token_stream_node	*tokenized_user_input;
 
 	init_sig();
-	printf("Last exit code before prompt: %d\n", core->error_code);
 	user_input = fetch_input(core->error_code);
 	if (g_signal == 130)
 	{
@@ -78,6 +81,7 @@ void	minishell_driver(t_core *core)
 	}
 	if (user_input == NULL)
 	{
+		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
 	}
 	tokenized_user_input = split_str(core, user_input);

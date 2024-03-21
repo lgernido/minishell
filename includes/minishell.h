@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <dirent.h>
 # include <stdatomic.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -41,33 +42,22 @@
 # define MAG  "\x1B[35m"
 # define CYN  "\x1B[36m"
 # define WHT  "\x1B[37m"
+
 // For ft_pwd
 # define PWD_BUFFER 128
 # define BUFFER_LIMIT 4096
-// Error Code
 
 // Path to discards
-
 # define STDIN_NODE 0
 # define STD_IN_DEV "/dev/stdin"
 # define STD_IN_PROC "/proc/self/fd/0"
-
 # define STDOUT_NODE 1
 # define STD_OUT_DEV "/dev/stdout"
 # define STD_OUT_PROC "/proc/self/fd/1"
 
 typedef enum e_error
 {
-	BAD_INFILE_PERM = 0,
-	BAD_OUTFILE_PERM = 1,
-	FORK_ERROR = 2,
-	PIPE_ERROR = 3,
-	DUP_ERROR = 4,
-	MALLOC = 5,
-	INFILE_IS_DIR = 6,
-	OUTFILE_IS_DIR = 7,
-	NOT_ENOUGH_ARGUMENT = 8,
-	BAD_COMMAND = 9,
+	MALLOC = 1,
 	EXECVE_ERROR = 127
 }								t_error;
 
@@ -120,7 +110,7 @@ typedef struct s_sub_token_vector
 typedef struct s_token_stream_node
 {
 	t_token_type				type;
-	void						*value;
+	char						*value;
 	struct s_token_stream_node	*prev;
 	struct s_token_stream_node	*next;
 }								t_token_stream_node;
@@ -150,6 +140,16 @@ typedef struct s_ast_node
 	struct s_ast_node	*on_success;
 	struct s_ast_node	*on_failure;
 }								t_ast_node;
+
+typedef struct s_wildcard_info
+{
+	char				**wildcard_tab;
+	char				*entry_to_parse;
+	t_bool				last_char_is_a_wildcard;
+	t_bool				first_char_is_a_wildcard;
+	DIR					*dir_ptr;
+	t_token_stream_node	*token_stream;
+}							t_wildcard_info;
 
 typedef struct s_core
 {
@@ -243,8 +243,8 @@ int								build_command_node(
 // Redirection, first node stream will be NULL).
 void							check_errno(t_core *core);
 
-void							expand_init(t_core *core,
-									t_token_stream_node *token_stream);
+int								expand_init(t_core *core,
+									t_token_stream_node **token_stream);
 
 // Set up the token stream to have the appropriate form for exec
 // Basically : Split the token stream to have one command node per command
@@ -275,59 +275,6 @@ void							update_command_list(t_core *core);
 
 // Parse envp if it exist, or set-up an empty one
 void							handle_envp(char **envp, t_core *core);
-
-// ========================================================================= //
-
-// clean fonctions in clean_exit.c
-
-// clean the core struct
-void							ft_clean_exit(t_core *core, int code);
-
-void							clean_prev_command(t_core *core);
-
-// Rucursively call itself on every node of the ast until 
-// the whole ast is cleared.
-void							ft_ast_clear(t_ast_node **node);
-
-// Clear the given AST node
-void							ft_ast_node_clear(t_ast_node **node);
-
-// climb the linked list to the first node.
-void							climb_command_list_to_origin(
-									t_command_node **list);
-
-// clean the whole list of command nodes by calling ft_clean_node then exit
-void							ft_command_clear(t_command_node **list);
-
-// clean the given command node
-void							ft_clean_node(t_command_node *node);
-
-// Call ft_token_stream_clear if the token isn't NULL
-void							ft_clear_token_stream_if_needed(
-									t_token_stream_node **token_stream);
-
-// Clean the given token stream
-void							ft_token_stream_clear(
-									t_token_stream_node **token_stream);
-void							ft_split_stream_clean(t_ast_node *ast);
-
-// Clean the given node, for the token stream
-void							ft_free_node(t_token_stream_node **node);
-
-// free the given pointer it it isn't NULL.
-void							free_if_needed(void **str);
-
-// free the sub_token_list
-void							ft_clean_sub_token_list(
-									t_sub_token **token_list, size_t size);
-
-// free the sub_token_vector
-void							ft_clean_sub_vector(
-									t_sub_token_vector **vector);
-
-// Take a pointer to the targeted fd. Will close it if it isn't set to -1
-// then set it back to -1 to avoid trying to close it one more time.
-void							close_if_open(int *fd);
 
 // ========================================================================= //
 

@@ -15,20 +15,6 @@
 #include "expand.h"
 #include <stdio.h>
 
-void	check_for_mem_error(t_core *core, char **str_to_check,
-		char **str_to_free)
-{
-	if (str_to_check == NULL)
-	{
-		free(*str_to_free);
-		ft_clean_exit(core, MALLOC);
-	}
-	else
-	{
-		*str_to_free = *str_to_check;
-	}
-}
-
 t_bool	sub_token_need_expand(t_sub_token *sub_token)
 {
 	t_bool	return_value;

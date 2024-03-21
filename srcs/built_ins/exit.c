@@ -45,6 +45,7 @@ unsigned char	ex_atoi(char *str)
 		ft_printf_err("minishell: exit: %s: numeric argument required\n", str);
 		return (2);
 	}
+	printf("exit\n");
 	return (res * sign);
 }
 
@@ -54,9 +55,14 @@ int	ft_exit(char **av, t_core *core)
 
 	ac = get_number_of_args(av);
 	if (ac == 1)
+	{
+		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
+	}
 	if (ac == 2)
+	{
 		ft_clean_exit(core, ex_atoi(av[1]));
+	}
 	ft_printf_err("exit\nminishell: exit: too many arguments\n");
 	return (1);
 }
