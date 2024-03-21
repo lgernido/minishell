@@ -10,8 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "expand.h"
+#include <stdio.h>
 
 void	check_for_mem_error(t_core *core, char **str_to_check,
 		char **str_to_free)
@@ -58,7 +60,7 @@ void	expand_sub_token(t_core *core, int i)
 
 t_bool	is_valid_var_ender(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\0' || c == '$')
+	if (!(ft_isalnum(c) && c != '_'))
 	{
 		return (TRUE);
 	}
@@ -67,9 +69,9 @@ t_bool	is_valid_var_ender(char c)
 
 char	*find_var_end(char *var_begin)
 {
-	while (is_valid_var_ender(*(var_begin + 1)) == FALSE)
+	while (is_valid_var_ender(*(var_begin)) == FALSE)
 	{
 		++var_begin;
 	}
-	return (var_begin + 1);
+	return (var_begin);
 }

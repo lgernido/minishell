@@ -38,8 +38,8 @@ char	*handle_word(t_core *core, char *token_value)
 {
 	char	*return_str;
 
-	return_str = get_rid_of_double_quote(token_value);
-	check_for_mem_error(core, &return_str, &token_value);
+	// return_str = get_rid_of_double_quote(token_value);
+	// check_for_mem_error(core, &return_str, &token_value);
 	parse_word_init(core, token_value);
 	expand_vector(core);
 	return_str = join_vector_in_a_string(core);

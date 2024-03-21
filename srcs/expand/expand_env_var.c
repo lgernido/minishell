@@ -20,7 +20,7 @@ char	*get_var(t_core *core, char *var_begin, char *var_end)
 	char	*var;
 	char	*substitute_var;
 
-	var = ft_strndup(var_begin, var_end);
+	var = ft_strndup(var_begin, var_end - 1);
 	if (var == NULL)
 	{
 		return (NULL);
@@ -82,7 +82,7 @@ char	*expand_var_init(t_core *core, char *str)
 		if (str[i] == '$' && str[i + 1] != '$'
 			&& is_valid_var_ender(str[i + 1]) == FALSE)
 		{
-			var_end = find_var_end(&str[i]);
+			var_end = find_var_end(&str[i + 1]);
 			return (substitute_var(core, str, str + i, var_end));
 		}
 		++i;
