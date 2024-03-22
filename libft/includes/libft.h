@@ -78,6 +78,7 @@ char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_split(char const *s, char c);
+char		**ft_split_set(char *s, char *charset);
 char		*ft_itoa(int n);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 char		*ft_strjoin(const char *s1, const char *s2);
@@ -133,6 +134,7 @@ void		ft_uchhexa_handling(va_list *ap, long *count,
 				t_flags *flags);
 void		ft_ptr_handling(va_list *ap, long *count, t_flags *flags);
 void		ft_free_tab(char **tab);
+void		ft_free_n_tab(char **tab, size_t tab_size);
 double		ft_atod(char *str);
 
 #endif

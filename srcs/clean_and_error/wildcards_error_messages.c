@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   operator_error_message.c                           :+:      :+:    :+:   */
+/*   wildcards_error_messages.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 19:37:14 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/20 19:37:15 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/03/21 17:19:03 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/03/21 17:19:03 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "AST.h"
-#include "printerr.h"
-#include <errno.h>
-#include <string.h>
-#include <sys/stat.h>
 
-void	lstat_error(void *arg)
+void	ambiguous_redir(void *arg)
 {
-	ft_printf_err("minishell: %s: %s\n", arg, strerror(errno));
+	ft_printf_err("minishell: %s: ambiguous redirect\n", (char *)arg);
+	return ;
+}
+
+void	opendir_error(void *arg)
+{
+	const int	errsv = errno;
+
+	ft_printf_err("minishell: opendir: %s: %s\n", (char *)arg, strerror(errsv));
+	errno = errsv;
 }

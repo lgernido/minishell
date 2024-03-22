@@ -12,6 +12,7 @@
 
 #include "AST.h"
 #include "minishell.h"
+#include "clean_and_error.h"
 
 void	clear_stream_and_exit(t_core *core,
 		t_token_stream_node **stream, int code)

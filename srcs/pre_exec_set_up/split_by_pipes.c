@@ -13,7 +13,6 @@
 #include "libft.h"
 #include "minishell.h"
 #include "AST.h"
-#include <errno.h>
 
 static size_t	retrieve_number_of_splitted_streams(
 		t_token_stream_node *token_stream)

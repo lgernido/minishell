@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 static void	copy_token_stream_relevant_for_current_node(t_core *core,
 		t_token_stream_node *token_stream,
@@ -43,6 +44,7 @@ static	void	setup_recursive_calls_if_needed_or_exit(t_core *core,
 		ft_clear_token_stream_if_needed(current_token_stream);
 	}
 }
+
 void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 {
 	t_token_stream_node	*next_logical_operator;
@@ -58,8 +60,12 @@ void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 
 void	ast_init(t_token_stream_node *token_stream, t_core *core)
 {
+	if (token_stream == NULL)
+	{
+		return ;
+	}
 	core->ast = ast_new_node();
-	if (core->ast == NULL || token_stream == NULL)
+	if (core->ast == NULL)
 	{
 		clear_stream_and_exit(core, &token_stream, MALLOC);
 	}

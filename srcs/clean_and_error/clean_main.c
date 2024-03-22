@@ -12,9 +12,11 @@
 
 #include "AST.h"
 #include "minishell.h"
+#include "clean_and_error.h"
 
-void	ft_clean_node(t_command_node *node)
+void	ft_ast_node_clear(t_ast_node **node)
 {
+<<<<<<< HEAD:srcs/clean_exit.c
 	if (node->fd_infile != -1)
 		close(node->fd_infile);
 	if (node->fd_outfile != -1)
@@ -92,6 +94,8 @@ void	ft_ast_clear(t_ast_node **node)
 		return ;
 	ft_ast_clear(&(*node)->on_success);
 	ft_ast_clear(&(*node)->on_failure);
+=======
+>>>>>>> resolve_operator:srcs/clean_and_error/clean_main.c
 	if ((*node)->command_list != NULL)
 	{
 		while ((*node)->command_list->prev)
@@ -101,7 +105,9 @@ void	ft_ast_clear(t_ast_node **node)
 		ft_command_clear(&(*node)->command_list);
 	}
 	if ((*node)->token_stream)
+	{
 		ft_token_stream_clear(&(*node)->token_stream);
+	}
 	if ((*node)->split_streams)
 	{
 		ft_split_stream_clean(*node);
@@ -110,17 +116,42 @@ void	ft_ast_clear(t_ast_node **node)
 	*node = NULL;
 }
 
-void	ft_clean_exit(t_core *core, int code)
+void	ft_ast_clear(t_ast_node **node)
+{
+	if (*node == NULL)
+		return ;
+	ft_ast_clear(&(*node)->on_success);
+	ft_ast_clear(&(*node)->on_failure);
+	ft_ast_node_clear(node);
+}
+
+void	clean_prev_command(t_core *core)
 {
 	if (core->ast)
 	{
 		climb_tree_to_origin(&core->ast);
 		ft_ast_clear(&core->ast);
 	}
+<<<<<<< HEAD:srcs/clean_exit.c
 	if (core->env)
 		ft_free_tab(core->env);
 	if (core->token_list)
 		ft_clear_token_list(&core->token_list);
+=======
+	if (core->sub_token_vector)
+	{
+		ft_clean_sub_vector(&core->sub_token_vector);
+	}
+	// if (core->token_list)
+	// 	ft_clear_token_list(&core->token_list, free);
+}
+
+void	ft_clean_exit(t_core *core, int code)
+{
+	if (core->env)
+		ft_free_tab(core->env);
+	clean_prev_command(core);
+>>>>>>> resolve_operator:srcs/clean_and_error/clean_main.c
 	rl_clear_history();
 	exit(code);
 }

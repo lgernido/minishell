@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 size_t	check_for_parenthesis(t_token_stream_node *node,
 		t_token_type searched)

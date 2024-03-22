@@ -15,14 +15,25 @@
 
 static t_bool	is_flag(char *str)
 {
-	if (*str == '-')
-		str++;
-	else
+	size_t	i;
+
+	i = 0;
+	while (str[i] == '-')
+	{
+		++i;
+	}
+	if (i == 0)
+	{
 		return (FALSE);
-	while (*str == 'n')
-		str++;
-	if (*str)
+	}
+	while (str[i] == 'n')
+	{
+		++i;
+	}
+	if (str[i] != '\0')
+	{
 		return (FALSE);
+	}
 	return (TRUE);
 }
 
@@ -30,14 +41,14 @@ static void	print_args(char **av)
 {
 	while (*av)
 	{
-		printf("%s", *av);
+		ft_printf("%s", *av);
 		av++;
 		if (*av)
-			printf(" ");
+			ft_printf(" ");
 	}
 }
 
-int	echo(char **av, t_core *core)
+int	ft_echo(char **av, t_core *core)
 {
 	t_bool	flag;
 
@@ -48,6 +59,6 @@ int	echo(char **av, t_core *core)
 		flag = is_flag(*av);
 	print_args(av + flag);
 	if (!flag)
-		printf("\n");
+		ft_printf("\n");
 	return (0);
 }

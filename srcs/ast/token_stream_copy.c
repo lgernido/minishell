@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 void	ft_lst_cpy(t_token_stream_node *src,
 	t_token_stream_node **dest, t_token_stream_node *limit)

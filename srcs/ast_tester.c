@@ -95,7 +95,7 @@ void	print_tree(t_ast_node *ast)
 	print_tree(tmp);
 }
 
-t_token_stream_node	*tokenize_str(t_core *core, char **str)
+t_token_stream_node	*tokenize_str(char **str)
 {
 	t_token_stream_node	*stream;
 	int	i = 0;
@@ -112,26 +112,26 @@ t_token_stream_node	*tokenize_str(t_core *core, char **str)
 	// print_token_stream(stream);
 	// printf("Here ?\n");
 	// fflush(stdout);
-	ast_init(stream, core);
-	printf("Return Here\n");
-	fflush(stdout);
-	climb_tree_to_origin(&core->ast);
-	print_tree(core->ast);
-	split_token_stream_by_pipes(core->ast);
-	print_splited_stream(core->ast->split_streams);
-	shrink_stream(core->ast->split_streams);
-	t_token_stream_node *input = build_operator_stream((core->ast->split_streams), find_input_operator);
-	t_token_stream_node *output = build_operator_stream((core->ast->split_streams), find_output_operator);
-	print_token_stream(input);
-	print_token_stream(output);
-	print_splited_stream(core->ast->split_streams);
-	check_redirections(&input, verify_inputs, STD_IN_DEV, STD_IN_PROC);
-	check_redirections(&output, verify_outputs, STD_OUT_DEV, STD_OUT_PROC);
-	print_token_stream(input);
-	print_token_stream(output);
-	print_splited_stream(core->ast->split_streams);
-	ft_clear_token_stream_if_needed(&input);
-	ft_clear_token_stream_if_needed(&output);
+	// ast_init(stream, core);
+	// printf("Return Here\n");
+	// fflush(stdout);
+	// climb_tree_to_origin(&core->ast);
+	// print_tree(core->ast);
+	// split_token_stream_by_pipes(core->ast);
+	// print_splited_stream(core->ast->split_streams);
+	// shrink_stream(core->ast->split_streams);
+	// t_token_stream_node *input = build_operator_stream((core->ast->split_streams), find_input_operator);
+	// t_token_stream_node *output = build_operator_stream((core->ast->split_streams), find_output_operator);
+	// print_token_stream(input);
+	// print_token_stream(output);
+	// print_splited_stream(core->ast->split_streams);
+	// check_redirections(&input, verify_inputs, STD_IN_DEV, STD_IN_PROC);
+	// check_redirections(&output, verify_outputs, STD_OUT_DEV, STD_OUT_PROC);
+	// print_token_stream(input);
+	// print_token_stream(output);
+	// print_splited_stream(core->ast->split_streams);
+	// ft_clear_token_stream_if_needed(&input);
+	// ft_clear_token_stream_if_needed(&output);
 	// ft_token_stream_clear(&stream);
 	// ft_ast_clear(&core->ast);
 }
@@ -141,12 +141,13 @@ t_token_stream_node	*split_str(t_core *core, char *str)
 	char **splitted;
 	t_token_stream_node *stream;
 
+	(void)core;
 	splitted = ft_split(str, ' ');
-	if (splitted == NULL)
-	{
-		ft_clean_exit(core, MALLOC);
-	}
+	// if (splitted == NULL)
+	// {
+	// 	ft_clean_exit(core, MALLOC);
+	// }
 	free(str);
-	stream = tokenize_str(core, splitted);
+	stream = tokenize_str(splitted);
 	return (stream);
 }

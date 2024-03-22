@@ -76,7 +76,7 @@ void	update_shell_lvl(t_core *core)
 	{
 		shell_level = parse_content(shell_lvl_content);
 		free(shell_lvl_content);
+		export_shell_lvl(core, shell_level);
 	}
-	export_shell_lvl(core, shell_level);
 	return ;
 }

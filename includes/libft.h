@@ -78,6 +78,7 @@ char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 char		*ft_strtrim(const char *s1, const char *set);
 char		**ft_split(char const *s, char c);
+char		**ft_split_set(char *s, char *charset);
 char		*ft_itoa(int n);
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 char		*ft_strjoin(const char *s1, const char *s2);

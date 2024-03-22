@@ -11,43 +11,59 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "exec.h"
 
-t_bool	is_built_in(char *command)
+static int	pipe_if_needed(t_command_node *current_command)
 {
-	const char		**built_ins = (const char **)ft_split
-		("env export unset cd pwd exit echo", ' ');
-	const size_t	command_len = ft_strlen(command) + 1;
-	int				i;
+	int				return_value;
 
-	i = 0;
-	if (built_ins == NULL)
-	{	
-		return (FALSE);
-	}
-	while (built_ins[i] != NULL)
+	return_value = 0;
+	if (current_command->next != NULL)
 	{
-		if (ft_strncmp(command, built_ins[i], command_len) == 0)
-		{
-			return (TRUE);
-		}
-		i++;
+		return_value = checked_pipe(current_command->pipe);
 	}
-	return (FALSE);
+	return (return_value);
 }
 
-void	exec_init(t_core *core)
+static pid_t	exec_command(t_core *core, t_command_node *current_command,
+		int built_in_index)
 {
+	pid_t	pid;
+
+	if (pipe_if_needed(current_command) == -1)
+	{
+		ft_clean_exit(core, errno);
+	}
+	pid = checked_fork();
+	if (pid == -1)
+	{
+		ft_clean_exit(core, errno);
+	}
+	if (pid == 0)
+	{
+		child_routine(core, current_command, built_in_index);
+	}
+	else
+	{
+		parent_routine(current_command);
+	}
+	return (pid);
+}
+
+void	exec_init(t_core *core, t_command_node *command_list_head)
+{
+	pid_t			last_pid;
+	int				command_index;
+
 	while (core->ast->command_list != NULL)
 	{
-		if (is_built_in(core->ast->command_list->cmd[0]) == TRUE)
-		{
-			//
-		}
-		else
-		{
-			check_errno(core);
-			// do other thing
-		}
+		command_index = is_built_in(core->ast->command_list->cmd[0]);
+		check_errno(core);
+		last_pid = exec_command(core, core->ast->command_list, command_index);
 		core->ast->command_list = core->ast->command_list->next;
 	}
+	wait_for_childrens(core, last_pid);
+	core->ast->command_list = command_list_head;
+	choose_next_path_to_take(core);
+	return ;
 }

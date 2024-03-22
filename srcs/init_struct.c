@@ -15,6 +15,8 @@
 void	init_core(t_core *core)
 {
 	core->error_code = 0;
+	core->env_size = 0;
+	core->sub_token_vector = NULL;
 	core->ast = NULL;
 	core->env = NULL;
 	core->token_list = NULL;

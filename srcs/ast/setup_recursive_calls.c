@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
-#include <stdio.h>
+#include "clean_and_error.h"
 
 static void	recursive_call(t_core *core, int mode)
 {

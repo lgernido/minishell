@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "AST.h"
+#include "libft.h"
 #include "minishell.h"
+#include "printerr.h"
 #include <readline/readline.h>
 #include <unistd.h>
 
@@ -61,9 +63,14 @@ int	main(int ac, char **av, char **envp)
 	t_core	core;
 
 	((void)ac, (void)av);
+	if (isatty(0) != 1)
+	{
+		ft_printf_err("Nope.\n");
+		return (0);
+	}
 	init_sig();
-	init_core(&core);
-	parse_envp(envp, &core);
+	ft_bzero(&core, sizeof(t_core));
+	handle_envp(envp, &core);
 	update_shell_lvl(&core);
 	while (1)
 	{

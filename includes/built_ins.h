@@ -32,7 +32,7 @@ char			**get_valid_addr(t_core *core, char *av);
 
 // Used by export
 t_bool			is_the_var(char *var, char *env);
-void			print_export(char **env);
+void			print_export(t_core *core);
 
 // Used to retrieve a var from env. var should include '$'
 // --> char *str = ft_getenv(core, "$PATH"). return str should be fried
@@ -50,14 +50,10 @@ int				ft_export(char **av, t_core *core); //export.c
 
 // ========================================================================= //
 // cd_utils.c && cd_update_env_var.c
-void			too_many_args(void *arg);
 char			*assign_pwd(t_core *core);
 void			update_env_var(t_core	*core, char *old_pwd);
-void			home_not_set(void *arg);
 void			swap_var(t_core *core, char *var_content, const char *var_name);
-void			error_while_shifting_directory(void *path);
 int				go_specified_dir(void	*path);
-int				throw_error_message(void *arg, void (*message)(void *));
 char			*get_pwd_in_buffer(void);
 char			*get_pwd(char *buffer, int len);
 

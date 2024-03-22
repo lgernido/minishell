@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "built_ins.h"
+#include "clean_and_error.h"
 
 static char	*ft_home_sweet_home(t_core *core)
 {

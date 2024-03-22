@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "AST.h"
+#include "clean_and_error.h"
 
 static void	handle_nodes_to_shrink(t_token_stream_node **next_redirection)
 {

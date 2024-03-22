@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_infile.c                                      :+:      :+:    :+:   */
+/*   redirection_handling_utils.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 20:01:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/02/20 20:01:23 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/03/07 11:11:14 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/03/07 11:11:16 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
 #include "minishell.h"
+#include "exec.h"
 
-int	open_infiles(t_token_stream_node *input_stream, t_command_node *command_node)
+void	get_down_stream(t_token_stream_node **stream)
+{
+	while ((*stream)->next != NULL)
+	{
+		*stream = (*stream)->next;
+	}
+	return ;
+}
+
+int	write_redirection_in_command_node(char *path, int *target_fd,
+		int (*open_function)(char *))
 {
 	int	return_value;
-	
+	int	fd;
+
 	return_value = 0;
-	while (input_stream != NULL)
+	fd = open_file(path, open_function);
+	if (fd != -1)
 	{
-		if (input_stream->type == T_INPUT_FILE)
-		{
-			command_node->fd_infile = open(input_stream->value, O_RDONLY);
-		}
+		*target_fd = fd;
 	}
+	else
+	{
+		return_value = -1;
+	}
+	return (return_value);
 }
