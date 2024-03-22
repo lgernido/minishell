@@ -16,86 +16,6 @@
 
 void	ft_ast_node_clear(t_ast_node **node)
 {
-<<<<<<< HEAD:srcs/clean_exit.c
-	if (node->fd_infile != -1)
-		close(node->fd_infile);
-	if (node->fd_outfile != -1)
-		close(node->fd_outfile);
-	if (node->cmd)
-		ft_free_tab(node->cmd);
-}
-
-void	ft_command_clear(t_command_node **list)
-{
-	t_command_node	*tmp;
-
-	while (*list)
-	{
-		tmp = (*list)->next;
-		ft_clean_node(*list);
-		free(*list);
-		*list = tmp;
-	}
-}
-
-void	ft_free_node(t_token_stream_node **node)
-{
-	if (*node == NULL)
-		return ;
-	if ((*node)->value)
-	{
-		free((*node)->value);
-	}
-	free(*node);
-	*node = NULL;
-}
-
-void	ft_clear_token_stream_if_needed(t_token_stream_node **token_stream)
-{
-	if (*token_stream != NULL)
-	{
-		ft_token_stream_clear(token_stream);
-	}
-}
-
-void	ft_token_stream_clear(t_token_stream_node **token_stream)
-{
-	t_token_stream_node	*tmp;
-
-	climb_stream_to_origin(token_stream);
-	while (*token_stream != NULL)
-	{
-		tmp = (*token_stream)->next;
-		ft_free_node(token_stream);
-		*token_stream = tmp;
-	}
-	*token_stream = NULL;
-}
-
-void	ft_split_stream_clean(t_ast_node *ast)
-{
-	t_token_stream_node	**tmp;
-	size_t				i;
-
-	i = 0;
-	tmp = ast->split_streams;
-	while (i < ast->number_of_split_streams)
-	{
-		ft_token_stream_clear(&(tmp[i]));
-		i++;
-	}
-	free(tmp);
-	ast->split_streams = NULL;
-}
-
-void	ft_ast_clear(t_ast_node **node)
-{
-	if (*node == NULL)
-		return ;
-	ft_ast_clear(&(*node)->on_success);
-	ft_ast_clear(&(*node)->on_failure);
-=======
->>>>>>> resolve_operator:srcs/clean_and_error/clean_main.c
 	if ((*node)->command_list != NULL)
 	{
 		while ((*node)->command_list->prev)
@@ -132,12 +52,6 @@ void	clean_prev_command(t_core *core)
 		climb_tree_to_origin(&core->ast);
 		ft_ast_clear(&core->ast);
 	}
-<<<<<<< HEAD:srcs/clean_exit.c
-	if (core->env)
-		ft_free_tab(core->env);
-	if (core->token_list)
-		ft_clear_token_list(&core->token_list);
-=======
 	if (core->sub_token_vector)
 	{
 		ft_clean_sub_vector(&core->sub_token_vector);
@@ -151,7 +65,6 @@ void	ft_clean_exit(t_core *core, int code)
 	if (core->env)
 		ft_free_tab(core->env);
 	clean_prev_command(core);
->>>>>>> resolve_operator:srcs/clean_and_error/clean_main.c
 	rl_clear_history();
 	exit(code);
 }
