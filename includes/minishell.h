@@ -31,6 +31,8 @@ int								ft_samestr(char *s1, char *s2);
 void							ft_strdel(char **str);
 int								ft_find_char_str(char c, char *str);
 t_bool							ft_is_separator(char c);
+
+// parse_quotes.c//
 int								ft_quotes(char *str);
 
 // parser_utils2.c//
