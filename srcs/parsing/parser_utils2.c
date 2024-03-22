@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 08:48:51 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/21 08:38:16 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:01:39 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_is_ascii(char *str)
 	}
 	return (0);
 }
+
 int	ft_handle_backslash(char *str)
 {
 	int	i;
@@ -55,9 +56,9 @@ int	ft_handle_dollar(char *str)
 
 int	ft_dprintf(int fd, const char *format, ...)
 {
-	int i;
-	int size;
-	va_list ap;
+	int		i;
+	int		size;
+	va_list	ap;
 
 	i = 0;
 	size = 0;

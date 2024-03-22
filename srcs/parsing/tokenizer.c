@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/21 09:33:53 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:23:19 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	ft_check_error(t_token *token)
 {
 	if ((token->type == T_PIPE || token->type == T_SEP || token->type == T_AND
-			|| token->type == T_OR) && !token->prev)
+			|| token->type == T_OR) && (!token->prev
+			|| token->next->type == T_NEWLINE))
 		return (1);
 	if (token->type == T_REDIRECT && (token->prev
 			&& token->prev->type == T_REDIRECT))

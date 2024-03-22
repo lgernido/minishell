@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:13:23 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/22 08:58:41 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:00:06 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ static void	ft_here_doc_loop(char *delimiter, int fd)
 
 	while (1)
 	{
-		write(1, "heredoc>", 9);
+		write(1, "heredoc> ", 10);
 		line = get_next_line(0);
 		if (line == NULL)
 			break ;
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
 		{
-			write(1, "heredoc>", 9);
-			get_next_line(0);
 			free(line);
 			break ;
 		}
@@ -48,7 +46,7 @@ static void	ft_here_doc_loop(char *delimiter, int fd)
 	close(fd);
 }
 
-static void	ft_create_here_doc(char *delimiter)
+static void	ft_create_here_doc(t_core *minishell, char *delimiter)
 {
 	int	fd;
 
@@ -57,22 +55,27 @@ static void	ft_create_here_doc(char *delimiter)
 	if (fd == -1)
 	{
 		ft_putstr_fd("Error: Couldn't create here_doc\n", 2);
-		exit(2);
+		ft_clear_token_list(&minishell->token_list);
+		return ;
 	}
 	ft_here_doc_loop(delimiter, fd);
 }
+
 void	ft_here_doc(t_core *minishell)
 {
-	char *delimiter;
-	t_token *tmp;
+	char	*delimiter;
+	t_token	*tmp;
 
 	delimiter = NULL;
 	tmp = minishell->token_list;
 	while (tmp->next != NULL)
 	{
 		if (tmp->type == T_HEREDOC)
+		{
+			tmp->next->type = T_LIM;
 			delimiter = tmp->next->value;
+			ft_create_here_doc(minishell, delimiter);
+		}
 		tmp = tmp->next;
 	}
-	ft_create_here_doc(delimiter);
 }

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/22 09:01:07 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:15:50 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,12 @@ static int	ft_and_alone(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '&' && str[i - 1] != '&' && (str[i + 1] == ' ' || str[i
-				+ 1] == '\0'))
+		if ((str[i] == '&' && i == 0 && (str[i + 1] == ' ' || str[i
+					+ 1] == '\0')) || (str[i] == '&' && i > 0 && (str[i
+					+ 1] == ' ' || str[i + 1] == '\0') && str[i - 1] != '&'))
 		{
 			ft_dprintf(2, "syntax error :");
 			ft_dprintf(2, "&& must be an operator or between quotes\n");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-static int	ft_handle_redirection(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i + 1] != '\0')
-	{
-		if ((str[i] == '>' && (str[i + 1] != ' ' && str[i + 1] != '>'))
-			|| (str[i] == '<' && (str[i + 1] != ' ' && str[i + 1] != '<')))
-		{
-			ft_dprintf(2, "redirection syntax : > file\n");
 			return (1);
 		}
 		i++;
@@ -71,7 +54,7 @@ int	ft_syntax_check(char *str)
 		ft_dprintf(2, "backslash and semicolon can't be interpreted\n");
 		return (1);
 	}
-	else if (ft_handle_redirection(str) || ft_and_alone(str))
+	else if (ft_and_alone(str))
 		return (1);
 	else
 		return (0);
@@ -79,12 +62,15 @@ int	ft_syntax_check(char *str)
 
 int	ft_start_parse(t_core *minishell, char *str)
 {
-	char *token;
+	char	*token;
 
 	if (str != NULL)
 	{
 		if (ft_syntax_check(str) != 0)
+		{
+			minishell->error_code = 2;
 			return (1);
+		}
 		else
 		{
 			ft_split_tokens(minishell, str);
@@ -94,6 +80,7 @@ int	ft_start_parse(t_core *minishell, char *str)
 				ft_dprintf(2,
 					"minishell: syntax error near unexpected token '%s'\n",
 					token);
+				minishell->error_code = 2;
 				return (1);
 			}
 			ft_here_doc(minishell);

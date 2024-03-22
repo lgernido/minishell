@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/22 09:01:18 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 11:43:58 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef enum e_token_types
 	T_NO_EXPAND,
 	T_SIMPLE_QUOTES,
 	T_DOUBLE_QUOTES,
+	T_LIM,
 }								t_token_type;
 
 typedef enum e_bool

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:50:49 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/21 13:25:30 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:20:41 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,14 @@ int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
 		i = ft_tokenize_redirections(minishell, str, start, i);
 		return (i);
 	}
-	else
+	else if (ft_find_char_str(str[i], "()"))
 	{
 		i = ft_tokenize_parenthesis(minishell, str, start, i);
+		return (i + 1);
+	}
+	else
+	{
+		ft_add_token_list(start, ft_create_priority_token(minishell, "|"));
 		return (i + 1);
 	}
 }
