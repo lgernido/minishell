@@ -122,13 +122,15 @@ void	minishell_driver(t_core *core)
 		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
 	}
-	ft_start_parse(core, user_input);
-	get_rid_of_last_token(&core->token_list);
-	print_stream_after_parse(core->token_list);
-	ast_init((t_token_stream_node *)core->token_list, core);
-	if (core->ast != NULL)
+	if (ft_start_parse(core, user_input) == 0)
 	{
-		ast_driver(core);
+		get_rid_of_last_token(&core->token_list);
+		print_stream_after_parse(core->token_list);
+		ast_init((t_token_stream_node *)core->token_list, core);
+		if (core->ast != NULL)
+		{
+			ast_driver(core);
+		}
 	}
 	clean_prev_command(core);
 }

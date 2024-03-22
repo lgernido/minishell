@@ -46,26 +46,3 @@ t_bool	ft_is_separator(char c)
 	return (c == ' ' || c == '\t' || c == ';' || c == '\'' || c == '\"'
 		|| c == ')' || c == '(' || c == '>' || c == '<');
 }
-
-int	ft_quotes(char *str)
-{
-	int	i;
-	int	single_quotes;
-	int	double_quotes;
-
-	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
-	while (str[i])
-	{
-		if (str[i] == '\"')
-			double_quotes++;
-		else if (str[i] == '\'')
-			single_quotes++;
-		i++;
-	}
-	if (single_quotes % 2 != 0 || double_quotes % 2 != 0)
-		return (1);
-	else
-		return (0);
-}
