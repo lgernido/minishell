@@ -6,13 +6,13 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/22 12:15:50 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:42:33 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_and_alone(char *str)
+int	ft_and_alone(char *str)
 {
 	int	i;
 

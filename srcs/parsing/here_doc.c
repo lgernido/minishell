@@ -6,13 +6,13 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:13:23 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/22 12:00:06 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:38:33 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_del_here_doc(void)
+int	ft_del_here_doc(void)
 {
 	if (access("here_doc", F_OK) == 0)
 	{
@@ -25,7 +25,7 @@ static int	ft_del_here_doc(void)
 	return (0);
 }
 
-static void	ft_here_doc_loop(char *delimiter, int fd)
+void	ft_here_doc_loop(char *delimiter, int fd)
 {
 	char	*line;
 
@@ -46,7 +46,7 @@ static void	ft_here_doc_loop(char *delimiter, int fd)
 	close(fd);
 }
 
-static void	ft_create_here_doc(t_core *minishell, char *delimiter)
+void	ft_create_here_doc(t_core *minishell, char *delimiter)
 {
 	int	fd;
 

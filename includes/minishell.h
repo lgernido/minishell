@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/22 11:43:58 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:38:40 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,61 +151,67 @@ typedef struct stat				t_stat;
 /*PARSING*/
 
 // parser.c //
-int								ft_start_parse(t_core *minishell, char *str);
+int								ft_and_alone(char *str);
 int								ft_syntax_check(char *str);
+int								ft_start_parse(t_core *minishell, char *str);
 
 // parser_utils.c//
-int								ft_quotes(char *str);
-int								ft_find_char_str(char c, char *str);
 int								ft_samestr(char *s1, char *s2);
 void							ft_strdel(char **str);
+int								ft_find_char_str(char c, char *str);
 t_bool							ft_is_separator(char c);
+int								ft_quotes(char *str);
 
 // parser_utils2.c//
 
-int								ft_dprintf(int fd, const char *format, ...);
-int								ft_handle_dollar(char *str);
 int								ft_is_ascii(char *str);
 int								ft_handle_backslash(char *str);
+int								ft_handle_dollar(char *str);
+int								ft_dprintf(int fd, const char *format, ...);
 
 // tokenizer.c//
 int								ft_check_error(t_token *token);
 int								ft_define_type(t_token *tmp);
-char							*ft_tokenizer(t_core *minishell);
 int								ft_fix_redirect_types(t_token token_to_fix);
+char							*ft_tokenizer(t_core *minishell);
+
 // split_tokens.c //
+int								ft_tokenize_quotes(t_core *minishell, char *str,
+									t_token **start, int i);
 int								ft_tokenize_variable(t_core *minishell,
 									char *str, t_token **start, int i);
-int								ft_tokenize_special(t_core *minishell,
-									char *str, t_token **start, int i);
 int								ft_tokenize_regular(t_core *minishell,
+									char *str, t_token **start, int i);
+int								ft_tokenize_special(t_core *minishell,
 									char *str, t_token **start, int i);
 void							ft_split_tokens(t_core *minishell, char *str);
 
 // tokenizer_utils.c //
-t_token							*ft_create_arg_token(t_core *minishell,
-									char *word, int type);
-t_token							*ft_create_token(t_core *minishell, int i,
-									char *str);
-void							ft_clear_token_list(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
-void							ft_ast_clear(t_ast_node **node);
+void							ft_clear_token_list(t_token **begin);
+t_token							*ft_create_token(t_core *minishell, int i,
+									char *str);
 t_token							*ft_create_priority_token(t_core *minishell,
 									const char *str);
+t_token							*ft_create_arg_token(t_core *minishell,
+									char *word, int type);
 
 // tokenizer_utils2.c //
 int								ft_tokenize_redirections(t_core *minishell,
+									char *str, t_token **start, int i);
+int								ft_tokenize_parenthesis(t_core *minishell,
 									char *str, t_token **start, int i);
 int								ft_handle_dquote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
 int								ft_handle_squote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
-int								ft_tokenize_parenthesis(t_core *minishell,
-									char *str, t_token **start, int i);
 
 // here_doc.c //
-
+int								ft_del_here_doc(void);
+void							ft_here_doc_loop(char *delimiter, int fd);
+void							ft_create_here_doc(t_core *minishell,
+									char *delimiter);
 void							ft_here_doc(t_core *minishell);
 
 // =========================================================================
@@ -292,6 +298,7 @@ int	ft_export(char **av, t_core *core); // export.c
 // Entry point for ast setup
 void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
+void							ft_ast_clear(t_ast_node **node);
 
 char							*fetch_input(t_core *core, int error_code);
 
