@@ -32,7 +32,7 @@ char			**get_valid_addr(t_core *core, char *av);
 
 // Used by export
 t_bool			is_the_var(char *var, char *env);
-void			print_export(char **env);
+void			print_export(t_core *core);
 void			export_error(void *arg);
 
 // Used to retrieve a var from env. var should include '$'

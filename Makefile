@@ -10,7 +10,8 @@ CLEAN_FILES = $(addprefix $(CLEAN_DIR), clean_command.c clean_main.c\
 
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
-									pwd.c cd.c cd_utils.c cd_update_env_var.c ft_get_env.c get_address.c)\
+									pwd.c cd.c cd_utils.c cd_update_env_var.c ft_get_env.c get_address.c\
+									print_export.c)
 
 AST_DIR = ast/
 AST_FILES = $(addprefix $(AST_DIR), ast_init.c ast_new_node.c token_stream_copy.c\

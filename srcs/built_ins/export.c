@@ -67,7 +67,7 @@ int	ft_export(char **av, t_core *core)
 	av++;
 	if (!*av)
 	{
-		print_export(core->env);
+		print_export(core);
 		return (0);
 	}
 	while (*av)

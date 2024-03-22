@@ -52,16 +52,6 @@ t_bool	is_the_var(char *var, char *env)
 	return (TRUE);
 }
 
-void	print_export(char **env)
-{
-	while (*env)
-	{
-		if (is_set(*env))
-			printf("declare -x \"%s\"\n", *env);
-		env++;
-	}
-}
-
 void	export_error(void *arg)
 {
 	ft_printf_err("minishell: export: `%s':\
