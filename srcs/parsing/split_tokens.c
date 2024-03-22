@@ -46,12 +46,16 @@ int	ft_tokenize_variable(t_core *minishell, char *str, t_token **start, int i)
 
 int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 {
-	int	token_start;
+	int		token_start;
+	char	end_of_token_copy;
 
 	token_start = i;
 	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()$"))
 		i++;
+	end_of_token_copy = str[i];
+	str[i] = '\0';
 	ft_add_token_list(start, ft_create_token(minishell, token_start, str));
+	str[i] = end_of_token_copy;
 	return (i);
 }
 
