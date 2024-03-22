@@ -86,6 +86,27 @@ void	print_stream_after_parse(t_token *stream)
 	return ;
 }
 
+void	get_rid_of_last_token(t_token **token_stream)
+{
+	const t_token	*head = *token_stream;
+
+	while ((*token_stream)->type != T_NEWLINE)
+	{
+		(*token_stream) = (*token_stream)->next;
+	}
+	if (*token_stream != head)
+	{
+		safely_del_node((t_token_stream_node **)token_stream);
+		*token_stream = (t_token *)head;
+	}
+	else
+	{
+		free((*token_stream)->value);
+		free(*token_stream);
+		*token_stream = NULL;
+	}
+}
+
 void	minishell_driver(t_core *core)
 {
 	char	*user_input;
@@ -102,8 +123,12 @@ void	minishell_driver(t_core *core)
 		ft_clean_exit(core, core->error_code);
 	}
 	ft_start_parse(core, user_input);
+	get_rid_of_last_token(&core->token_list);
 	print_stream_after_parse(core->token_list);
 	ast_init((t_token_stream_node *)core->token_list, core);
-	ast_driver(core);
+	if (core->ast != NULL)
+	{
+		ast_driver(core);
+	}
 	clean_prev_command(core);
 }

@@ -74,6 +74,7 @@ void		*ft_memmove(void *dest, const void *src, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
+char		*ft_strchr_charset(const char *s, const char *charset);
 char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 char		*ft_substr(const char *s, unsigned int start, size_t len);
 char		*ft_strtrim(const char *s1, const char *set);

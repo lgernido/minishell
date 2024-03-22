@@ -104,9 +104,9 @@ void							sigquit_error(void *arg);
 // In wildcard_error_message.c
 
 // Call if there is more than one match and previous node is redir operator
-void	ambiguous_redir(void *arg);
+void							ambiguous_redir(void *arg);
 
 // Call if an error occurs while opening the current working directory
-void	opendir_error(void *arg);
+void							opendir_error(void *arg);
 
 #endif
