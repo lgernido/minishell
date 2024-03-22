@@ -73,7 +73,7 @@ int	expand_init(t_core *core, t_token_stream_node *token_stream)
 	return_value = 0;
 	while (token_stream != NULL && return_value == 0)
 	{
-		if (is_the_searched_token(token_stream, T_TO_EXPAND) == TRUE)
+		if (is_the_searched_token(token_stream, T_DOUBLE_QUOTES) == TRUE)
 		{
 			token_stream->value = expand_var_init(
 					core, token_stream->value);

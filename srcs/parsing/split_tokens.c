@@ -50,7 +50,7 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 	char	end_of_token_copy;
 
 	token_start = i;
-	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()$"))
+	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()"))
 		i++;
 	end_of_token_copy = str[i];
 	str[i] = '\0';
@@ -104,8 +104,8 @@ void	ft_split_tokens(t_core *minishell, char *str)
 		}
 		else if (str[i] == '\"' || str[i] == '\'')
 			i = ft_tokenize_quotes(minishell, str, start, i);
-		else if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '?'))
-			i = ft_tokenize_variable(minishell, str, start, i);
+		// else if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '?'))
+		// 	i = ft_tokenize_variable(minishell, str, start, i);
 		else if (ft_find_char_str(str[i], "|<>&()"))
 			i = ft_tokenize_special(minishell, str, start, i);
 		else

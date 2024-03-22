@@ -62,8 +62,8 @@ int	ft_define_type(t_token *tmp)
 		tmp->type = T_PAR_OPEN;
 	else if (ft_samestr(tmp->value, ")"))
 		tmp->type = T_PAR_CLOSE;
-	else if (ft_strncmp(tmp->value, "$", 1) == 0 && !tmp->type)
-		tmp->type = T_TO_EXPAND;
+	// else if (ft_strncmp(tmp->value, "$", 1) == 0 && !tmp->type)
+	// 	tmp->type = T_TO_EXPAND;
 	else if (ft_samestr(tmp->value, "newline") && !tmp->next)
 		tmp->type = T_NEWLINE;
 	else
