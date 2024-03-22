@@ -60,6 +60,7 @@ void	setup_current_node(t_token_stream_node *token_stream, t_core *core)
 
 void	ast_init(t_token_stream_node *token_stream, t_core *core)
 {
+	core->token_list = NULL;
 	if (token_stream == NULL)
 	{
 		return ;

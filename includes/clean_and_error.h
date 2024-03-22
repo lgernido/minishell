@@ -90,6 +90,7 @@ void							export_error(void *arg);
 void							error_while_shifting_directory(void *path);
 void							too_many_args(void *arg);
 void							home_not_set(void *arg);
+void							echo_error(void *arg);
 
 // ========================================================================= //
 

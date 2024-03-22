@@ -7,7 +7,7 @@ SRC_FOLDER_BONUS = srcs/bonus/
 CLEAN_DIR = clean_and_error/
 CLEAN_FILES = $(addprefix $(CLEAN_DIR), clean_command.c clean_main.c\
 							clean_sub_vector.c clean_token_stream.c built_ins_error_messages.c\
-							wildcards_error_messages.c exec_error_messages.c)
+							wildcards_error_messages.c exec_error_messages.c built_ins_error2.c)
 
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\

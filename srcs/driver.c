@@ -103,8 +103,7 @@ void	minishell_driver(t_core *core)
 	}
 	ft_start_parse(core, user_input);
 	print_stream_after_parse(core->token_list);
-	ft_clear_token_list(&core->token_list);
-	// ast_init((t_token_stream_node *)core->token_list, core);
-	// ast_driver(core);
-	// clean_prev_command(core);
+	ast_init((t_token_stream_node *)core->token_list, core);
+	ast_driver(core);
+	clean_prev_command(core);
 }
