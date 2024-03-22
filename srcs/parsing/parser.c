@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 14:58:49 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/21 13:37:04 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:01:07 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	ft_and_alone(char *str)
 		if (str[i] == '&' && str[i - 1] != '&' && (str[i + 1] == ' ' || str[i
 				+ 1] == '\0'))
 		{
-			ft_dprintf(2, "syntax error :
-				&& must be an operator or between quotes\n");
+			ft_dprintf(2, "syntax error :");
+			ft_dprintf(2, "&& must be an operator or between quotes\n");
 			return (1);
 		}
 		i++;
@@ -79,7 +79,7 @@ int	ft_syntax_check(char *str)
 
 int	ft_start_parse(t_core *minishell, char *str)
 {
-	char	*token;
+	char *token;
 
 	if (str != NULL)
 	{
@@ -96,6 +96,7 @@ int	ft_start_parse(t_core *minishell, char *str)
 					token);
 				return (1);
 			}
+			ft_here_doc(minishell);
 		}
 	}
 	return (0);

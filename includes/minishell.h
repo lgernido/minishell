@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/21 13:05:04 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 09:01:18 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef enum e_token_types
 	T_TO_EXPAND,
 	T_NO_EXPAND,
 	T_SIMPLE_QUOTES,
-	T_DOUBLE_QUOTES
+	T_DOUBLE_QUOTES,
 }								t_token_type;
 
 typedef enum e_bool
@@ -165,7 +165,6 @@ t_bool							ft_is_separator(char c);
 int								ft_dprintf(int fd, const char *format, ...);
 int								ft_handle_dollar(char *str);
 int								ft_is_ascii(char *str);
-void							ft_discard_quotes(t_core *minishell);
 int								ft_handle_backslash(char *str);
 
 // tokenizer.c//
@@ -203,6 +202,10 @@ int								ft_handle_squote(t_core *minishell,
 									char *user_input, int *i, t_token **start);
 int								ft_tokenize_parenthesis(t_core *minishell,
 									char *str, t_token **start, int i);
+
+// here_doc.c //
+
+void							ft_here_doc(t_core *minishell);
 
 // =========================================================================
 //
