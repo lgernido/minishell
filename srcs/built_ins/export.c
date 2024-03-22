@@ -49,18 +49,14 @@ static int	parse_var(char *str)
 	char	*tmp;
 
 	tmp = str;
-	while (*str != '=')
+	while (*str != '=' && *str != '\0')
 	{
 		if (check_curr_char(str, tmp) == 1)
 		{
 			return (1);
 		}
 		str++;
-		if (!*str)
-			return (1);
 	}
-	if (!*(str + 1))
-		return (1);
 	return (0);
 }
 

@@ -249,6 +249,7 @@ int								build_command_node(
 // Redirection, first node stream will be NULL).
 void							check_errno(t_core *core);
 
+// Entry point for expand var and parsing wildcards.
 int								expand_init(t_core *core,
 									t_token_stream_node *token_stream);
 

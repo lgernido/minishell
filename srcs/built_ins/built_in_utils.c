@@ -29,8 +29,19 @@ int	get_number_of_args(char **av)
 
 t_bool	is_set(char *str)
 {
-	if (str)
-		return (TRUE);
+	size_t	i;
+
+	i = 0;
+	if (str == NULL)
+		return (FALSE);
+	while (str[i])
+	{
+		if (str[i] == '=')
+		{
+			return (TRUE);
+		}
+		++i;
+	}
 	return (FALSE);
 }
 
