@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 15:21:00 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/22 13:04:07 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:59:39 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	ft_parenthesis_check(t_token *token)
 	if (token->type == T_PAR_OPEN && (token->next->type == T_OR
 			|| token->next->type == T_AND || token->next->type == T_PIPE))
 		return (1);
-	// if (token->type == T_PAR_CLOSE && (token))
+	if (token->type == T_PAR_CLOSE && (token->prev->type == T_REDIRECT
+			|| token->prev->type == T_PIPE))
+		return (1);
+	if (token->type == T_PAR_OPEN && token->next->type == T_PAR_CLOSE)
+		return (1);
 	return (0);
 }
 
@@ -100,7 +104,7 @@ char	*ft_tokenizer(t_core *minishell)
 	tmp = minishell->token_list;
 	while (tmp->next != NULL)
 	{
-		if (ft_check_error(tmp))
+		if (ft_check_error(tmp) || ft_parenthesis_check(tmp))
 			return (tmp->value);
 		else
 			tmp->type = ft_fix_redirect_types(*tmp);

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:15:17 by luciegernid       #+#    #+#             */
-/*   Updated: 2024/03/21 12:47:14 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:51:44 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_find_char_str(char c, char *str)
 t_bool	ft_is_separator(char c)
 {
 	return (c == ' ' || c == '\t' || c == ';' || c == '\'' || c == '\"'
-		|| c == ')' || c == '(');
+		|| c == ')' || c == '(' || c == '>' || c == '<');
 }
 
 int	ft_quotes(char *str)
