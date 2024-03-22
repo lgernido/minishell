@@ -34,16 +34,6 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
-<<<<<<< HEAD
-# define NRM "\x1B[0m"
-# define RED "\x1B[31m"
-# define GRN "\x1B[32m"
-# define YEL "\x1B[33m"
-# define BLU "\x1B[34m"
-# define MAG "\x1B[35m"
-# define CYN "\x1B[36m"
-# define WHT "\x1B[37m"
-=======
 # define NRM  "\x1B[0m"
 # define RED  "\x1B[31m"
 # define GRN  "\x1B[32m"
@@ -53,17 +43,12 @@
 # define CYN  "\x1B[36m"
 # define WHT  "\x1B[37m"
 
->>>>>>> resolve_operator
 // For ft_pwd
 # define PWD_BUFFER 128
 # define BUFFER_LIMIT 4096
 
 // Path to discards
-<<<<<<< HEAD
-
-=======
 # define STDIN_NODE 0
->>>>>>> resolve_operator
 # define STD_IN_DEV "/dev/stdin"
 # define STD_IN_PROC "/proc/self/fd/0"
 # define STDOUT_NODE 1
@@ -135,17 +120,6 @@ typedef struct s_token_stream_node
 
 typedef struct s_command_node
 {
-<<<<<<< HEAD
-	int							fd_infile;
-	char						*here_doc;
-	t_bool						is_here_doc;
-	int							fd_outfile;
-	int							pipe[2];
-	char						**cmd;
-	struct s_command_node		*next;
-	struct s_command_node		*prev;
-}								t_command_node;
-=======
 	int						fd_infile;	
 	char					*here_doc;
 	t_bool					is_here_doc;
@@ -158,7 +132,6 @@ typedef struct s_command_node
 	struct s_command_node	*next;
 	struct s_command_node	*prev;
 }					t_command_node;
->>>>>>> resolve_operator
 
 typedef struct s_ast_node
 {
@@ -171,8 +144,6 @@ typedef struct s_ast_node
 	struct s_ast_node			*on_failure;
 }								t_ast_node;
 
-<<<<<<< HEAD
-=======
 typedef struct s_wildcard_info
 {
 	char				**wildcard_tab;
@@ -193,7 +164,6 @@ typedef struct s_core
 	unsigned char				error_code;
 }								t_core;
 
->>>>>>> resolve_operator
 typedef struct s_token
 {
 	char						*value;
@@ -201,14 +171,6 @@ typedef struct s_token
 	struct s_token				*next;
 	struct s_token				*prev;
 }								t_token;
-typedef struct s_core
-{
-	t_ast_node					*ast;
-	t_token						*token_list;
-	char						**env;
-	int							env_size;
-	int							error_code;
-}								t_core;
 
 extern atomic_int				g_signal;
 typedef struct stat				t_stat;
@@ -254,8 +216,6 @@ int								ft_tokenize_special(t_core *minishell,
 void							ft_split_tokens(t_core *minishell, char *str);
 
 // tokenizer_utils.c //
-<<<<<<< HEAD
-=======
 t_token							*ft_create_arg_token(t_core *minishell,
 									char *word, int type);
 t_token							*ft_create_token(t_core *minishell, int i,
@@ -263,7 +223,6 @@ t_token							*ft_create_token(t_core *minishell, int i,
 void							ft_clear_token_list(
 									t_token **begin, void (*del)(void *));
 int								ft_token_list_size(t_token **begin);
->>>>>>> resolve_operator
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
 void							ft_clear_token_list(t_token **begin);
@@ -299,7 +258,6 @@ void							ft_here_doc(t_core *minishell);
 // init core struct
 void							init_core(t_core *core);
 
-<<<<<<< HEAD
 // init a new node --> This must move
 void							init_node(t_command_node *node);
 t_command_node					*create_command_list_node(void);
@@ -307,9 +265,7 @@ void							command_node_add_back(t_command_node **command_list,
 									t_command_node *new_node);
 void							get_last_command_node(t_command_node **command_list);
 void							update_command_list(t_core *core);
-=======
 // ========================================================================= //
->>>>>>> resolve_operator
 
 // clean_main.c.c
 // clean the core struct
@@ -371,33 +327,8 @@ void							update_command_list(t_core *core);
 
 // parse_envp.c
 
-<<<<<<< HEAD
-// clean fonctions in clean_exit.c
-
-// clean the core struct
-void							ft_clean_exit(t_core *core, int code);
-
-// clean the whole LL by calling ft_clean_node then exit
-void							ft_command_clear(t_command_node **list);
-
-// clean the given node
-void							ft_clean_node(t_command_node *node);
-
-// Call ft_token_stream_clear if the token isn't NULL
-void							ft_clear_token_stream_if_needed(t_token_stream_node **token_stream);
-
-// Clean the given token stream
-void							ft_token_stream_clear(t_token_stream_node **token_stream);
-void							ft_split_stream_clean(t_ast_node *ast);
-
-// Clean the given node, for the token stream
-void							ft_free_node(t_token_stream_node **node);
-
-void							free_if_needed(void **str);
-=======
 // Parse envp if it exist, or set-up an empty one
 void							handle_envp(char **envp, t_core *core);
->>>>>>> resolve_operator
 
 // ========================================================================= //
 
@@ -442,7 +373,6 @@ void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
 void							ft_ast_clear(t_ast_node **node);
 
-<<<<<<< HEAD
 char							*fetch_input(t_core *core, int error_code);
 
 // Call this functions just after retrieving user input
@@ -459,8 +389,6 @@ int								build_command_node(t_token_stream_node **command_stream,
 									t_command_node *command_node);
 void							check_errno(t_core *core);
 
-#endif
-
 /*
 Exec pseudo code :
 	- Resolve var and wildcards // discard multiple files input
@@ -472,6 +400,4 @@ Exec pseudo code :
 	- check access
 	- exec
 */
-=======
 #endif
->>>>>>> resolve_operator
