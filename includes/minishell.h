@@ -87,7 +87,7 @@ typedef enum e_subtypes
 {
 	T_INIT = -1,
 	T_REGULAR = 0,
-	T_DOUBLE_QUOTES = 34,
+	T_DOUBLE_QUOTED = 34,
 	T_SINGLE_QUOTES = 39,
 }						t_subtypes;
 
@@ -112,10 +112,10 @@ typedef struct s_sub_token_vector
 
 typedef struct s_token_stream_node
 {
-	t_token_type				type;
 	char						*value;
-	struct s_token_stream_node	*prev;
+	t_token_type				type;
 	struct s_token_stream_node	*next;
+	struct s_token_stream_node	*prev;
 }								t_token_stream_node;
 
 typedef struct s_command_node
@@ -220,8 +220,6 @@ t_token							*ft_create_arg_token(t_core *minishell,
 									char *word, int type);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
-void							ft_clear_token_list(
-									t_token **begin, void (*del)(void *));
 int								ft_token_list_size(t_token **begin);
 void							ft_add_token_list(t_token **begin,
 									t_token *new);
@@ -258,13 +256,6 @@ void							ft_here_doc(t_core *minishell);
 // init core struct
 void							init_core(t_core *core);
 
-// init a new node --> This must move
-void							init_node(t_command_node *node);
-t_command_node					*create_command_list_node(void);
-void							command_node_add_back(t_command_node **command_list,
-									t_command_node *new_node);
-void							get_last_command_node(t_command_node **command_list);
-void							update_command_list(t_core *core);
 // ========================================================================= //
 
 // clean_main.c.c
@@ -279,9 +270,6 @@ void							ft_clean_exit(t_core *core, int code);
 // Entry point for handling a command. Is constantly called
 // after programm init until the program exit.
 void							minishell_driver(t_core *core);
-
-// Wil call readline to get an input and return it.
-char							*fetch_input(int error_code);
 
 // In turn_split_stream_in_command_node.c
 // Will take the split_stream (which , at this point, only contain)
@@ -373,22 +361,7 @@ void							ast_init(t_token_stream_node *token_stream,
 									t_core *core);
 void							ft_ast_clear(t_ast_node **node);
 
-char							*fetch_input(t_core *core, int error_code);
-
-// Call this functions just after retrieving user input
-// to test ast without parsing
-t_token_stream_node				*split_str(t_core *core, char *str);
-void							minishell_driver(t_core *core);
-int								translate_input(t_token_stream_node **input_stream,
-									t_command_node *command_node);
-int								translate_output(t_token_stream_node **output_stream,
-									t_command_node *command_node);
-int								build_command_node(t_token_stream_node **command_stream,
-									t_token_stream_node **input_stream,
-									t_token_stream_node **output_stream,
-									t_command_node *command_node);
-void							check_errno(t_core *core);
-
+char							*fetch_input(int error_code);
 /*
 Exec pseudo code :
 	- Resolve var and wildcards // discard multiple files input

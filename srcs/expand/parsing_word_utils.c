@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 #include "expand.h"
-#include <stdlib.h>
 
 t_bool	is_a_relevant_quote(int c, int flag)
 {

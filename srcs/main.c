@@ -28,10 +28,9 @@ atomic_int	g_signal = 0;
 // 	}
 // }
 
-char	*fetch_input(t_core *core, int error_code)
+char	*fetch_input(int error_code)
 {
 	char	*user_input;
-	t_token	*tmp;
 
 	if (error_code == 0)
 		write(1, "👌", 4);
@@ -39,20 +38,8 @@ char	*fetch_input(t_core *core, int error_code)
 		write(2, "😵", 4);
 	user_input = readline(" minishell>");
 	add_history(user_input);
-	// return (user_input);
-	// split_str(core, str);
-	if (ft_start_parse(core, user_input) == 0)
-	{
-		tmp = core->token_list;
-		while (tmp)
-		{
-			printf("token value :%s\n", tmp->value);
-			printf("token type :%d\n\n", tmp->type);
-			tmp = tmp->next;
-		}
-	}
-	ft_clear_token_list(&core->token_list);
 	return (user_input);
+	// split_str(core, str);
 	/*Input parsing fonction here,
 		w/ list and str as argument. STR need to be free in the parsing !!*/
 	// free(str);

@@ -28,16 +28,7 @@ SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_operator.c\
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
 								tokenizer.c tokenizer_utils.c parser_utils2.c \
-								tokenizer_utils2.c here_doc.c\
-								tokenizer.c tokenizer_utils.c)
-EXPAND_DIR = expand_and_split/
-EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_vars_and_wildcards_init.c\
-							 fill_split_streams.c split_by_pipes.c shrink_list.c\
-							 operator_stream.c operator_stream_low_level_func.c\
-							 operator_error_message.c)
-
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
-						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(EXPAND_FILES) $(COMMAND_FILES) $(PARSING_FILES) driver.c\
+								tokenizer_utils2.c here_doc.c)
 
 EXPAND_DIR = expand/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_env_var.c expand_utils.c\
@@ -62,8 +53,7 @@ EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c
 
 SRC_FILES	= main.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
-						exec_driver.c $(EXPAND_FILES) $(CLEAN_FILES)
->>>>>>> resolve_operator
+						exec_driver.c $(EXPAND_FILES) $(CLEAN_FILES) $(PARSING_FILES)
 
 
 

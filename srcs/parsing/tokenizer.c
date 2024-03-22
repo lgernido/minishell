@@ -17,7 +17,8 @@ int	ft_parenthesis_check(t_token *token)
 	if (token->type == T_PAR_OPEN && (token->next->type == T_OR
 			|| token->next->type == T_AND || token->next->type == T_PIPE))
 		return (1);
-	if (token->type == T_PAR_CLOSE && (token))
+	// if (token->type == T_PAR_CLOSE && (token))
+	return (0);
 }
 
 int	ft_check_error(t_token *token)

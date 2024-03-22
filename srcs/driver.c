@@ -69,6 +69,23 @@ void	ast_driver(t_core *core)
 	return ;
 }
 
+void	print_stream_after_parse(t_token *stream)
+{
+	char	*tab[] = {"T_WORD", "T_REDIRECT", "T_PIPE",
+								"T_PIPE", "T_NEWLINE", "T_AND", "T_OR",
+								"T_PAR_OPEN", "T_PAR_CLOSE", "T_INPUT",
+								"T_OUTPUT", "T_EXPAND", "T_HEREDOC",
+								"T_TO_EXPAND", "T_NO_EXPAND", "T_SIMPLE_QUOTES",
+								"T_DOUBLE_QUOTES", "T_LIM"};
+	while (stream != NULL)
+	{
+		printf("Type : %s\n", tab[stream->type]);
+		printf("Value :%s\n\n", stream->value);
+		stream = stream->next;
+	}
+	return ;
+}
+
 void	minishell_driver(t_core *core)
 {
 	char	*user_input;
@@ -84,8 +101,10 @@ void	minishell_driver(t_core *core)
 		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
 	}
-	user_input = split_str(core, user_input);
-	ast_init(user_input, core);
-	ast_driver(core);
-	clean_prev_command(core);
+	ft_start_parse(core, user_input);
+	print_stream_after_parse(core->token_list);
+	ft_clear_token_list(&core->token_list);
+	// ast_init((t_token_stream_node *)core->token_list, core);
+	// ast_driver(core);
+	// clean_prev_command(core);
 }
