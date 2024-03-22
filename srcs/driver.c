@@ -46,7 +46,7 @@ void	ast_driver(t_core *core)
 	size_t	i;
 
 	return_value = 0;
-	if (expand_init(core, &core->ast->token_stream) == -1)
+	if (expand_init(core, core->ast->token_stream) == -1)
 	{
 		core->error_code = 1;
 		choose_next_path_to_take(core);

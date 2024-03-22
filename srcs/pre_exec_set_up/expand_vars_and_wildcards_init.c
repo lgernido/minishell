@@ -65,30 +65,28 @@ static int	need_wildcard_expand(t_core *core, t_token_stream_node **token)
 	return (return_value);
 }
 
-int	expand_init(t_core *core, t_token_stream_node **token_stream)
+int	expand_init(t_core *core, t_token_stream_node *token_stream)
 {
 	char						*token_value_copy;
-	const t_token_stream_node	*head = *token_stream;
 	int							return_value;
 
 	return_value = 0;
-	while (*token_stream != NULL && return_value == 0)
+	while (token_stream != NULL && return_value == 0)
 	{
-		if (is_the_searched_token(*token_stream, T_TO_EXPAND) == TRUE)
+		if (is_the_searched_token(token_stream, T_TO_EXPAND) == TRUE)
 		{
-			(*token_stream)->value = expand_var_init(
-					core, (*token_stream)->value);
+			token_stream->value = expand_var_init(
+					core, token_stream->value);
 			check_errno(core);
 		}
-		else if (is_the_searched_token((*token_stream), T_WORD) == TRUE)
+		else if (is_the_searched_token(token_stream, T_WORD) == TRUE)
 		{
-			token_value_copy = (*token_stream)->value;
-			(*token_stream)->value = NULL;
-			(*token_stream)->value = handle_word(core, token_value_copy);
-			return_value = need_wildcard_expand(core, token_stream);
+			token_value_copy = token_stream->value;
+			token_stream->value = NULL;
+			token_stream->value = handle_word(core, token_value_copy);
+			return_value = need_wildcard_expand(core, &token_stream);
 		}
-		*token_stream = (*token_stream)->next;
+		token_stream = token_stream->next;
 	}
-	*token_stream = (t_token_stream_node *)head;
 	return (return_value);
 }

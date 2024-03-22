@@ -250,7 +250,7 @@ int								build_command_node(
 void							check_errno(t_core *core);
 
 int								expand_init(t_core *core,
-									t_token_stream_node **token_stream);
+									t_token_stream_node *token_stream);
 
 // Set up the token stream to have the appropriate form for exec
 // Basically : Split the token stream to have one command node per command
