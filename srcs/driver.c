@@ -23,21 +23,6 @@ void	check_errno(t_core *core)
 	}
 }
 
-<<<<<<< HEAD
-int	check_i_o(t_token_stream_node **inputs, t_token_stream_node **outputs)
-{
-	int	return_value;
-
-	return_value = 0;
-	return_value += check_redirections(inputs, verify_inputs, STD_IN_DEV,
-			STD_IN_PROC);
-	return_value += check_redirections(outputs, verify_outputs, STD_OUT_DEV,
-			STD_OUT_PROC);
-	return (return_value);
-}
-
-=======
->>>>>>> resolve_operator
 int	split_stream_driver(t_token_stream_node **split_stream,
 		t_command_node *command_node)
 {
@@ -51,21 +36,7 @@ int	split_stream_driver(t_token_stream_node **split_stream,
 	{
 		return (MALLOC);
 	}
-<<<<<<< HEAD
-	return_value = check_i_o(&inputs, &outputs);
-	if (return_value == 0)
-	{
-		return_value = build_command_node(split_stream, &inputs, &outputs,
-				command_node);
-	}
-	else
-	{
-		ft_token_stream_clear(&inputs);
-		ft_token_stream_clear(&outputs);
-	}
-=======
 	return_value = build_command_node(split_stream, command_node);
->>>>>>> resolve_operator
 	return (return_value);
 }
 
@@ -102,17 +73,6 @@ void	minishell_driver(t_core *core)
 {
 	char	*user_input;
 
-<<<<<<< HEAD
-	// t_token_stream_node	*tokenized_user_input;
-	if (g_signal == 1)
-	{
-		react_sig(core);
-	}
-	user_input = fetch_input(core, core->error_code);
-	// tokenized_user_input = split_str(core, user_input);
-	// ast_init(tokenized_user_input, core);
-	// ast_driver(core);
-=======
 	init_sig();
 	user_input = fetch_input(core->error_code);
 	if (g_signal == 130)
@@ -124,9 +84,8 @@ void	minishell_driver(t_core *core)
 		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
 	}
-	tokenized_user_input = split_str(core, user_input);
-	ast_init(tokenized_user_input, core);
+	user_input = split_str(core, user_input);
+	ast_init(user_input, core);
 	ast_driver(core);
 	clean_prev_command(core);
->>>>>>> resolve_operator
 }
