@@ -34,6 +34,13 @@ t_bool							ft_is_separator(char c);
 
 // parse_quotes.c//
 int								ft_quotes(char *str);
+int								ft_handle_quoted_token(t_core *minishell,
+									char *str, t_token **start, int i);
+
+// tokenize_nested_quotes.c//
+
+int								tokenize_nested_quotes(t_core *minishell,
+									char *str, t_token **start, size_t i);
 
 // parser_utils2.c//
 

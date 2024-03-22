@@ -27,8 +27,8 @@ SEARCH_FILES = $(addprefix $(SEARCH_DIR), find_logical_operator.c\
 									 discard_parenthesis_utils.c)
 PARSING_DIR = parsing/
 PARSING_FILES = $(addprefix $(PARSING_DIR), parser.c parser_utils.c split_tokens.c \
-								tokenizer.c tokenizer_utils.c parser_utils2.c \
-								tokenizer_utils2.c here_doc.c parse_quotes.c)
+								tokenizer.c tokenizer_utils.c parser_utils2.c tokenizer_utils2.c\
+								here_doc.c parse_quotes.c tokenize_nested_quotes.c)
 
 EXPAND_DIR = expand/
 EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_env_var.c expand_utils.c\

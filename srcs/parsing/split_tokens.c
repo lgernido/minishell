@@ -14,9 +14,9 @@
 
 int	ft_tokenize_quotes(t_core *minishell, char *str, t_token **start, int i)
 {
-	int	token_start;
-
-	token_start = i;
+	// int	token_start;
+	//
+	// token_start = i;
 	if (str[i] == '\"')
 		i = ft_handle_dquote(minishell, str, &i, start);
 	else if (str[i] == '\'')
@@ -103,7 +103,7 @@ void	ft_split_tokens(t_core *minishell, char *str)
 			continue ;
 		}
 		else if (str[i] == '\"' || str[i] == '\'')
-			i = ft_tokenize_quotes(minishell, str, start, i);
+			i = ft_handle_quoted_token(minishell, str, start, i);
 		// else if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '?'))
 		// 	i = ft_tokenize_variable(minishell, str, start, i);
 		else if (ft_find_char_str(str[i], "|<>&()"))

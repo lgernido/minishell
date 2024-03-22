@@ -30,6 +30,39 @@ static int	quote_is_relevant(int *flag, int quote_to_check)
 	return (return_value);
 }
 
+static t_bool	is_a_full_quoted_token(char *str, int i)
+{
+	const char	quote_type = str[i];
+	t_bool		return_value;
+
+	return_value = FALSE;
+	while (str[i] != quote_type)
+	{
+		++i;
+	}
+	if (str[i + 1] == '\0' || ft_is_space(str[i + 1]))
+	{
+		return_value = TRUE;
+	}
+	return (return_value);
+}
+
+int	ft_handle_quoted_token(t_core *minishell, char *str, t_token **start, int i)
+{
+	const t_bool	is_simply_quoted = is_a_full_quoted_token(str, i);
+	int				index_to_return;
+
+	if (is_simply_quoted == TRUE)
+	{
+		index_to_return = ft_tokenize_quotes(minishell, str, start, i);
+	}
+	else
+	{
+		index_to_return = tokenize_nested_quotes(minishell, str, start, i);
+	}
+	return (index_to_return);
+}
+
 int	ft_quotes(char *str)
 {
 	int	i;
