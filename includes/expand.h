@@ -100,16 +100,6 @@ int		wildcards_init(t_core *core, t_token_stream_node **current_token);
 
 // ========================================================================= //
 
-// In wildcard_error_message.c
-
-// Call if there is more than one match and previous node is redir operator
-void	ambiguous_redir(void *arg);
-
-// Call if an error occurs while opening the current working directory
-void	opendir_error(void *arg);
-
-// ========================================================================= //
-
 // In wildcard_matching_functions.c
 
 // Return TRUE if the char is equal to -42.

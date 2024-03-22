@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 #include "built_ins.h"
+#include "clean_and_error.h"
 
 static int	is_invalid(char c, int flag)
 {

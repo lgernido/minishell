@@ -13,7 +13,7 @@
 #include "AST.h"
 #include "minishell.h"
 #include "exec.h"
-#include "built_ins.h"
+#include "clean_and_error.h"
 
 static int	get_stat_for_the_path(const char *path_to_stat,
 		ino_t *inode_to_fill)

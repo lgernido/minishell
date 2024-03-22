@@ -51,9 +51,3 @@ t_bool	is_the_var(char *var, char *env)
 		return (FALSE);
 	return (TRUE);
 }
-
-void	export_error(void *arg)
-{
-	ft_printf_err("minishell: export: `%s':\
-not a valid identifier\n", (char *)arg);
-}

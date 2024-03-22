@@ -131,11 +131,5 @@ pid_t	checked_fork(void);
 int		checked_pipe(int *pipedest);
 int		checked_dup2(int fd, int fd2);
 int		checked_dup(int fd);
-// ========================================================================= //
-
-// Error message in exec_error_message.c
-void	exec_error(void *arg);
-void	execve_failure(void *arg);
-void	sigquit_error(void *arg);
 
 #endif

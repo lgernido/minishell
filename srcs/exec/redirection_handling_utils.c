@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "built_ins.h"
 #include "exec.h"
 
 void	get_down_stream(t_token_stream_node **stream)

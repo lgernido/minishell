@@ -79,4 +79,33 @@ void							ft_command_clear(t_command_node **list);
 // clean the given command node
 void							ft_clean_node(t_command_node *node);
 
+// ========================================================================= //
+
+// In built_ins_error_messages.c
+
+// Wrapper for all error messages.
+int								throw_error_message(void *arg,
+									void (*message)(void *));
+void							export_error(void *arg);
+void							error_while_shifting_directory(void *path);
+void							too_many_args(void *arg);
+void							home_not_set(void *arg);
+
+// ========================================================================= //
+
+// Error message in exec_error_message.c
+void							exec_error(void *arg);
+void							execve_failure(void *arg);
+void							sigquit_error(void *arg);
+
+// ========================================================================= //
+
+// In wildcard_error_message.c
+
+// Call if there is more than one match and previous node is redir operator
+void	ambiguous_redir(void *arg);
+
+// Call if an error occurs while opening the current working directory
+void	opendir_error(void *arg);
+
 #endif

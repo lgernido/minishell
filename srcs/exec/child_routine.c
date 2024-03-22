@@ -12,7 +12,7 @@
 
 #include "exec.h"
 #include "minishell.h"
-#include "built_ins.h"
+#include "clean_and_error.h"
 
 void	pre_exec_set_up(t_core *core, t_command_node *current_command,
 		int (*set_up_routine)(t_command_node *node))

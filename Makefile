@@ -6,7 +6,8 @@ SRC_FOLDER_BONUS = srcs/bonus/
 
 CLEAN_DIR = clean_and_error/
 CLEAN_FILES = $(addprefix $(CLEAN_DIR), clean_command.c clean_main.c\
-							clean_sub_vector.c clean_token_stream.c)
+							clean_sub_vector.c clean_token_stream.c built_ins_error_messages.c\
+							wildcards_error_messages.c exec_error_messages.c)
 
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
@@ -33,8 +34,7 @@ EXPAND_FILES = $(addprefix $(EXPAND_DIR), expand_env_var.c expand_utils.c\
 							 parse_token_word.c parsing_word_utils.c remove_quote.c\
 							 sub_token_vector2.c sub_token_vector.c wildcards.c\
 							 wildcard_init_functions.c wildcard_insert_substream.c\
-							 wildcards_booleans.c wildcards_error_messages.c\
-							 wildcards_matching_functions.c wildcards_utils.c)
+							 wildcards_booleans.c wildcards_matching_functions.c wildcards_utils.c)
 
 
 PRE_EXEC_DIR = pre_exec_set_up/
@@ -45,7 +45,7 @@ PRE_EXEC_FILES = $(addprefix $(PRE_EXEC_DIR),command_list_base_funct.c\
 
 EXEC_DIR = exec/
 EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c\
-						 exec_built_ins.c exec_error_message.c exec_init.c find_command_to_exec.c\
+						 exec_built_ins.c exec_init.c find_command_to_exec.c\
 						 next_node.c parent_stuff.c pre_exec_setup.c redirection_handling_utils.c\
 						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c\
 						 open_files.c)

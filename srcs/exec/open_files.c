@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #include "exec.h"
-#include "built_ins.h"
+#include "clean_and_error.h"
 
 int	open_input(char *path)
 {

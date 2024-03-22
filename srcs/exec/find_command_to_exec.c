@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_ins.h"
-#include "libft.h"
 #include "minishell.h"
 
 void	append_backslash(char **path_tab)

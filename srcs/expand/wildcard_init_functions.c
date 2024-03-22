@@ -13,6 +13,7 @@
 #include "minishell.h"
 #include "built_ins.h"
 #include "expand.h"
+#include "clean_and_error.h"
 
 DIR	*open_dir(t_core *core)
 {
