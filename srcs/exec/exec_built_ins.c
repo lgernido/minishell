@@ -90,20 +90,22 @@ void	exec_built_ins(t_core *core, t_command_node *current_command,
 	save_std_fd(core, current_command);
 	if (redirection_driver(current_command) == -1)
 	{
-		ft_clean_node(current_command);
 		core->error_code = 1;
-		return ;
 	}
-	if (manage_input(current_command) == -1)
+	else
 	{
-		ft_clean_exit(core, 1);
+		if (manage_input(current_command) == -1)
+		{
+			ft_clean_exit(core, 1);
+		}
+		if (manage_output(current_command) == -1)
+		{
+			ft_clean_exit(core, 1);
+		}
+		core->error_code = built_in_tab[command_index]
+			(current_command->cmd, core);
+		reset_std_fd(core, current_command);
 	}
-	if (manage_output(current_command) == -1)
-	{
-		ft_clean_exit(core, 1);
-	}
-	core->error_code = built_in_tab[command_index](current_command->cmd, core);
-	reset_std_fd(core, current_command);
 	choose_next_path_to_take(core);
 	return ;
 }

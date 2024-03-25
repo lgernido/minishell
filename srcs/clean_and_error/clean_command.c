@@ -38,7 +38,6 @@ void	ft_clean_node(t_command_node *node)
 	}
 	if (node->cmd != NULL)
 	{
-		// IS ERROR PRONE !! ARRAY CAN BE NULL. WILL HANDLE IT LATER
 		ft_free_tab(node->cmd);
 	}
 }
@@ -64,4 +63,3 @@ void	ft_command_clear(t_command_node **list)
 		*list = tmp;
 	}
 }
-

@@ -27,6 +27,10 @@ int	open_output(char *path)
 	int	fd;
 
 	fd = open(path, O_RDWR | O_CREAT | O_TRUNC, 00244 | 00400);
+	if (fd == -1)
+	{
+		fd = open(path, O_WRONLY | O_TRUNC, 00244 | 00400);
+	}
 	return (fd);
 }
 
@@ -35,6 +39,10 @@ int	open_append(char *path)
 	int	fd;
 
 	fd = open(path, O_RDWR | O_CREAT | O_APPEND, 00244 | 00400);
+	if (fd == -1)
+	{
+		fd = open(path, O_WRONLY | O_APPEND, 00244 | 00400);
+	}
 	return (fd);
 }
 
