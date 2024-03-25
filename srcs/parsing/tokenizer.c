@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_parenthesis_check(t_token *token)
+int	ft_parenthesis_check(t_token_stream_node*token)
 {
 	int	return_value;
 
@@ -28,7 +28,7 @@ int	ft_parenthesis_check(t_token *token)
 	return (return_value);
 }
 
-int	ft_check_error(t_token *token)
+int	ft_check_error(t_token_stream_node*token)
 {
 	if ((token->type == T_PIPE || token->type == T_SEP || token->type == T_AND
 			|| token->type == T_OR) && (!token->prev
@@ -51,7 +51,7 @@ int	ft_check_error(t_token *token)
 	return (0);
 }
 
-int	ft_define_type(t_token *tmp)
+int	ft_define_type(t_token_stream_node*tmp)
 {
 	if (ft_samestr(tmp->value, "||"))
 		tmp->type = T_OR;
@@ -72,7 +72,7 @@ int	ft_define_type(t_token *tmp)
 	return (1);
 }
 
-int	ft_fix_redirect_types(t_token token_to_fix)
+int	ft_fix_redirect_types(t_token_stream_node token_to_fix)
 {
 	if (ft_samestr(token_to_fix.value, ">"))
 		return (T_OUTPUT_FILE);
@@ -88,7 +88,7 @@ int	ft_fix_redirect_types(t_token token_to_fix)
 
 char	*ft_tokenizer(t_core *minishell)
 {
-	t_token	*tmp;
+	t_token_stream_node	*tmp;
 
 	tmp = minishell->token_list;
 	while (tmp->next != NULL)

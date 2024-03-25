@@ -158,20 +158,12 @@ typedef struct s_wildcard_info
 typedef struct s_core
 {
 	t_ast_node					*ast;
-	struct s_token				*token_list;
+	t_token_stream_node			*token_list;
 	t_sub_token_vector			*sub_token_vector;
 	char						**env;
 	int							env_size;
 	unsigned char				error_code;
 }								t_core;
-
-typedef struct s_token
-{
-	char						*value;
-	int							type;
-	struct s_token				*next;
-	struct s_token				*prev;
-}								t_token;
 
 typedef struct stat				t_stat;
 typedef int						(*t_built_ins)(char **av, t_core *core);

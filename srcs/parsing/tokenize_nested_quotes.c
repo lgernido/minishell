@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "data_structures_define_and_includes.h"
 #include "minishell.h"
 
 static t_bool	is_a_meta_character(char c)
@@ -63,12 +64,13 @@ static	size_t	get_end_of_token(char *str, size_t i)
 	return (i);
 }
 
-static t_token	*ft_create_nested_token(t_core *minishell, int i, char *str)
+static t_token_stream_node	*ft_create_nested_token(t_core *minishell, int i,
+		char *str)
 {
-	t_token	*new;
-	int		token_len;
+	t_token_stream_node	*new;
+	int					token_len;
 
-	new = ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token_stream_node));
 	if (!new)
 		ft_clean_exit(minishell, MALLOC);
 	token_len = 0;
@@ -81,12 +83,12 @@ static t_token	*ft_create_nested_token(t_core *minishell, int i, char *str)
 }
 
 int	tokenize_nested_quotes(t_core *minishell, char *str,
-		t_token **start, size_t i)
+		t_token_stream_node**start, size_t i)
 {
-	const size_t	token_start = i;
-	const size_t	end_of_token = get_end_of_token(str, i);
-	const char		ending_char = str[end_of_token];
-	t_token			*new_token;
+	const size_t				token_start = i;
+	const size_t				end_of_token = get_end_of_token(str, i);
+	const char					ending_char = str[end_of_token];
+	t_token_stream_node			*new_token;
 
 	str[end_of_token] = '\0';
 	new_token = ft_create_nested_token(minishell, token_start, str);

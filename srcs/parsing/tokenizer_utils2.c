@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-int	ft_tokenize_redirections(t_core *minishell, char *str, t_token **start,
-		int i)
+int	ft_tokenize_redirections(t_core *minishell, char *str,
+		t_token_stream_node **start, int i)
 {
 	if (str[i] == '>' && str[i + 1] == '>')
 	{
@@ -41,8 +41,8 @@ int	ft_tokenize_redirections(t_core *minishell, char *str, t_token **start,
 		return (i);
 }
 
-int	ft_tokenize_parenthesis(t_core *minishell, char *str, t_token **start,
-		int i)
+int	ft_tokenize_parenthesis(t_core *minishell, char *str,
+		t_token_stream_node **start, int i)
 {
 	if (str[i] == '(')
 	{
@@ -57,7 +57,7 @@ int	ft_tokenize_parenthesis(t_core *minishell, char *str, t_token **start,
 }
 
 int	ft_handle_squote(t_core *minishell, char *user_input, int *i,
-		t_token **start)
+		t_token_stream_node **start)
 {
 	int		j;
 	char	*new_value;
@@ -85,7 +85,7 @@ int	ft_handle_squote(t_core *minishell, char *user_input, int *i,
 }
 
 int	ft_handle_dquote(t_core *minishell, char *user_input, int *i,
-		t_token **start)
+		t_token_stream_node **start)
 {
 	int		j;
 	char	*new_value;

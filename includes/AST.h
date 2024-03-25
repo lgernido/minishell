@@ -211,7 +211,6 @@ t_token_stream_node	*build_operator_stream(t_token_stream_node **stream,
 						t_bool (*searching_function)
 						(t_token_stream_node *token));
 
-
-void	safely_del_node(t_token_stream_node **node);
+void				safely_del_node(t_token_stream_node **node);
 
 #endif // !AST_H

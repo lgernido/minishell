@@ -57,7 +57,14 @@ void	exec_init(t_core *core, t_command_node *command_list_head)
 
 	while (core->ast->command_list != NULL)
 	{
-		command_index = is_built_in(core->ast->command_list->cmd[0]);
+		if (core->ast->command_list->cmd[0] != NULL)
+		{
+			command_index = is_built_in(core->ast->command_list->cmd[0]);
+		}
+		else
+		{
+			command_index = -1;
+		}
 		check_errno(core);
 		last_pid = exec_command(core, core->ast->command_list, command_index);
 		core->ast->command_list = core->ast->command_list->next;

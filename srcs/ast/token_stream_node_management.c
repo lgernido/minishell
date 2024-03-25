@@ -26,6 +26,10 @@ t_token_stream_node	*ft_token_stream_new(t_token_type type, void *value)
 		{
 			node->value = ft_strdup(value);
 		}
+		else
+		{
+			node->value = NULL;
+		}
 		node->prev = NULL;
 		node->next = NULL;
 	}

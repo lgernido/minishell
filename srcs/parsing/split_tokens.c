@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int	ft_tokenize_quotes(t_core *minishell, char *str, t_token **start, int i)
+int	ft_tokenize_quotes(t_core *minishell, char *str,
+		t_token_stream_node**start, int i)
 {
 	if (str[i] == '\"')
 		i = ft_handle_dquote(minishell, str, &i, start);
@@ -21,7 +22,8 @@ int	ft_tokenize_quotes(t_core *minishell, char *str, t_token **start, int i)
 	return (i);
 }
 
-int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
+int	ft_tokenize_regular(t_core *minishell, char *str,
+		t_token_stream_node**start, int i)
 {
 	int		token_start;
 	char	end_of_token_copy;
@@ -36,7 +38,8 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 	return (i);
 }
 
-int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
+int	ft_tokenize_special(t_core *minishell, char *str,
+		t_token_stream_node **start, int i)
 {
 	if (str[i] == '&' && str[i + 1] == '&')
 	{
@@ -66,8 +69,8 @@ int	ft_tokenize_special(t_core *minishell, char *str, t_token **start, int i)
 
 void	ft_split_tokens(t_core *minishell, char *str)
 {
-	int		i;
-	t_token	**start;
+	int					i;
+	t_token_stream_node	**start;
 
 	i = 0;
 	start = &minishell->token_list;

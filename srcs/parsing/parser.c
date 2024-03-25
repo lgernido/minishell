@@ -55,7 +55,7 @@ int	ft_syntax_check(char *str)
 		return (0);
 }
 
-void	remove_newline(t_token *token_stream)
+void	remove_newline(t_token_stream_node*token_stream)
 {
 	while (token_stream->next->type != T_NEWLINE)
 	{
@@ -66,10 +66,31 @@ void	remove_newline(t_token *token_stream)
 	token_stream->next = NULL;
 }
 
-int	ft_start_parse(t_core *minishell, char *str)
+int	continue_parse(t_core *minishell, char *str)
 {
 	char	*token;
 
+	ft_split_tokens(minishell, str);
+	token = ft_tokenizer(minishell);
+	if (token)
+	{
+		ft_dprintf(2, "minishell: syntax error near unexpected token '%s'\n",
+			token);
+		free(str);
+		minishell->error_code = 2;
+		return (1);
+	}
+	free(str);
+	if (ft_here_doc(minishell) == 1)
+	{
+		minishell->error_code = 2;
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_start_parse(t_core *minishell, char *str)
+{
 	if (ft_syntax_check(str) != 0)
 	{
 		free(str);
@@ -78,19 +99,11 @@ int	ft_start_parse(t_core *minishell, char *str)
 	}
 	else
 	{
-		ft_split_tokens(minishell, str);
-		token = ft_tokenizer(minishell);
-		if (token)
+		if (continue_parse(minishell, str) == 1)
 		{
-			ft_dprintf(2, "minishell: syntax error near unexpected token '%s'\n",
-				token);
-			free(str);
-			minishell->error_code = 2;
 			return (1);
 		}
-		ft_here_doc(minishell);
 	}
-	free(str);
 	remove_newline(minishell->token_list);
 	return (0);
 }

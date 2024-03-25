@@ -48,7 +48,8 @@ static t_bool	is_a_full_quoted_token(char *str, int i)
 	return (return_value);
 }
 
-int	ft_handle_quoted_token(t_core *minishell, char *str, t_token **start, int i)
+int	ft_handle_quoted_token(t_core *minishell, char *str,
+		t_token_stream_node **start, int i)
 {
 	const t_bool	is_simply_quoted = is_a_full_quoted_token(str, i);
 	int				index_to_return;

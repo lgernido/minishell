@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "AST.h"
+#include "data_structures_define_and_includes.h"
 #include "exec.h"
 #include "minishell.h"
 #include "clean_and_error.h"
@@ -69,33 +70,21 @@ void	ast_driver(t_core *core)
 	return ;
 }
 
-void	print_stream_after_parse(t_token *stream)
-{
-	char	*tab[] = {"T_WORD", "T_REDIRECT", "T_PIPE",
-								"T_PIPE", "T_NEWLINE", "T_AND", "T_OR",
-								"T_PAR_OPEN", "T_PAR_CLOSE", "T_INPUT",
-								"T_OUTPUT", "T_HERE_DOC", "T_APPEND",
-								"T_TO_EXPAND", "T_NO_EXPAND", "T_SIMPLE_QUOTES",
-								"T_DOUBLE_QUOTES", "T_LIM"};
-	while (stream != NULL)
-	{
-		printf("Type : %s\n", tab[stream->type]);
-		printf("Value :%s\n\n", stream->value);
-		stream = stream->next;
-	}
-	return ;
-}
-
 void	interpret_command(t_core *core, char *user_input)
 {
-	if (ft_start_parse(core, user_input) == 0)
+	parsing_sig();
+	if (ft_start_parse(core, user_input) == 0 && g_signal != 130)
 	{
-		print_stream_after_parse(core->token_list);
+		init_sig();
 		ast_init((t_token_stream_node *)core->token_list, core);
 		if (core->ast != NULL)
 		{
 			ast_driver(core);
 		}
+	}
+	if (g_signal == 130)
+	{
+		react_sig(core);
 	}
 }
 

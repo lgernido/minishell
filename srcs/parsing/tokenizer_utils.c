@@ -13,9 +13,9 @@
 #include "minishell.h"
 #include "clean_and_error.h"
 
-void	ft_add_token_list(t_token **begin, t_token *new)
+void	ft_add_token_list(t_token_stream_node **begin, t_token_stream_node *new)
 {
-	t_token	*tmp;
+	t_token_stream_node	*tmp;
 
 	if (!new || !begin)
 		return ;
@@ -35,10 +35,10 @@ void	ft_add_token_list(t_token **begin, t_token *new)
 		*begin = new;
 }
 
-void	ft_clear_token_list(t_token **begin)
+void	ft_clear_token_list(t_token_stream_node **begin)
 {
-	t_token	*tmp;
-	t_token	*tmp2;
+	t_token_stream_node	*tmp;
+	t_token_stream_node	*tmp2;
 
 	if (!begin)
 		return ;
@@ -53,12 +53,12 @@ void	ft_clear_token_list(t_token **begin)
 	*begin = NULL;
 }
 
-t_token	*ft_create_token(t_core *minishell, int i, char *str)
+t_token_stream_node	*ft_create_token(t_core *minishell, int i, char *str)
 {
-	t_token	*new;
-	int		token_len;
+	t_token_stream_node	*new;
+	int					token_len;
 
-	new = ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token_stream_node));
 	if (!new)
 		exit_from_parsing(minishell, str, MALLOC);
 	token_len = 0;
@@ -72,12 +72,12 @@ t_token	*ft_create_token(t_core *minishell, int i, char *str)
 	return (new);
 }
 
-t_token	*ft_create_priority_token(t_core *minishell, const char *token,
-		char *str)
+t_token_stream_node	*ft_create_priority_token(t_core *minishell,
+		const char *token, char *str)
 {
-	t_token	*new;
+	t_token_stream_node	*new;
 
-	new = ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token_stream_node));
 	if (!new)
 		exit_from_parsing(minishell, str, MALLOC);
 	new->value = ft_strdup(token);
@@ -86,11 +86,12 @@ t_token	*ft_create_priority_token(t_core *minishell, const char *token,
 	return (new);
 }
 
-t_token	*ft_create_arg_token(t_core *minishell, char *word, int type, char *str)
+t_token_stream_node	*ft_create_arg_token(t_core *minishell, char *word,
+		int type, char *str)
 {
-	t_token	*new;
+	t_token_stream_node	*new;
 
-	new = ft_calloc(1, sizeof(t_token));
+	new = ft_calloc(1, sizeof(t_token_stream_node));
 	if (!new)
 		ft_clean_exit(minishell, MALLOC);
 	new->value = ft_strdup(word);

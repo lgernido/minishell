@@ -20,6 +20,7 @@ void	ft_free_node(t_token_stream_node **node)
 		return ;
 	if ((*node)->value)
 	{
+		printf("I free : %s\n", (*node)->value);
 		free((*node)->value);
 	}
 	free(*node);

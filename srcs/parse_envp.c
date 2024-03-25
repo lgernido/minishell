@@ -25,7 +25,7 @@ static int	fill_arr(char **src, char **dest)
 		if (dest[i] == NULL)
 		{
 			return_value = 1;
-			break;
+			break ;
 		}
 		i++;
 	}

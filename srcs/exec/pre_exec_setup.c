@@ -36,6 +36,7 @@ int	manage_here_doc(t_command_node *current_command)
 		free(current_command->here_doc);
 		close_if_open(&dest[WRITE_ENTRY]);
 		return_value = checked_dup2(dest[READ_ENTRY], STDIN_FILENO);
+		close_if_open(&dest[READ_ENTRY]);
 	}
 	return (return_value);
 }

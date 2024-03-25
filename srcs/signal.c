@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <signal.h>
 
 static void	interactive_handler(int sig)
 {

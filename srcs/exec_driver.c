@@ -30,8 +30,15 @@ static void	exec_single_command(t_core *core, t_command_node *head)
 {
 	int	built_in_index;
 
-	built_in_index = is_built_in(core->ast->command_list->cmd[0]);
-	check_errno(core);
+	if (head->cmd[0] != NULL)
+	{
+		built_in_index = is_built_in(core->ast->command_list->cmd[0]);
+		check_errno(core);
+	}
+	else
+	{
+		built_in_index = -1;
+	}
 	if (built_in_index == -1)
 	{
 		exec_init(core, head);

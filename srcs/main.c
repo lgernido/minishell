@@ -22,7 +22,7 @@ char	*fetch_input(int error_code)
 		write(1, "👌", 4);
 	else
 		write(2, "😵", 4);
-	user_input = readline(" minishell>");
+	user_input = readline(" minishell> ");
 	add_history(user_input);
 	return (user_input);
 }

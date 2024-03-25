@@ -65,6 +65,9 @@ void	child_routine(t_core *core, t_command_node *current_command,
 	pre_exec_set_up(core, current_command, redirection_driver);
 	pre_exec_set_up(core, current_command, manage_input);
 	pre_exec_set_up(core, current_command, manage_output);
-	exec_current_command(core, current_command, built_in_index);
+	if (current_command->cmd[0] != NULL)
+	{
+		exec_current_command(core, current_command, built_in_index);
+	}
 	ft_clean_exit(core, 0);
 }
