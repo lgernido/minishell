@@ -6,55 +6,12 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:13:23 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/25 15:18:39 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:04:40 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-
-int	ft_del_here_doc(void)
-{
-	if (access("here_doc", F_OK) == 0)
-	{
-		if (unlink("here_doc") == -1)
-		{
-			ft_putstr_fd("Error: Couldn't delete here_doc\n", 2);
-			return (-1);
-		}
-	}
-	return (0);
-}
-
-void	ft_create_here_doc(t_core *minishell, char *delimiter)
-{
-	char	*line;
-	size_t	line_length;
-	size_t	index;
-	char	buffer[BUFFER_MINISHELL];
-
-	(void)minishell;
-	index = 0;
-	ft_del_here_doc();
-	while (1)
-	{
-		write(1, "heredoc> ", 10);
-		line = get_next_line(0);
-		if (line == NULL)
-			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
-		{
-			free(line);
-			break ;
-		}
-		line_length = ft_strlen(line);
-		ft_memcpy(buffer + index, line, line_length);
-		index += line_length;
-		free(line);
-	}
-	write(1, buffer, index);
-	ft_bzero(buffer, BUFFER_MINISHELL);
-}
 
 // void	ft_here_doc_loop(char *delimiter, int fd)
 // {
@@ -92,6 +49,49 @@ void	ft_create_here_doc(t_core *minishell, char *delimiter)
 // 	ft_here_doc_loop(delimiter, fd);
 // }
 
+int	ft_del_here_doc(void)
+{
+	if (access("here_doc", F_OK) == 0)
+	{
+		if (unlink("here_doc") == -1)
+		{
+			ft_putstr_fd("Error: Couldn't delete here_doc\n", 2);
+			return (-1);
+		}
+	}
+	return (0);
+}
+
+void	ft_create_here_doc(t_token *tmp, char *delimiter)
+{
+	char	*line;
+	size_t	line_length;
+	size_t	index;
+	char	buffer[BUFFER_MINISHELL];
+
+	index = 0;
+	ft_del_here_doc();
+	while (1)
+	{
+		write(1, "heredoc> ", 10);
+		line = get_next_line(0);
+		if (line == NULL)
+			break ;
+		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		line_length = ft_strlen(line);
+		ft_memcpy(buffer + index, line, line_length);
+		index += line_length;
+		free(line);
+	}
+	tmp->value = ft_strdup(buffer);
+	write(1, buffer, index);
+	ft_bzero(buffer, BUFFER_MINISHELL);
+}
+
 void	ft_here_doc(t_core *minishell)
 {
 	char	*delimiter;
@@ -105,7 +105,7 @@ void	ft_here_doc(t_core *minishell)
 		{
 			tmp->next->type = T_LIM;
 			delimiter = tmp->next->value;
-			ft_create_here_doc(minishell, delimiter);
+			ft_create_here_doc(tmp->next, delimiter);
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:05:02 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/25 15:14:14 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/25 15:32:16 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@
 # define STD_OUT_PROC "/proc/self/fd/1"
 
 // For heredoc
-
 # define BUFFER_MINISHELL 1024
 
 typedef enum e_error
