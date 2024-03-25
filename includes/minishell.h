@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:05:22 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/25 15:57:21 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:07:00 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int					ft_samestr(char *s1, char *s2);
 void				ft_strdel(char **str);
 int					ft_find_char_str(char c, char *str);
 t_bool				ft_is_separator(char c);
+int					count_parenthesis(char *str);
 
 // parse_quotes.c//
 int					ft_quotes(char *str);
@@ -41,6 +42,7 @@ int					ft_handle_quoted_token(t_core *minishell, char *str,
 
 int					tokenize_nested_quotes(t_core *minishell, char *str,
 						t_token **start, size_t i);
+void				update_flag(int *flag, char quote_to_check);
 
 // parser_utils2.c//
 
