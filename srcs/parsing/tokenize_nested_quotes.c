@@ -29,7 +29,7 @@ static t_bool	is_a_meta_character(char c)
 	return (FALSE);
 }
 
-static void	update_flag(int *flag, char quote_to_check)
+void	update_flag(int *flag, char quote_to_check)
 {
 	if (*flag == 0)
 	{

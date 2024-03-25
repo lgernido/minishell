@@ -41,7 +41,12 @@ int	ft_syntax_check(char *str)
 	}
 	else if (ft_quotes(str))
 	{
-		ft_dprintf(2, "unclosed quotes can't be interpreted\n");
+		ft_dprintf(2, "minishell: unclosed quotes can't be interpreted\n");
+		return (1);
+	}
+	if (count_parenthesis(str) == -1)
+	{
+		ft_dprintf(2, "minishell: unclosed parenthesis\n");
 		return (1);
 	}
 	else if (ft_and_alone(str))

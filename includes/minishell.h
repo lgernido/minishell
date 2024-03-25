@@ -31,6 +31,7 @@ int								ft_samestr(char *s1, char *s2);
 void							ft_strdel(char **str);
 int								ft_find_char_str(char c, char *str);
 t_bool							ft_is_separator(char c);
+int								count_parenthesis(char *str);
 
 // parse_quotes.c//
 int								ft_quotes(char *str);
@@ -41,6 +42,7 @@ int								ft_handle_quoted_token(t_core *minishell,
 
 int								tokenize_nested_quotes(t_core *minishell,
 									char *str, t_token **start, size_t i);
+void							update_flag(int *flag, char quote_to_check);
 
 // parser_utils2.c//
 

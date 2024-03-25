@@ -46,3 +46,27 @@ t_bool	ft_is_separator(char c)
 	return (c == ' ' || c == '\t' || c == '\'' || c == '\"'
 		|| c == ')' || c == '(' || c == '>' || c == '<');
 }
+
+int	count_parenthesis(char *str)
+{
+	int		flag;
+	int		parenthesis_counter;
+	size_t	i;
+
+	i = 0;
+	flag = 0;
+	parenthesis_counter = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'' || str[i] == '"')
+			update_flag(&flag, str[i]);
+		else if (flag == 0 && str[i] == '(')
+			++parenthesis_counter;
+		else if (flag == 0 && str[i] == ')')
+			--parenthesis_counter;
+		++i;
+	}
+	if (parenthesis_counter != 0)
+		return (-1);
+	return (0);
+}
