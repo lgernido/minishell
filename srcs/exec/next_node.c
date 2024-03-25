@@ -19,6 +19,10 @@ void	setup_next_node(t_core *core, t_ast_node *path_to_take,
 	ft_ast_clear(&path_to_clear);
 	ft_ast_node_clear(&core->ast);
 	core->ast = path_to_take;
+	if (core->ast != NULL)
+	{
+		core->ast->parent = NULL;
+	}
 	return ;
 }
 

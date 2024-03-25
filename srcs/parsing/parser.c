@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "data_structures_define_and_includes.h"
 #include "minishell.h"
 
 int	ft_and_alone(char *str)
@@ -49,6 +50,17 @@ int	ft_syntax_check(char *str)
 		return (0);
 }
 
+void	remove_newline(t_token *token_stream)
+{
+	while (token_stream->next->type != T_NEWLINE)
+	{
+		token_stream = token_stream->next;
+	}
+	free(token_stream->next->value);
+	free(token_stream->next);
+	token_stream->next = NULL;
+}
+
 int	ft_start_parse(t_core *minishell, char *str)
 {
 	char	*token;
@@ -74,5 +86,6 @@ int	ft_start_parse(t_core *minishell, char *str)
 		ft_here_doc(minishell);
 	}
 	free(str);
+	remove_newline(minishell->token_list);
 	return (0);
 }

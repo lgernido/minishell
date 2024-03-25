@@ -85,4 +85,6 @@ void	ft_split_tokens(t_core *minishell, char *str)
 		else
 			i = ft_tokenize_regular(minishell, str, start, i);
 	}
+	ft_add_token_list(start, ft_create_arg_token(minishell,
+			"newline", T_NEWLINE, str));
 }
