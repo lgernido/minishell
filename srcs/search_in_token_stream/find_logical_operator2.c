@@ -44,7 +44,10 @@ t_token_stream_node	*jump_above_parenthesis(t_token_stream_node *token)
 	while (token != NULL && is_the_searched_token(token, T_PAR_CLOSE) == FALSE)
 	{
 		jump_above_parenthesis_if_needed(&token);
-		token = token->next;
+		if (token != NULL)
+		{
+			token = token->next;
+		}
 	}
 	update_stream_if_needed(&token);
 	return (token);

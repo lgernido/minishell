@@ -112,6 +112,7 @@ void	minishell_driver(t_core *core)
 	if (user_input == NULL)
 	{
 		printf("exit\n");
+		free_if_needed(&user_input);
 		ft_clean_exit(core, core->error_code);
 	}
 	if (ft_strlen(user_input) > 0)

@@ -174,8 +174,8 @@ typedef struct s_token
 	struct s_token				*prev;
 }								t_token;
 
-extern atomic_int				g_signal;
 typedef struct stat				t_stat;
 typedef int						(*t_built_ins)(char **av, t_core *core);
+extern int						g_signal;
 
 #endif

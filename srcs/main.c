@@ -10,23 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "AST.h"
-#include "libft.h"
 #include "minishell.h"
-#include "printerr.h"
-#include <readline/readline.h>
-#include <unistd.h>
 
-atomic_int	g_signal = 0;
-
-// static void	check_for_empty(t_core *core, char *str)
-// {
-// 	if (!str)
-// 	{
-// 		printf("exit\n");
-// 		ft_clean_exit(core, 0);
-// 	}
-// }
+int	g_signal = 0;
 
 char	*fetch_input(int error_code)
 {
@@ -39,10 +25,6 @@ char	*fetch_input(int error_code)
 	user_input = readline(" minishell>");
 	add_history(user_input);
 	return (user_input);
-	// split_str(core, str);
-	/*Input parsing fonction here,
-		w/ list and str as argument. STR need to be free in the parsing !!*/
-	// free(str);
 }
 
 int	main(int ac, char **av, char **envp)

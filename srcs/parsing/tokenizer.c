@@ -14,15 +14,18 @@
 
 int	ft_parenthesis_check(t_token *token)
 {
-	if (token->type == T_PAR_OPEN && (token->next->type == T_OR
-			|| token->next->type == T_AND || token->next->type == T_PIPE))
-		return (1);
-	if (token->type == T_PAR_CLOSE && (token->prev->type == T_REDIRECT
-			|| token->prev->type == T_PIPE))
-		return (1);
-	if (token->type == T_PAR_OPEN && token->next->type == T_PAR_CLOSE)
-		return (1);
-	return (0);
+	int	return_value;
+
+	return_value = 0;
+	if (token->type == T_PAR_OPEN)
+	{
+		return_value = check_open_parenthesis(token);
+	}
+	else if (token->type == T_PAR_CLOSE)
+	{
+		return_value = check_close_parenthesis(token);
+	}
+	return (return_value);
 }
 
 int	ft_check_error(t_token *token)

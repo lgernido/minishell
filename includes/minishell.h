@@ -57,6 +57,10 @@ int								ft_define_type(t_token *tmp);
 int								ft_fix_redirect_types(t_token token_to_fix);
 char							*ft_tokenizer(t_core *minishell);
 
+// check_parenthesis.c //
+int								check_open_parenthesis(t_token *stream);
+int								check_close_parenthesis(t_token *stream);
+
 // split_tokens.c //
 int								ft_tokenize_quotes(t_core *minishell, char *str,
 									t_token **start, int i);

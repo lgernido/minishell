@@ -56,7 +56,7 @@ int	count_parenthesis(char *str)
 	i = 0;
 	flag = 0;
 	parenthesis_counter = 0;
-	while (str[i] != '\0')
+	while (str[i] != '\0' && parenthesis_counter != -1)
 	{
 		if (str[i] == '\'' || str[i] == '"')
 			update_flag(&flag, str[i]);
