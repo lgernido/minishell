@@ -20,12 +20,11 @@ int	ft_and_alone(char *str)
 	while (str[i] != '\0')
 	{
 		if ((str[i] == '&' && i == 0 && (str[i + 1] == ' ' || str[i
-					+ 1] == '\0')) || (str[i] == '&' && i > 0 && (str[i
-					+ 1] == ' ' || str[i + 1] == '\0') && str[i - 1] != '&'))
+						+ 1] == '\0')) || (str[i] == '&' && i > 0 && (str[i
+						+ 1] == ' ' || str[i + 1] == '\0')
+				&& str[i - 1] != '&'))
 		{
-			ft_dprintf(2, "syntax error :");
-			ft_dprintf(2, "&& must be an operator or between quotes\n");
-			return (1);
+			str[i] *= -1;
 		}
 		i++;
 	}
@@ -42,16 +41,6 @@ int	ft_syntax_check(char *str)
 	else if (ft_quotes(str))
 	{
 		ft_dprintf(2, "unclosed quotes can't be interpreted\n");
-		return (1);
-	}
-	else if (ft_handle_dollar(str))
-	{
-		ft_dprintf(2, "variable syntax : $VARIABLE\n");
-		return (1);
-	}
-	else if (ft_handle_backslash(str))
-	{
-		ft_dprintf(2, "backslash and semicolon can't be interpreted\n");
 		return (1);
 	}
 	else if (ft_and_alone(str))

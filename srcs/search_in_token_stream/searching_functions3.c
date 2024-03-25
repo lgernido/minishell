@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "data_structures_define_and_includes.h"
 #include "minishell.h"
 #include "AST.h"
 

@@ -36,6 +36,7 @@ static t_bool	is_a_full_quoted_token(char *str, int i)
 	t_bool		return_value;
 
 	return_value = FALSE;
+	++i;
 	while (str[i] != quote_type)
 	{
 		++i;
