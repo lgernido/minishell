@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:13:23 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/25 16:10:27 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:27:22 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ void	ft_create_here_doc(t_token *tmp, char *delimiter)
 	char	*line;
 	size_t	line_length;
 	size_t	index;
-	char	buffer[BUFFER_MINISHELL];
+	char	*buffer;
 
 	index = 0;
+	buffer = malloc(sizeof(char *) * BUFFER_MINISHELL);
 	ft_del_here_doc();
 	while (1)
 	{
