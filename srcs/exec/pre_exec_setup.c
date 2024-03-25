@@ -34,6 +34,7 @@ int	manage_here_doc(t_command_node *current_command)
 		write(dest[WRITE_ENTRY], current_command->here_doc,
 			ft_strlen(current_command->here_doc));
 		free(current_command->here_doc);
+		current_command->here_doc = NULL;
 		close_if_open(&dest[WRITE_ENTRY]);
 		return_value = checked_dup2(dest[READ_ENTRY], STDIN_FILENO);
 		close_if_open(&dest[READ_ENTRY]);

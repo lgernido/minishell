@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "expand.h"
+#include "clean_and_error.h"
 
 void	copy_into_token(t_token_stream_node*tmp, char *line, int i)
 {
@@ -58,19 +60,31 @@ delimited by end-of-file (wanted `%s'\n", i, delimiter);
 	}
 }
 
+char	*get_delimiter(t_core *minishell, char *token_value)
+{
+	char	*return_str;
+	char	*tmp;
+
+	parse_word_init(minishell, token_value);
+	tmp = join_vector_in_a_string(minishell);
+	ft_clean_sub_vector(&minishell->sub_token_vector);
+	return_str = ft_strjoin(tmp, "\n");
+	free(tmp);
+	if (return_str == NULL)
+	{
+		ft_clean_exit(minishell, MALLOC);
+	}
+	return (return_str);
+}
+
 int	setup_for_here_doc(t_core *minishell, t_token_stream_node*tmp)
 {
 	char	*delimiter;
 
 	delimiter = NULL;
 	tmp->next->type = T_LIM;
-	delimiter = ft_strjoin(tmp->next->value, "\n");
-	free(tmp->next->value);
+	delimiter = get_delimiter(minishell, tmp->next->value);
 	tmp->next->value = NULL;
-	if (delimiter == NULL)
-	{
-		ft_clean_exit(minishell, MALLOC);
-	}
 	ft_create_here_doc(tmp->next, delimiter);
 	free(delimiter);
 	check_errno(minishell);

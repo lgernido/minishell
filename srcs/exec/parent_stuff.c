@@ -51,6 +51,5 @@ void	wait_for_childrens(t_core *core, pid_t last_pid)
 	while (wait(NULL) != -1)
 	{
 	}
-	printf("I finished to wait\n");
 	return ;
 }

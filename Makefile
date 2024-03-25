@@ -51,7 +51,7 @@ EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c
 						 redirection_verfication.c resolve_operator.c syscalls_with_internal_error_throwing.c\
 						 open_files.c)
 
-SRC_FILES	= main.c init_struct.c signal.c parse_envp.c update_shell_lvl.c ast_tester.c\
+SRC_FILES	= main.c init_struct.c signal.c parse_envp.c update_shell_lvl.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
 						exec_driver.c $(EXPAND_FILES) $(CLEAN_FILES) $(PARSING_FILES) parsing_signal.c\
 
