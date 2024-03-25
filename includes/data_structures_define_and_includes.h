@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_data_structures.c                        :+:      :+:    :+:   */
+/*   data_structures_define_and_includes.h              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
+/*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 17:05:02 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/03/22 17:05:03 by purmerinos       ###   ########.fr       */
+/*   Updated: 2024/03/25 15:14:14 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DATA_STRUCTURES_DEFINE_AND_INCLUDES_H
 
-# define DATA_STRUCTURES_DEFINE_AND_INCLUDES_H 
+# define DATA_STRUCTURES_DEFINE_AND_INCLUDES_H
 
+# include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <dirent.h>
 # include <stdatomic.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -32,14 +32,14 @@
 # define READ_ENTRY 0
 # define WRITE_ENTRY 1
 
-# define NRM  "\x1B[0m"
-# define RED  "\x1B[31m"
-# define GRN  "\x1B[32m"
-# define YEL  "\x1B[33m"
-# define BLU  "\x1B[34m"
-# define MAG  "\x1B[35m"
-# define CYN  "\x1B[36m"
-# define WHT  "\x1B[37m"
+# define NRM "\x1B[0m"
+# define RED "\x1B[31m"
+# define GRN "\x1B[32m"
+# define YEL "\x1B[33m"
+# define BLU "\x1B[34m"
+# define MAG "\x1B[35m"
+# define CYN "\x1B[36m"
+# define WHT "\x1B[37m"
 
 // For ft_pwd
 # define PWD_BUFFER 128
@@ -52,6 +52,10 @@
 # define STDOUT_NODE 1
 # define STD_OUT_DEV "/dev/stdout"
 # define STD_OUT_PROC "/proc/self/fd/1"
+
+// For heredoc
+
+# define BUFFER_MINISHELL 1024
 
 typedef enum e_error
 {
@@ -87,7 +91,7 @@ typedef enum e_subtypes
 	T_REGULAR = 0,
 	T_DOUBLE_QUOTED = 34,
 	T_SINGLE_QUOTES = 39,
-}						t_subtypes;
+}								t_subtypes;
 
 typedef enum e_bool
 {
@@ -97,16 +101,16 @@ typedef enum e_bool
 
 typedef struct s_sub_token
 {
-	t_subtypes	type;
-	char		*value;
+	t_subtypes					type;
+	char						*value;
 }								t_sub_token;
 
 typedef struct s_sub_token_vector
 {
-	t_sub_token	**sub_token_list;
-	size_t		vector_size;
-	size_t		iterator;
-}							t_sub_token_vector;
+	t_sub_token					**sub_token_list;
+	size_t						vector_size;
+	size_t						iterator;
+}								t_sub_token_vector;
 
 typedef struct s_token_stream_node
 {
@@ -118,18 +122,18 @@ typedef struct s_token_stream_node
 
 typedef struct s_command_node
 {
-	int						fd_infile;	
-	char					*here_doc;
-	t_bool					is_here_doc;
-	int						fd_outfile;
-	int						pipe[2];
-	char					**cmd;
-	int						saved_infile;
-	int						saved_outfile;
-	t_token_stream_node		*redirections;
-	struct s_command_node	*next;
-	struct s_command_node	*prev;
-}					t_command_node;
+	int							fd_infile;
+	char						*here_doc;
+	t_bool						is_here_doc;
+	int							fd_outfile;
+	int							pipe[2];
+	char						**cmd;
+	int							saved_infile;
+	int							saved_outfile;
+	t_token_stream_node			*redirections;
+	struct s_command_node		*next;
+	struct s_command_node		*prev;
+}								t_command_node;
 
 typedef struct s_ast_node
 {
@@ -144,13 +148,13 @@ typedef struct s_ast_node
 
 typedef struct s_wildcard_info
 {
-	char				**wildcard_tab;
-	char				*entry_to_parse;
-	t_bool				last_char_is_a_wildcard;
-	t_bool				first_char_is_a_wildcard;
-	DIR					*dir_ptr;
-	t_token_stream_node	*token_stream;
-}							t_wildcard_info;
+	char						**wildcard_tab;
+	char						*entry_to_parse;
+	t_bool						last_char_is_a_wildcard;
+	t_bool						first_char_is_a_wildcard;
+	DIR							*dir_ptr;
+	t_token_stream_node			*token_stream;
+}								t_wildcard_info;
 
 typedef struct s_core
 {
