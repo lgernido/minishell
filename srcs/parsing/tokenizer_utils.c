@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "clean_and_error.h"
 
 void	ft_add_token_list(t_token **begin, t_token *new)
 {
@@ -59,28 +60,33 @@ t_token	*ft_create_token(t_core *minishell, int i, char *str)
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
-		ft_clean_exit(minishell, MALLOC);
+		exit_from_parsing(minishell, str, MALLOC);
 	token_len = 0;
 	while (str[i + token_len] != '\0' && !ft_is_separator(str[i + token_len]))
 	{
 		token_len++;
 	}
 	new->value = ft_substr(str, i, token_len);
+	if (new->value == NULL)
+		exit_from_parsing(minishell, str, MALLOC);
 	return (new);
 }
 
-t_token	*ft_create_priority_token(t_core *minishell, const char *str)
+t_token	*ft_create_priority_token(t_core *minishell, const char *token,
+		char *str)
 {
 	t_token	*new;
 
 	new = ft_calloc(1, sizeof(t_token));
 	if (!new)
-		ft_clean_exit(minishell, MALLOC);
-	new->value = ft_strdup(str);
+		exit_from_parsing(minishell, str, MALLOC);
+	new->value = ft_strdup(token);
+	if (new->value == NULL)
+		exit_from_parsing(minishell, str, MALLOC);
 	return (new);
 }
 
-t_token	*ft_create_arg_token(t_core *minishell, char *word, int type)
+t_token	*ft_create_arg_token(t_core *minishell, char *word, int type, char *str)
 {
 	t_token	*new;
 
@@ -88,6 +94,8 @@ t_token	*ft_create_arg_token(t_core *minishell, char *word, int type)
 	if (!new)
 		ft_clean_exit(minishell, MALLOC);
 	new->value = ft_strdup(word);
+	if (new->value == NULL)
+		exit_from_parsing(minishell, str, MALLOC);
 	new->type = type;
 	return (new);
 }

@@ -68,3 +68,9 @@ void	ft_clean_exit(t_core *core, int code)
 	rl_clear_history();
 	exit(code);
 }
+
+void	exit_from_parsing(t_core *core, char *str, int error_code)
+{
+	free(str);
+	ft_clean_exit(core, error_code);
+}

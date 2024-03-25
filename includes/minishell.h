@@ -68,7 +68,7 @@ void							ft_split_tokens(t_core *minishell, char *str);
 
 // tokenizer_utils.c //
 t_token							*ft_create_arg_token(t_core *minishell,
-									char *word, int type);
+									char *word, int type, char *str);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
 int								ft_token_list_size(t_token **begin);
@@ -78,9 +78,7 @@ void							ft_clear_token_list(t_token **begin);
 t_token							*ft_create_token(t_core *minishell, int i,
 									char *str);
 t_token							*ft_create_priority_token(t_core *minishell,
-									const char *str);
-t_token							*ft_create_arg_token(t_core *minishell,
-									char *word, int type);
+									const char *token, char *str);
 
 // tokenizer_utils2.c //
 int								ft_tokenize_redirections(t_core *minishell,

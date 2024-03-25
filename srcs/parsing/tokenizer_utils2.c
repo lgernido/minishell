@@ -17,22 +17,24 @@ int	ft_tokenize_redirections(t_core *minishell, char *str, t_token **start,
 {
 	if (str[i] == '>' && str[i + 1] == '>')
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, ">>"));
+		ft_add_token_list(start, ft_create_priority_token(
+				minishell, ">>", str));
 		return (i + 2);
 	}
 	else if (str[i] == '<' && str[i + 1] == '<')
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, "<<"));
+		ft_add_token_list(start, ft_create_priority_token(
+				minishell, "<<", str));
 		return (i + 2);
 	}
 	else if (str[i] == '<')
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, "<"));
+		ft_add_token_list(start, ft_create_priority_token(minishell, "<", str));
 		return (i + 1);
 	}
 	else if (str[i] == '>')
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, ">"));
+		ft_add_token_list(start, ft_create_priority_token(minishell, ">", str));
 		return (i + 1);
 	}
 	else
@@ -44,12 +46,12 @@ int	ft_tokenize_parenthesis(t_core *minishell, char *str, t_token **start,
 {
 	if (str[i] == '(')
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, "("));
+		ft_add_token_list(start, ft_create_priority_token(minishell, "(", str));
 		return (i);
 	}
 	else
 	{
-		ft_add_token_list(start, ft_create_priority_token(minishell, ")"));
+		ft_add_token_list(start, ft_create_priority_token(minishell, ")", str));
 		return (i);
 	}
 }
@@ -73,7 +75,7 @@ int	ft_handle_squote(t_core *minishell, char *user_input, int *i,
 			if (!new_value)
 				ft_clean_exit(minishell, MALLOC);
 			ft_add_token_list(start, ft_create_arg_token(minishell, new_value,
-					T_SIMPLE_QUOTES));
+					T_SIMPLE_QUOTES, user_input));
 			*i = j + 1;
 			free(new_value);
 			return (*i);
@@ -101,7 +103,7 @@ int	ft_handle_dquote(t_core *minishell, char *user_input, int *i,
 			if (!new_value)
 				ft_clean_exit(minishell, MALLOC);
 			ft_add_token_list(start, ft_create_arg_token(minishell, new_value,
-					T_DOUBLE_QUOTES));
+					T_DOUBLE_QUOTES, user_input));
 			*i = j + 1;
 			free(new_value);
 			return (*i);

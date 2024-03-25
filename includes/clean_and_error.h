@@ -32,6 +32,9 @@ void							ft_ast_node_clear(t_ast_node **node);
 // free the given pointer it it isn't NULL.
 void							free_if_needed(char **str);
 
+void							exit_from_parsing(t_core *core,
+									char *str, int error_code);
+
 // ========================================================================= //
 
 // In clean_sub_vector.c
