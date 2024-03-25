@@ -53,27 +53,26 @@ int	ft_start_parse(t_core *minishell, char *str)
 {
 	char	*token;
 
-	if (str != NULL)
+	if (ft_syntax_check(str) != 0)
 	{
-		if (ft_syntax_check(str) != 0)
+		free(str);
+		minishell->error_code = 2;
+		return (1);
+	}
+	else
+	{
+		ft_split_tokens(minishell, str);
+		token = ft_tokenizer(minishell);
+		if (token)
 		{
+			ft_dprintf(2, "minishell: syntax error near unexpected token '%s'\n",
+				token);
+			free(str);
 			minishell->error_code = 2;
 			return (1);
 		}
-		else
-		{
-			ft_split_tokens(minishell, str);
-			token = ft_tokenizer(minishell);
-			if (token)
-			{
-				ft_dprintf(2,
-					"minishell: syntax error near unexpected token '%s'\n",
-					token);
-				minishell->error_code = 2;
-				return (1);
-			}
-			ft_here_doc(minishell);
-		}
+		ft_here_doc(minishell);
 	}
+	free(str);
 	return (0);
 }
