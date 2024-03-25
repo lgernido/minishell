@@ -46,7 +46,7 @@ void	expand_sub_token(t_core *core, int i)
 
 t_bool	is_valid_var_ender(char c)
 {
-	if (!(ft_isalnum(c) && c != '_'))
+	if (!(ft_isalnum(c) && c != '_') && c != '?')
 	{
 		return (TRUE);
 	}
