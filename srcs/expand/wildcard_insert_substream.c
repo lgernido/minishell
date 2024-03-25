@@ -49,7 +49,7 @@ static int	manage_multiple_wildcards_match(t_token_stream_node **current_token,
 
 	if (is_prev_node_a_redir == TRUE)
 	{
-		remove_highlighted_wildcards((*current_token)->value);
+		remove_highlighted_char((*current_token)->value, -42);
 		throw_error_message((*current_token)->value, ambiguous_redir);
 		return_value = -1;
 	}
@@ -72,7 +72,7 @@ int	insert_entries_in_stream(t_token_stream_node **current_token,
 	return_value = 0;
 	if (entries_stream_size == 0)
 	{
-		remove_highlighted_wildcards((*current_token)->value);
+		remove_highlighted_char((*current_token)->value, -42);
 	}
 	else if (entries_stream_size == 1)
 	{

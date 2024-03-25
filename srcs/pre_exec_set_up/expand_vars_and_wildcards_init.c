@@ -81,6 +81,7 @@ int	expand_init(t_core *core, t_token_stream_node *token_stream)
 		}
 		else if (is_the_searched_token(token_stream, T_WORD) == TRUE)
 		{
+			remove_highlighted_char(token_stream->value, -38);
 			token_value_copy = token_stream->value;
 			token_stream->value = NULL;
 			token_stream->value = handle_word(core, token_value_copy);

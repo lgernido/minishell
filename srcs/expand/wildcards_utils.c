@@ -47,16 +47,16 @@ size_t	ft_token_stream_size(t_token_stream_node *token_stream)
 	return (size);
 }
 
-void	remove_highlighted_wildcards(char *str)
+void	remove_highlighted_char(char *str, int to_remove)
 {
 	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == -42)
+		if (str[i] == to_remove)
 		{
-			str[i] = '*';
+			str[i] *= -1;
 		}
 		++i;
 	}

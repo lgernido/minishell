@@ -142,7 +142,7 @@ void	clean_wildcard_info(t_wildcard_info *wildcard_info);
 
 // Call if no match is found. Will replace the wildcard char (-42)
 // by regular * (42).
-void	remove_highlighted_wildcards(char *str);
+void	remove_highlighted_char(char *str, int to_remove);
 
 // Return the size of the token_stream.
 size_t	ft_token_stream_size(t_token_stream_node *token_stream);
