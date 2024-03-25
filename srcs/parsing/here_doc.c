@@ -6,7 +6,7 @@
 /*   By: lgernido <lgernido@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 15:13:23 by lgernido          #+#    #+#             */
-/*   Updated: 2024/03/25 16:04:40 by lgernido         ###   ########.fr       */
+/*   Updated: 2024/03/25 16:10:27 by lgernido         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	ft_create_here_doc(t_token *tmp, char *delimiter)
 		free(line);
 	}
 	tmp->value = ft_strdup(buffer);
-	write(1, buffer, index);
 	ft_bzero(buffer, BUFFER_MINISHELL);
 }
 
