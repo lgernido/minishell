@@ -27,7 +27,7 @@ int	ft_tokenize_regular(t_core *minishell, char *str, t_token **start, int i)
 	char	end_of_token_copy;
 
 	token_start = i;
-	while (str[i] && !ft_find_char_str(str[i], "\" \t|;<>&()"))
+	while (str[i] && !ft_find_char_str(str[i], "\" \t|<>&()"))
 		i++;
 	end_of_token_copy = str[i];
 	str[i] = '\0';

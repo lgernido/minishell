@@ -43,6 +43,6 @@ int	ft_find_char_str(char c, char *str)
 
 t_bool	ft_is_separator(char c)
 {
-	return (c == ' ' || c == '\t' || c == ';' || c == '\'' || c == '\"'
+	return (c == ' ' || c == '\t' || c == '\'' || c == '\"'
 		|| c == ')' || c == '(' || c == '>' || c == '<');
 }
