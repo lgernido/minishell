@@ -14,19 +14,28 @@
 #include "minishell.h"
 #include "built_ins.h"
 
-static int	unset_var(char *var, char **env)
+static int	unset_var(char *var, char **env, size_t env_size)
 {
 	const size_t	len = ft_strlen(var);
+	size_t			i;
 
-	while (*env)
+	i = 0;
+	if (ft_strncmp("_", var, 2) == 0)
 	{
-		if (!ft_strncmp(var, *env, len))
+		return (0);
+	}
+	while (i < env_size)
+	{
+		if (env[i] != NULL)
 		{
-			free (*env);
-			*env = NULL;
-			break ;
+			if (!ft_strncmp(var, env[i], len))
+			{
+				free (env[i]);
+				env[i] = NULL;
+				break ;
+			}
 		}
-		env++;
+		++i;
 	}
 	return (0);
 }
@@ -38,7 +47,7 @@ int	ft_unset(char **av, t_core *core)
 	av++;
 	while (*av)
 	{
-		if (unset_var(*av, core->env))
+		if (unset_var(*av, core->env, core->env_size))
 			ft_clean_exit(core, MALLOC);
 		av++;
 	}

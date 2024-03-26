@@ -33,6 +33,7 @@ static int	quote_is_relevant(int *flag, int quote_to_check)
 static t_bool	is_a_full_quoted_token(char *str, int i)
 {
 	const char	quote_type = str[i];
+	const int	j = i + 1;
 	t_bool		return_value;
 
 	return_value = FALSE;
@@ -41,7 +42,7 @@ static t_bool	is_a_full_quoted_token(char *str, int i)
 	{
 		++i;
 	}
-	if (str[i + 1] == '\0' || ft_is_space(str[i + 1]))
+	if ((str[i + 1] == '\0' || ft_is_space(str[i + 1])) && i != j)
 	{
 		return_value = TRUE;
 	}

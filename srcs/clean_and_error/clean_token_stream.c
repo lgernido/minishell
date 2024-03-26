@@ -63,3 +63,19 @@ void	ft_split_stream_clean(t_ast_node *ast)
 	free(tmp);
 	ast->split_streams = NULL;
 }
+
+void	free_env(char **env, size_t env_size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < env_size)
+	{
+		if (env[i] != NULL)
+		{
+			free(env[i]);
+		}
+		++i;
+	}
+	free(env);
+}

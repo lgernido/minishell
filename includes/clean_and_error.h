@@ -64,6 +64,9 @@ void							ft_split_stream_clean(t_ast_node *ast);
 // Clean the given node, for the token stream
 void							ft_free_node(t_token_stream_node **node);
 
+// Clean the **env with his size as the reference for the loop
+void							free_env(char **env, size_t env_size);
+
 // ========================================================================= //
 
 // In clean_command.c

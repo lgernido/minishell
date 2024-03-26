@@ -63,7 +63,7 @@ void	clean_prev_command(t_core *core)
 void	ft_clean_exit(t_core *core, int code)
 {
 	if (core->env)
-		ft_free_tab(core->env);
+		free_env(core->env, core->env_size);
 	clean_prev_command(core);
 	rl_clear_history();
 	exit(code);
