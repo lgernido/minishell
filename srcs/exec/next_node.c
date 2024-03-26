@@ -28,7 +28,7 @@ void	setup_next_node(t_core *core, t_ast_node *path_to_take,
 
 void	choose_next_path_to_take(t_core *core)
 {
-	if (g_signal == 130)
+	if (g_signal == 130 || core->error_code == 130)
 	{
 		ft_ast_clear(&core->ast);
 	}

@@ -108,5 +108,9 @@ void	minishell_driver(t_core *core)
 	{
 		interpret_command(core, user_input);
 	}
+	else
+	{
+		free(user_input);
+	}
 	clean_prev_command(core);
 }
