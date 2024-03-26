@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "clean_and_error.h"
 #include "minishell.h"
 
 void	append_backslash(char **path_tab)
@@ -83,7 +84,10 @@ void	retrieve_path(t_core *core, t_command_node *current_command)
 		check_errno(core);
 		assemble_command(splitted_path, &current_command->cmd[0]);
 		ft_free_tab(splitted_path);
-		check_errno(core);
+		if (errno == ENOMEM)
+		{
+			exit_from_child(core, MALLOC);
+		}
 	}
 	return ;
 }

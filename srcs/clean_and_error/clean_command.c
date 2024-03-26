@@ -63,3 +63,11 @@ void	ft_command_clear(t_command_node **list)
 		*list = tmp;
 	}
 }
+
+void	exit_from_child(t_core *core, int code)
+{
+	close(0);
+	close(1);
+	close(2);
+	ft_clean_exit(core, code);
+}

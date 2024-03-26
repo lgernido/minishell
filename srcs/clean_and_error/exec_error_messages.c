@@ -38,4 +38,5 @@ void	execve_failure(void *arg)
 	{
 		ft_printf_err("minishell: %s: %s\n", (char *)arg, strerror(errsv));
 	}
+	errno = errsv;
 }

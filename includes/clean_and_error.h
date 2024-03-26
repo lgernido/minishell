@@ -82,6 +82,9 @@ void							ft_command_clear(t_command_node **list);
 // clean the given command node
 void							ft_clean_node(t_command_node *node);
 
+// Close the std before calling clean all
+void							exit_from_child(t_core *core, int code);
+
 // ========================================================================= //
 
 // In built_ins_error_messages.c

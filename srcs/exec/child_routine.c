@@ -19,7 +19,7 @@ void	pre_exec_set_up(t_core *core, t_command_node *current_command,
 {
 	if (set_up_routine(current_command) == -1)
 	{
-		ft_clean_exit(core, 1);
+		exit_from_child(core, 1);
 	}
 	return ;
 }
@@ -30,7 +30,11 @@ void	build_and_exec_next_command(t_core *core,
 	retrieve_path(core, current_command);
 	execve(current_command->cmd[0], current_command->cmd, core->env);
 	throw_error_message(current_command->cmd[0], execve_failure);
-	ft_clean_exit(core, EXECVE_ERROR);
+	if (errno == ENOENT)
+	{
+		exit_from_child(core, 126);
+	}
+	exit_from_child(core, EXECVE_ERROR);
 }
 
 static void	exec_current_command(t_core *core, t_command_node *current_command,
@@ -52,7 +56,7 @@ static void	exec_current_command(t_core *core, t_command_node *current_command,
 	{
 		built_in_return_value = built_in_tab[built_in_index]
 			(current_command->cmd, core);
-		ft_clean_exit(core, built_in_return_value);
+		exit_from_child(core, built_in_return_value);
 	}
 }
 
@@ -69,5 +73,5 @@ void	child_routine(t_core *core, t_command_node *current_command,
 	{
 		exec_current_command(core, current_command, built_in_index);
 	}
-	ft_clean_exit(core, 0);
+	exit_from_child(core, 0);
 }
