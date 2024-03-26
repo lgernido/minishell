@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "data_structures_define_and_includes.h"
 #include "minishell.h"
 #include "AST.h"
 #include "clean_and_error.h"
@@ -61,4 +62,18 @@ void	remove_highlighted_char(char *str, int to_remove)
 		++i;
 	}
 	return ;
+}
+
+t_bool	is_an_entry_to_parse(t_wildcard_info *info)
+{
+	if (info->entry_to_parse[0] != '.')
+	{
+		return (TRUE);
+	}
+	if (info->wildcard_tab[0][0] == '.'
+		&& info->first_char_is_a_wildcard == FALSE)
+	{
+		return (TRUE);
+	}
+	return (FALSE);
 }

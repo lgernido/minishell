@@ -83,6 +83,9 @@ char	*find_var_end(char *var_begin);
 // Return True if the char marks the end of a var.
 t_bool	is_valid_var_ender(char c);
 
+// Return True if hidden files must me listed.
+t_bool	is_an_entry_to_parse(t_wildcard_info *info);
+
 // ========================================================================= //
 
 // In remove_quotes.c

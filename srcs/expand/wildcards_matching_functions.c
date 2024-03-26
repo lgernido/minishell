@@ -26,7 +26,7 @@ t_bool	match_wildcard_entry(char **big, const char *little)
 	else
 	{
 		return_value = TRUE;
-		*big = *big + little_len;
+		*big = (char *)little_location + little_len;
 	}
 	return (return_value);
 }

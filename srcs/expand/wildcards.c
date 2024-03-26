@@ -43,8 +43,8 @@ static void	check_dir_entry(t_core *core, t_wildcard_info *info)
 {
 	t_bool	entry_still_match;
 
-	entry_still_match = TRUE;
-	if (info->first_char_is_a_wildcard == FALSE)
+	entry_still_match = is_an_entry_to_parse(info);
+	if (info->first_char_is_a_wildcard == FALSE && entry_still_match == TRUE)
 	{
 		entry_still_match = check_beginning_of_string(info->entry_to_parse,
 				info->wildcard_tab[0]);
