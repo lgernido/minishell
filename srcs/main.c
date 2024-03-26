@@ -14,16 +14,15 @@
 
 int	g_signal = 0;
 
-char	*fetch_input(int error_code)
+char	*fetch_input(void)
 {
 	char	*user_input;
 
-	if (error_code == 0)
-		write(1, "👌", 4);
-	else
-		write(2, "😵", 4);
-	user_input = readline(" minishell> ");
-	add_history(user_input);
+	user_input = readline("minishell> ");
+	if (user_input != NULL && ft_strlen(user_input) > 0)
+	{
+		add_history(user_input);
+	}
 	return (user_input);
 }
 

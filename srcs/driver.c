@@ -70,21 +70,11 @@ void	ast_driver(t_core *core)
 	return ;
 }
 
-void	ft_print_list(t_token_stream_node *node)
-{
-	while (node != NULL)
-	{
-		printf("\n%s\n", node->value);
-		node = node->next;
-	}
-}
-
 void	interpret_command(t_core *core, char *user_input)
 {
 	parsing_sig();
 	if (ft_start_parse(core, user_input) == 0 && g_signal != 130)
 	{
-		ft_print_list(core->token_list);
 		init_sig();
 		ast_init(core->token_list, core);
 		if (core->ast != NULL)
@@ -103,7 +93,7 @@ void	minishell_driver(t_core *core)
 	char	*user_input;
 
 	init_sig();
-	user_input = fetch_input(core->error_code);
+	user_input = fetch_input();
 	if (g_signal == 130)
 	{
 		react_sig(core);

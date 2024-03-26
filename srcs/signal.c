@@ -17,9 +17,8 @@ static void	interactive_handler(int sig)
 	g_signal = 130;
 	(void)sig;
 	write(2, "\n", 1);
-	rl_replace_line("", 0);
 	rl_on_new_line();
-	write(2, "😵", 4);
+	rl_replace_line("", 0);
 	rl_redisplay();
 	return ;
 }

@@ -213,7 +213,7 @@ int					ft_export(char **av, t_core *core); // export.c
 void				ast_init(t_token_stream_node *token_stream, t_core *core);
 void				ft_ast_clear(t_ast_node **node);
 
-char				*fetch_input(int error_code);
+char				*fetch_input(void);
 /*
 Exec pseudo code :
 	- Resolve var and wildcards // discard multiple files input
