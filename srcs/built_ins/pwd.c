@@ -84,6 +84,7 @@ int	ft_pwd(char **av, t_core *core)
 		ft_clean_exit(core, MALLOC);
 	if (!get_pwd(buffer, len))
 	{
+		free(buffer);
 		if (errno == ENOMEM)
 			ft_clean_exit(core, MALLOC);
 		return (1);
