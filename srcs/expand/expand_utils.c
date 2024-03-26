@@ -46,11 +46,11 @@ void	expand_sub_token(t_core *core, int i)
 
 t_bool	is_valid_var_ender(char c)
 {
-	if (!(ft_isalnum(c) && c != '_') && c != '?')
+	if (ft_isalnum(c) || c == '_' || c == '?')
 	{
-		return (TRUE);
+		return (FALSE);
 	}
-	return (FALSE);
+	return (TRUE);
 }
 
 char	*find_var_end(char *var_begin)
