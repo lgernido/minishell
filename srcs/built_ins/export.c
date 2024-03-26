@@ -47,15 +47,22 @@ static int	check_curr_char(char *current_char, char *str_beginning)
 static int	parse_var(char *str)
 {
 	char	*tmp;
+	int		i;
 
 	tmp = str;
-	while (*str != '=' && *str != '\0')
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
 	{
-		if (check_curr_char(str, tmp) == 1)
+		if (check_curr_char(&str[i], tmp) == 1)
 		{
 			return (1);
 		}
-		str++;
+		++i;
+	}
+	if (i == 0)
+	{
+		throw_error_message(str, export_error);
+		return (1);
 	}
 	return (0);
 }
