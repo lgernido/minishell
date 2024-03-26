@@ -32,9 +32,9 @@ void	build_and_exec_next_command(t_core *core,
 	throw_error_message(current_command->cmd[0], execve_failure);
 	if (errno == ENOENT)
 	{
-		exit_from_child(core, 126);
+		exit_from_child(core, 127);
 	}
-	exit_from_child(core, EXECVE_ERROR);
+	exit_from_child(core, 126);
 }
 
 static void	exec_current_command(t_core *core, t_command_node *current_command,
