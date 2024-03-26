@@ -25,7 +25,7 @@ char	**ft_realloc_env(char **env, int *size)
 		ft_free_tab(env);
 		return (NULL);
 	}
-	while (env[i])
+	while (i < *size)
 	{
 		new_envp[i] = env[i];
 		i++;
@@ -35,29 +35,55 @@ char	**ft_realloc_env(char **env, int *size)
 	return (new_envp);
 }
 
-char	**get_valid_addr(t_core *core, char *av)
+char	**get_in_use_address(char *to_comp, t_core *core)
 {
-	int		i;
-	char	**to_comp;
+	int	i;
 
 	i = 0;
+	while (i < core->env_size - 1)
+	{
+		if (core->env[i] != NULL)
+		{
+			if (is_the_var(to_comp, core->env[i]))
+				return (&core->env[i]);
+		}
+		++i;
+	}
+	return (NULL);
+}
+
+char	**get_unused_address(t_core *core)
+{
+	int		i;
+
+	i = 0;
+	while (i < core->env_size)
+	{
+		if (core->env[i] == NULL)
+		{
+			return (&core->env[i]);
+		}
+		++i;
+	}
+	core->env = ft_realloc_env(core->env, &core->env_size);
+	if (!core->env)
+		ft_clean_exit(core, MALLOC);
+	return (get_unused_address(core));
+}
+
+char	**get_valid_addr(t_core *core, char *av)
+{
+	char	**to_comp;
+	char	**to_return;
+
 	to_comp = ft_split(av, '=');
 	if (!to_comp)
 		ft_clean_exit(core, MALLOC);
-	while (core->env[i] != NULL && i < core->env_size - 1)
-	{
-		if (is_the_var(*to_comp, core->env[i]))
-			break ;
-		++i;
-	}
+	to_return = get_in_use_address(to_comp[0], core);
 	ft_free_tab(to_comp);
-	if (i < core->env_size - 1)
-		return (&core->env[i]);
-	else
+	if (to_return == NULL)
 	{
-		core->env = ft_realloc_env(core->env, &core->env_size);
-		if (!core->env)
-			ft_clean_exit(core, MALLOC);
-		return (get_valid_addr(core, av));
+		return (get_unused_address(core));
 	}
+	return (to_return);
 }

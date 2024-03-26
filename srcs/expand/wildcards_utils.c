@@ -70,6 +70,10 @@ t_bool	is_an_entry_to_parse(t_wildcard_info *info)
 	{
 		return (TRUE);
 	}
+	if (info->wildcard_tab[0] == NULL)
+	{
+		return (FALSE);
+	}
 	if (info->wildcard_tab[0][0] == '.'
 		&& info->first_char_is_a_wildcard == FALSE)
 	{
