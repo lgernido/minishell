@@ -86,7 +86,7 @@ void	ft_split_tokens(t_core *minishell, char *str)
 		else if (ft_find_char_str(str[i], "|<>&()"))
 			i = ft_tokenize_special(minishell, str, start, i);
 		else
-			i = ft_tokenize_regular(minishell, str, start, i);
+			i = tokenize_nested_quotes(minishell, str, start, i);
 	}
 	ft_add_token_list(start, ft_create_arg_token(minishell,
 			"newline", T_NEWLINE, str));

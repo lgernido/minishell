@@ -70,13 +70,23 @@ void	ast_driver(t_core *core)
 	return ;
 }
 
+void	ft_print_list(t_token_stream_node *node)
+{
+	while (node != NULL)
+	{
+		printf("\n%s\n", node->value);
+		node = node->next;
+	}
+}
+
 void	interpret_command(t_core *core, char *user_input)
 {
 	parsing_sig();
 	if (ft_start_parse(core, user_input) == 0 && g_signal != 130)
 	{
+		ft_print_list(core->token_list);
 		init_sig();
-		ast_init((t_token_stream_node *)core->token_list, core);
+		ast_init(core->token_list, core);
 		if (core->ast != NULL)
 		{
 			ast_driver(core);
