@@ -34,6 +34,43 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
+static int	iterate_through_charset(const char current_char,
+		const char *charset)
+{
+	size_t	i;
+	int		return_value;
+
+	i = 0;
+	return_value = 0;
+	while (charset[i] != '\0' && return_value == 0)
+	{
+		if (charset[i] == current_char)
+		{
+			return_value = 1;
+		}
+		++i;
+	}
+	return (return_value);
+}
+
+char	*ft_strchr_charset(const char *s, const char *charset)
+{
+	const unsigned char	*p;
+	int					i;
+
+	i = 0;
+	p = (const unsigned char *)s;
+	while (*(p + i))
+	{
+		if (iterate_through_charset(*(p + i), charset) == 1)
+		{
+			break ;
+		}
+		i++;
+	}
+	return ((char *)p + i);
+}
+
 /*#include <stdio.h>
 
 int	main (void)

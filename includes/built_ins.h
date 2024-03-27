@@ -23,6 +23,22 @@
 
 // ========================================================================= //
 
+// utils for bult_in in built_in_utils.c
+int				get_number_of_args(char **av);
+// check if the var has been unset
+t_bool			is_set(char *str);
+// used to update var
+char			**get_valid_addr(t_core *core, char *av);
+
+// Used by export
+t_bool			is_the_var(char *var, char *env);
+void			print_export(t_core *core);
+
+// Used to retrieve a var from env. var should include '$'
+// --> char *str = ft_getenv(core, "$PATH"). return str should be fried
+char			*ft_getenv(t_core *core, char *var);
+// ========================================================================= //
+
 // built-ins
 int				ft_echo(char **av, t_core *core); // echo.c
 int				ft_cd(char **av, t_core *core); // cd.c
@@ -31,8 +47,6 @@ int				ft_pwd(char **av, t_core *core); // unset.c
 int				ft_env(char **av, t_core *core); // env.c
 int				ft_unset(char **av, t_core *core); // unset.c
 int				ft_export(char **av, t_core *core); //export.c
-
-// ========================================================================= //
 
 // built_in_utils.c
 

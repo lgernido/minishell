@@ -24,3 +24,20 @@ void	ft_free_tab(char **tab)
 	}
 	free(tab);
 }
+
+void	ft_free_n_tab(char **tab, size_t tab_size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < tab_size)
+	{
+		if (tab[i] != NULL)
+		{
+			free(tab[i]);
+		}
+		++i;
+	}
+	free(tab);
+	return ;
+}

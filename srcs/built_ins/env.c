@@ -22,7 +22,11 @@ int	ft_env(char **av, t_core *core)
 	i = 0;
 	ac = get_number_of_args(av);
 	if (ac > 1)
+<<<<<<< HEAD
 		ft_printf_err("env: ‘%s’: No such file or directory\n", av[1]);
+=======
+		ft_printf_err("env: ‘%s’: No such file or directory", av[1]);
+>>>>>>> lucie
 	while (i < core->env_size)
 	{
 		if (is_set(core->env[i]) == TRUE)

@@ -15,30 +15,58 @@
 static int	fill_arr(char **src, char **dest)
 {
 	int	i;
+	int	return_value;
 
 	i = 0;
+	return_value = 0;
 	while (src[i])
 	{
 		dest[i] = ft_strdup(src[i]);
-		if (!dest[i])
-			return (1);
+		if (dest[i] == NULL)
+		{
+			return_value = 1;
+			break ;
+		}
 		i++;
 	}
-	return (0);
+	return (return_value);
 }
 
-void	parse_envp(char **envp, t_core *core)
+static int	env_size(char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
-		i++;
-	core->env = ft_calloc(i * 2, sizeof(char *));
-	if (!core->env)
+	{
+		++i;
+	}
+	return (i);
+}
+
+static	void	set_up_envp(t_core *core, const int size)
+{
+	core->env = ft_calloc(size, sizeof(char *));
+	if (core->env == NULL)
+	{
 		ft_clean_exit(core, MALLOC);
-	core->env_size = i * 2;
-	if (fill_arr(envp, core->env))
-		ft_clean_exit(core, MALLOC);
+	}
+	core->env_size = size;
+	return ;
+}
+
+void	handle_envp(char **envp, t_core *core)
+{
+	const int	size_of_env = env_size(envp);
+
+	if (size_of_env == 0)
+	{
+		set_up_envp(core, 8);
+	}
+	else
+	{
+		set_up_envp(core, size_of_env * 2);
+		fill_arr(envp, core->env);
+	}
 	return ;
 }

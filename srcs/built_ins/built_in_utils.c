@@ -29,11 +29,23 @@ int	get_number_of_args(char **av)
 
 t_bool	is_set(char *str)
 {
-	if (str)
-		return (TRUE);
+	size_t	i;
+
+	i = 0;
+	if (str == NULL)
+		return (FALSE);
+	while (str[i])
+	{
+		if (str[i] == '=')
+		{
+			return (TRUE);
+		}
+		++i;
+	}
 	return (FALSE);
 }
 
+<<<<<<< HEAD
 char	*ft_getenv(t_core *core, char *var)
 {
 	int				i;
@@ -50,4 +62,11 @@ char	*ft_getenv(t_core *core, char *var)
 		i++;
 	}
 	return (NULL);
+=======
+t_bool	is_the_var(char *var, char *env)
+{
+	if (ft_strncmp(var, env, ft_strlen(var)))
+		return (FALSE);
+	return (TRUE);
+>>>>>>> lucie
 }

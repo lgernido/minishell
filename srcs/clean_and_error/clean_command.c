@@ -1,36 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_exit.c                                       :+:      :+:    :+:   */
+/*   clean_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: purmerinos <purmerinos@protonmail.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/30 16:37:58 by purmerinos        #+#    #+#             */
-/*   Updated: 2024/01/30 16:37:59 by purmerinos       ###   ########.fr       */
+/*   Created: 2024/03/21 19:07:09 by purmerinos        #+#    #+#             */
+/*   Updated: 2024/03/21 19:07:10 by purmerinos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_ins.h"
 #include "minishell.h"
+#include "clean_and_error.h"
+
+void	close_if_open(int *fd)
+{
+	if (*fd != -1)
+	{
+		close (*fd);
+		*fd = -1;
+	}
+	return ;
+}
 
 void	ft_clean_node(t_command_node *node)
 {
-	if (node->fd_infile != -1)
-		close(node->fd_infile);
-	if (node->fd_outfile != -1)
-		close(node->fd_outfile);
-	if (node->infile)
-		free(node->infile);
-	if (node->outfile)
-		free(node->outfile);
-	if (node->cmd)
+	close_if_open(&node->fd_infile);
+	close_if_open(&node->fd_outfile);
+	close_if_open(&node->pipe[READ_ENTRY]);
+	close_if_open(&node->pipe[WRITE_ENTRY]);
+	close_if_open(&node->saved_infile);
+	close_if_open(&node->saved_outfile);
+	ft_clear_token_stream_if_needed(&node->redirections);
+	if (node->here_doc != NULL)
+	{
+		free(node->here_doc);
+	}
+	if (node->cmd != NULL)
+	{
 		ft_free_tab(node->cmd);
+	}
+}
+
+void	climb_command_list_to_origin(t_command_node **list)
+{
+	while ((*list)->prev != NULL)
+	{
+		*list = (*list)->prev;
+	}
 }
 
 void	ft_command_clear(t_command_node **list)
 {
 	t_command_node	*tmp;
 
+	climb_command_list_to_origin(list);
 	while (*list)
 	{
 		tmp = (*list)->next;
@@ -40,6 +65,7 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
+<<<<<<< HEAD:srcs/clean_exit.c
 void	ft_free_env(t_core *core)
 {
 	int	i;
@@ -61,4 +87,12 @@ void	ft_clean_exit(t_core *core, int code)
 		ft_command_clear(&core->command_list);
 	rl_clear_history();
 	exit(code);
+=======
+void	exit_from_child(t_core *core, int code)
+{
+	close(0);
+	close(1);
+	close(2);
+	ft_clean_exit(core, code);
+>>>>>>> lucie:srcs/clean_and_error/clean_command.c
 }

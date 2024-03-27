@@ -71,7 +71,14 @@ int	ft_pwd(char **av, t_core *core)
 	ret_value = 0;
 	if (check_option(av) == FALSE)
 	{
+<<<<<<< HEAD
 		ret_value = 2;
+=======
+		free(buffer);
+		if (errno == ENOMEM)
+			ft_clean_exit(core, MALLOC);
+		return (1);
+>>>>>>> lucie
 	}
 	if (ret_value == 0)
 	{

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "built_ins.h"
+<<<<<<< HEAD:srcs/built_ins/cd_error_management.c
 
 int	throw_error_message(void *arg, void (*message)(void *))
 {
@@ -37,4 +37,21 @@ void	error_while_shifting_directory(void *arg)
 {
 	ft_printf_err("minishell: cd: %s:%s\n", strerror(errno), arg);
 	return ;
+=======
+#include "clean_and_error.h"
+
+int	go_specified_dir(void *path)
+{
+	const int	return_value = chdir(path);
+
+	if (return_value == -1)
+	{
+		throw_error_message(path, error_while_shifting_directory);
+	}
+	else
+	{
+		return (0);
+	}
+	return (return_value);
+>>>>>>> lucie:srcs/built_ins/cd_utils.c
 }
