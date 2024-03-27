@@ -15,8 +15,8 @@
 # define MINISHELL_H
 
 # include "data_structures_define_and_includes.h"
-
-typedef int			(*t_built_in_array)(char **, t_core *) ;
+# include "libft.h"
+# include "printerr.h"
 
 // ========================================================================= //
 /*PARSING*/

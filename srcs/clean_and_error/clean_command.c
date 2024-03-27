@@ -65,7 +65,6 @@ void	ft_command_clear(t_command_node **list)
 	}
 }
 
-<<<<<<< HEAD:srcs/clean_exit.c
 void	ft_free_env(t_core *core)
 {
 	int	i;
@@ -83,16 +82,16 @@ void	ft_clean_exit(t_core *core, int code)
 {
 	if (core->env)
 		ft_free_env(core);
-	if (core->command_list)
-		ft_command_clear(&core->command_list);
+	if (core->ast->command_list)
+		ft_command_clear(&core->ast->command_list);
 	rl_clear_history();
 	exit(code);
-=======
+}
+
 void	exit_from_child(t_core *core, int code)
 {
 	close(0);
 	close(1);
 	close(2);
 	ft_clean_exit(core, code);
->>>>>>> lucie:srcs/clean_and_error/clean_command.c
 }
