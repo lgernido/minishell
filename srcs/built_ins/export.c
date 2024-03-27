@@ -46,18 +46,6 @@ static int	check_curr_char(char *current_char, char *str_beginning)
 
 static int	parse_var(char *str)
 {
-	int		ret_value;
-
-	ret_value = check_forbidden_var(str);
-	if (ret_value == 0)
-	{
-		ret_value = parse_before_equal_sign(str);
-	}
-	return (ret_value);
-}
-
-int	loop_trough_var(char **av, t_core *core)
-{
 	char	*tmp;
 	int		i;
 
@@ -80,21 +68,15 @@ int	loop_trough_var(char **av, t_core *core)
 }
 
 int	ft_export(char **av, t_core *core)
->>>>>>> lucie
 {
 	char	**addr;
-	int		ret_value;
 
-<<<<<<< HEAD
-	ret_value = 0;
-=======
 	av++;
 	if (!*av)
 	{
 		print_export(core);
 		return (0);
 	}
->>>>>>> lucie
 	while (*av)
 	{
 		if (!parse_var(*av))
@@ -104,29 +86,8 @@ int	ft_export(char **av, t_core *core)
 				free(*addr);
 			*addr = ft_strdup(*av);
 		}
-		else
-		{
-			ret_value = 1;
-		}
 		av++;
 	}
-	return (ret_value);
+	return (0);
 }
 
-int	ft_export(char **av, t_core *core)
-{
-	int		ret_value;
-
-	av++;
-	ret_value = 0;
-	if (!*av)
-	{
-		print_export(core->env);
-		ret_value = 0;
-	}
-	else
-	{
-		ret_value = loop_trough_var(av, core);
-	}
-	return (ret_value);
-}
