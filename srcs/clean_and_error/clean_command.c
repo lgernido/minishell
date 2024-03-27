@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built_ins.h"
 #include "minishell.h"
 #include "clean_and_error.h"
 
@@ -63,29 +62,6 @@ void	ft_command_clear(t_command_node **list)
 		free(*list);
 		*list = tmp;
 	}
-}
-
-void	ft_free_env(t_core *core)
-{
-	int	i;
-
-	i = 0;
-	while (i < core->env_size)
-	{
-		free_if_needed(&(core->env[i]));
-		i++;
-	}
-	free(core->env);
-}
-
-void	ft_clean_exit(t_core *core, int code)
-{
-	if (core->env)
-		ft_free_env(core);
-	if (core->ast->command_list)
-		ft_command_clear(&core->ast->command_list);
-	rl_clear_history();
-	exit(code);
 }
 
 void	exit_from_child(t_core *core, int code)
