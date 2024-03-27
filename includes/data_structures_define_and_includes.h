@@ -27,6 +27,8 @@
 # include <sys/wait.h>
 # include <time.h>
 # include <unistd.h>
+# include "libft.h"
+# include"printerr.h"
 
 // easy pipe navigation
 # define READ_ENTRY 0
