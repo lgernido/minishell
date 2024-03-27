@@ -54,12 +54,8 @@ int	main(int ac, char **av, char **envp)
 	ft_bzero(&core, sizeof(t_core));
 	handle_envp(envp, &core);
 	update_shell_lvl(&core);
-<<<<<<< HEAD
-	wait_input(&core);
-=======
 	while (1)
 	{
 		minishell_driver(&core);
 	}
->>>>>>> lucie
 }
