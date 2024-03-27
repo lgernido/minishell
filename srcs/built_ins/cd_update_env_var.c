@@ -73,4 +73,3 @@ void	update_env_var(t_core	*core, char *old_pwd)
 	new_pwd = assign_pwd(core);
 	swap_var(core, new_pwd, "PWD");
 }
-/*                                                                            */

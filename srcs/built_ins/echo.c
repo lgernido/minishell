@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 #include "clean_and_error.h"
-#include "libft.h"
 
 static t_bool	is_flag(char *str)
 {

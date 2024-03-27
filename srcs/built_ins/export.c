@@ -90,4 +90,3 @@ int	ft_export(char **av, t_core *core)
 	}
 	return (0);
 }
-
