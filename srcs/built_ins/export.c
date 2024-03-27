@@ -14,28 +14,6 @@
 #include "built_ins.h"
 #include "clean_and_error.h"
 
-<<<<<<< HEAD
-static void	print_export(char **env)
-{
-	while (*env)
-	{
-		if (is_set(*env))
-			printf("declare -x \"%s\"\n", *env);
-		env++;
-	}
-}
-
-static int	check_forbidden_var(char *str)
-{
-	int			ret_value;
-
-	ret_value = check_len(str);
-	if (ret_value == 0)
-	{
-		ret_value = is_the_var_write_protected(str);
-	}
-	return (ret_value);
-=======
 static int	is_invalid(char c, int flag)
 {
 	if (!ft_isalnum(c) && c != '_' && flag == 0)
@@ -64,24 +42,10 @@ static int	check_curr_char(char *current_char, char *str_beginning)
 		}
 	}
 	return (0);
->>>>>>> lucie
 }
 
 static int	parse_var(char *str)
 {
-<<<<<<< HEAD
-	int		ret_value;
-
-	ret_value = check_forbidden_var(str);
-	if (ret_value == 0)
-	{
-		ret_value = parse_before_equal_sign(str);
-	}
-	return (ret_value);
-}
-
-int	loop_trough_var(char **av, t_core *core)
-=======
 	char	*tmp;
 	int		i;
 
@@ -104,21 +68,15 @@ int	loop_trough_var(char **av, t_core *core)
 }
 
 int	ft_export(char **av, t_core *core)
->>>>>>> lucie
 {
 	char	**addr;
-	int		ret_value;
 
-<<<<<<< HEAD
-	ret_value = 0;
-=======
 	av++;
 	if (!*av)
 	{
 		print_export(core);
 		return (0);
 	}
->>>>>>> lucie
 	while (*av)
 	{
 		if (!parse_var(*av))
@@ -128,29 +86,7 @@ int	ft_export(char **av, t_core *core)
 				free(*addr);
 			*addr = ft_strdup(*av);
 		}
-		else
-		{
-			ret_value = 1;
-		}
 		av++;
 	}
-	return (ret_value);
-}
-
-int	ft_export(char **av, t_core *core)
-{
-	int		ret_value;
-
-	av++;
-	ret_value = 0;
-	if (!*av)
-	{
-		print_export(core->env);
-		ret_value = 0;
-	}
-	else
-	{
-		ret_value = loop_trough_var(av, core);
-	}
-	return (ret_value);
+	return (0);
 }

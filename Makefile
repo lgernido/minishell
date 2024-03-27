@@ -11,14 +11,6 @@ CLEAN_FILES = $(addprefix $(CLEAN_DIR), clean_command.c clean_main.c\
 
 BUILT_IN_DIR = built_ins/
 BUILT_IN_FILES =	$(addprefix $(BUILT_IN_DIR), exit.c echo.c env.c built_in_utils.c unset.c export.c\
-<<<<<<< HEAD
-									pwd.c cd.c cd_error_management.c cd_update_env_var.c get_env_adress.c\
-									pwd_utils.c swap_var.c export_check_forbidden_var.c parse_export_var.c)\
-
-SRC_FILES	= main.c clean_exit.c init_struct.c signal.c parse_envp.c\
-						update_shell_lvl.c built_in_tester.c init_built_in_tester.c\
-						$(BUILT_IN_FILES)\
-=======
 									pwd.c cd.c cd_utils.c cd_update_env_var.c ft_get_env.c get_address.c\
 									print_export.c)
 
@@ -63,9 +55,6 @@ EXEC_FILES = $(addprefix $(EXEC_DIR), child_routine.c discard_standard_entries.c
 SRC_FILES	= main.c init_struct.c signal.c parse_envp.c update_shell_lvl.c\
 						$(AST_FILES) $(BUILT_IN_FILES) $(SEARCH_FILES) $(PRE_EXEC_FILES) $(EXEC_FILES) driver.c\
 						exec_driver.c $(EXPAND_FILES) $(CLEAN_FILES) $(PARSING_FILES) parsing_signal.c\
-
-
->>>>>>> lucie
 
 SRC_FILES_BONUS = 
 BUILD = build/

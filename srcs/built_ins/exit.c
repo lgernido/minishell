@@ -70,17 +70,12 @@ int	ft_exit(char **av, t_core *core)
 
 	ac = get_number_of_args(av);
 	if (ac == 1)
-<<<<<<< HEAD
-		ft_clean_exit(core, core->error_code);
-	if (ac == 2)
-=======
 	{
 		printf("exit\n");
 		ft_clean_exit(core, core->error_code);
 	}
 	if (ac == 2)
 	{
->>>>>>> lucie
 		ft_clean_exit(core, ex_atoi(av[1]));
 	}
 	if (ac > 2)

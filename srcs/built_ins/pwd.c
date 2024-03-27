@@ -25,64 +25,71 @@ static int	check_option(char **av)
 
 	ac = get_number_of_args(av);
 	if (ac < 2)
-		return (TRUE);
+		return (0);
 	if (*av[1] == '-' && ft_strlen(av[1]) > 1)
 	{
 		ft_printf_err("minishell: pwd: -%c: invalid option\n\
 pwd: usage: pwd [NONE]\n", av[1][1]);
-		return (FALSE);
-	}
-	return (TRUE);
-}
-
-static	int	buffer_check(char	*pwd, t_core *core)
-{
-	if (pwd == NULL)
-	{
-		ft_clean_exit(core, MALLOC);
-	}
-	if (ft_strlen(pwd) == 0)
-	{
 		return (1);
 	}
 	return (0);
 }
 
-static int	retrieve_pwd(t_core *core)
+char	*ft_realloc_buffer(char *buffer, int len)
 {
-	char	*pwd;
-	int		ret_value;
+	char	*new_buf;
 
-	pwd = get_pwd_in_buffer(core);
-	ret_value = buffer_check(pwd, core);
-	if (ret_value == 0)
+	new_buf = ft_calloc(len + 1, sizeof(char));
+	free(buffer);
+	return (new_buf);
+}
+
+char	*get_pwd(char *buffer, int len)
+{
+	if (len >= BUFFER_LIMIT)
 	{
-		printf("%s\n", pwd);
+		ft_printf_err("minishell: pwd: size of path \
+exceed buffer limit (4096 bytes)");
+		return (NULL);
 	}
-	free(pwd);
-	return (ret_value);
+	buffer = getcwd(buffer, len);
+	if (buffer)
+		return (buffer);
+	if (errno == ERANGE)
+	{
+		buffer = ft_realloc_buffer(buffer, len * 2);
+		if (!buffer)
+			return (NULL);
+		return (get_pwd(buffer, len * 2));
+	}
+	else
+	{
+		ft_printf_err("pwd: error retrieving current directory: getcwd\
+: cannot access parent directories: No such file or directory\n");
+		return (NULL);
+	}
 }
 
 int	ft_pwd(char **av, t_core *core)
 {
-	int		ret_value;
+	char	*buffer;
+	int		len;
 
 	(void)av;
-	ret_value = 0;
-	if (check_option(av) == FALSE)
+	if (check_option(av))
+		return (2);
+	len = PWD_BUFFER;
+	buffer = ft_calloc(len + 1, sizeof(char));
+	if (!buffer)
+		ft_clean_exit(core, MALLOC);
+	if (!get_pwd(buffer, len))
 	{
-<<<<<<< HEAD
-		ret_value = 2;
-=======
 		free(buffer);
 		if (errno == ENOMEM)
 			ft_clean_exit(core, MALLOC);
 		return (1);
->>>>>>> lucie
 	}
-	if (ret_value == 0)
-	{
-		ret_value = retrieve_pwd(core);
-	}
-	return (ret_value);
+	printf("%s\n", buffer);
+	free(buffer);
+	return (0);
 }
