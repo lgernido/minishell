@@ -1,7 +1,7 @@
 # MiniShell
 
 ## Overview
-**MiniShell** is a custom UNIX-like shell that supports basic command execution, redirections, pipes, signal handling, variable expansion, and a subset of shell built-in commands. It replicates much of Bash's behavior while adhering to strict coding and structural constraints. Authored by @lgernido and @Mal-back .
+**MiniShell** is a custom UNIX-like shell that supports basic command execution, redirections, pipes, signal handling, variable expansion, and a subset of shell built-in commands. It replicates much of Bash's behavior while adhering to strict coding and structural constraints.
 
 ---
 
